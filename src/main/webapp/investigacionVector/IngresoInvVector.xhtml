@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Ingreso de investigacion de vector</ui:define>
+
+    <ui:define name="content">
+        <h1>Investigacion de vector</h1>
+        <h:form>
+            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" >
+                <p:autoUpdate/>
+            </p:growl>    
+            <p:growl id="mensaje2" showDetail="true" showSummary="true" sticky="false" life="3000" />
+            <p:wizard widgetVar="wiz" id="registro">
+                <p:tab id="general" title="Datos generales">
+                    <p:panel>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:column>
+                            <p:outputLabel value="Seleccione Vector a estudiar"/>
+                            <p:selectOneMenu id="lab" value="#{mbInvVector.invVector.vector}" required="true" requiredMessage="Seleccione vector" >
+
+                                <f:selectItem itemLabel="--Seleccione Vector--" itemValue="#{null}" />
+                                <f:selectItems value="#{mbInvVector.lsVector}"
+                                               var="vector"
+                                               itemValue="#{vector}"
+                                               itemLabel="#{vector.nomVector}"/>
+                                <f:converter binding="#{converterVector}" />
+                            </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                            <p:outputLabel value="Perfil de investigacion"/>
+                            <p:selectOneMenu id="labx" value="#{mbInvVector.invVector.perfilInv}" required="true" requiredMessage="Seleccione perfil" >
+
+                                <f:selectItem itemLabel="--Seleccione Perfil--" itemValue="#{null}" />
+                                <f:selectItems value="#{mbInvVector.lsPerfil}"
+                                               var="perfil"
+                                               itemValue="#{perfil}"
+                                               itemLabel="#{perfil.idPerfil}"/>
+                                <f:converter binding="#{converterPerfil}" />
+                            </p:selectOneMenu>
+                            </p:column>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                                                      
+                           
+                            <p:outputLabel value="Titulo de la investigacion vector" />
+                            <p:inputText value="#{mbInvVector.invVector.tituloInv}" required="true" requiredMessage="Digite titulo de la investigacion" />
+                         
+                            
+                           
+                            <p:outputLabel value="Descripcion de la investigacion del vector"/>
+                            <p:inputTextarea rows="5" value="#{mbInvVector.invVector.descInvVector}" required="true" requiredMessage="Digite descripcion del vector"/>
+                            
+                        </h:panelGrid>
+                        
+                    </p:panel>
+
+                </p:tab>
+                <p:tab id="confirmar" title="confirmar datos">
+                    <p:panel>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Vector a estudiar"/>
+                            <p:outputLabel value="#{mbInvVector.invVector.vector.nomVector}"/>
+                            <p:outputLabel value="Titulo de la investigacion"/>
+                            <p:outputLabel value="#{mbInvVector.invVector.tituloInv}"/>
+                            <p:outputLabel value="Descripcion de la investigacion"/>
+                            <p:outputLabel value="#{mbInvVector.invVector.descInvVector}"/>
+                            <p:commandButton value="Guardar" actionListener="#{mbInvVector.registrarVector()}" update="@form"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+        </h:form>
+    </ui:define>
+</ui:composition>    

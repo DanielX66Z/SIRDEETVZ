@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Regitro de cargos</ui:define>
+
+
+
+    <style>
+        .capitalized {
+            text-transform: capitalize !important;
+        }
+    </style>
+    <ui:define name="content">
+        <h:form id="F01">
+            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" >
+                <p:autoUpdate/>
+            </p:growl>    
+
+            <p:panel header="Registro de investigacion "/>
+            <p:wizard widgetVar="wiz" id="registro">
+                <p:messages id="msg"/>
+                <p:tab id="personal" title="Ingreso de datos">
+                    <p:panel>
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                             <p:outputLabel for="lab" value="Laboratorio"/>
+                             <p:selectOneMenu id="lab" value="#{mbInvestigacion.investigacion.laboratorio}" required="true" requiredMessage="Seleccione laboratorio" >
+                               
+                                <f:selectItem itemLabel="--Seleccione laboratorio--" itemValue="#{null}" />
+                                <f:selectItems value="#{mbInvestigacion.itemLaboratorio}"
+                                               var="labx"
+                                               itemValue="#{labx}"
+                                               itemLabel="#{labx.nomLab}"/>
+                                <f:converter binding="#{converterLaboratorio}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="nom" value="Nombre de la investigacion"/>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText id="nom" value="#{mbInvestigacion.investigacion.nomInvest}"  required="true" requiredMessage="Ingreso nom" validatorMessage=" al menos 4 caracteres" >
+                                    <f:validateLength minimum="4" />
+                                    <p:keyFilter regEx="/[a-zA-Z]/i" />
+                                </p:inputText>    
+
+                            </h:panelGroup>
+                         
+
+
+
+
+
+                        </p:panelGrid>
+
+                    </p:panel>
+                </p:tab>
+                <p:tab id="confirmar" title="Confirmar Datos">
+                    <p:panel>
+                        <h:panelGrid columns="1" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Laboratorio a asignar:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="#{mbInvestigacion.investigacion.laboratorio.nomLab}"  styleClass="capitalized"  style="font-weight: bold;">
+
+                                </h:outputText>    
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Nombre de investigacion:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="#{mbInvestigacion.investigacion.nomInvest}"  styleClass="capitalized"  style="font-weight: bold;">
+
+                                </h:outputText>    
+                            </p:column>
+                           
+
+
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <p:commandButton onclick="PF('bui').show()" oncomplete="PF('wiz').loadStep('personal',false)" id="btnSave" actionListener="#{mbInvestigacion.registrar()}" style="float: right;" class="secondary-btn" 
+                                             update="mensaje" value="Registrar" ajax="true" icon="ui-icon-plus" />    
+                            <br/>
+                        </h:panelGrid>
+
+
+                    </p:panel>
+                </p:tab>    
+            </p:wizard>
+
+
+            <p:blockUI block="F01" trigger="btnSave"  widgetVar="bui">
+                Procesando...
+            </p:blockUI>   
+        </h:form>
+        <!-- FIN FORMULARIO REGISTRAR cargo-->
+        <br/>
+        <br/>
+
+
+
+    </ui:define>
+</ui:composition>

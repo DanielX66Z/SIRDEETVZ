@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-28-2019 09:05:09 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sv.ues.dominio.Persona" table="persona" schema="public" optimistic-lock="version">
+        <id name="idPersona" type="int">
+            <column name="id_persona" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="encuesta" class="sv.ues.dominio.Encuesta" fetch="select">
+            <column name="id_encuesta" />
+        </many-to-one>
+        <many-to-one name="usuario" class="sv.ues.dominio.Usuario" fetch="select">
+            <column name="id_usuario" />
+        </many-to-one>
+        <property name="primerNombre" type="string">
+            <column name="primer_nombre" length="50" not-null="true" />
+        </property>
+        <property name="segundoNombre" type="string">
+            <column name="segundo_nombre" length="50" />
+        </property>
+        <property name="primerApellido" type="string">
+            <column name="primer_apellido" length="50" />
+        </property>
+        <property name="segundoApellido" type="string">
+            <column name="segundo_apellido" length="50" />
+        </property>
+        <property name="fechaNacimiento" type="date">
+            <column name="fecha_nacimiento" length="13" />
+        </property>
+        <property name="fechaRegistro" type="date">
+            <column name="fecha_registro" length="13" />
+        </property>
+        <property name="fechaUltimaModificacion" type="date">
+            <column name="fecha_ultima_modificacion____" length="13" />
+        </property>
+        <property name="telefonoPersona" type="string">
+            <column name="telefono_persona" length="50" />
+        </property>
+        <property name="direccionResidencia" type="string">
+            <column name="direccion_residencia" />
+        </property>
+        <property name="dui" type="string">
+            <column name="dui" length="15" />
+        </property>
+        <property name="nit" type="string">
+            <column name="nit" length="20" />
+        </property>
+        <property name="correoPersona" type="string">
+            <column name="correo_persona" length="200" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,265 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Gestion persona</ui:define>
+
+    <ui:define name="content">
+        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <h2>Universidad de El Salvador Sede Central</h2>
+                            <h3>#{mbBitacoraCampo.bitacoraCampo.invVector.tituloInv}</h3>
+        </p:panelGrid>
+        
+        <h:form id="F01">
+            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" />
+            
+
+            <p:wizard flowListener="#{mbBitacoraCampo.onFlowProcess}">
+                <p:tab id="personal" title="Datos de lugar">
+                    <p:panel> 
+                        
+                        <div class="ui-g-12 ui-lg-2">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank grid-pad">
+                                <p:outputLabel for="fechaCampo" value="Fecha de recolecta"/> 
+                                <p:calendar id="fechaCampo" value="#{mbBitacoraCampo.bitacoraCampo.fechaCampo}" pattern="dd/MM/yyyy" mask="true" required="true" requiredMessage="Fecha invalida" />
+                            </p:panelGrid>
+                        </div>
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>Region</label>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>SIBASI</label>
+                            </h:panelGroup>
+
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank form-group">
+
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:selectOneMenu id="coddepartamentodd" value="#{mbBitacoraCampo.codigodepartamento}" required="true" requiredMessage="Seleccione departamento">
+                                    <f:selectItem itemLabel="Seleccione Departamento..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItems value="#{mbBitacoraCampo.items_departamento}" />
+                                     <p:ajax update="som_municipio"/>
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:selectOneMenu  id="som_municipio" value="#{mbBitacoraCampo.codigomunicipio}" >
+                                    <f:selectItem itemLabel="Seleccione municipio..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItems value="#{mbBitacoraCampo.items_municipio}" />
+                                   
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>Caserio</label>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>Carton</label>
+                            </h:panelGroup>
+
+
+                        </p:panelGrid>
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <h3>Datos de colecta</h3>
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank form-group">
+
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText value="#{mbBitacoraCampo.ubicacion.latitud}"/>
+                                <label>Latitud</label>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText value="#{mbBitacoraCampo.ubicacion.latitud}"/>
+                                <label>Longitud</label>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText  />
+                                <label>Temperatura Maxima (C)</label>
+                            </h:panelGroup>
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>Temperatura Minima (C)</label>
+                            </h:panelGroup>                     
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>Codigo de casa</label>
+                            </h:panelGroup>   
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputNumber value="#{mbBitacoraCampo.muestra.tipoTrampa}" />
+                                <label>Tipo de Trampa</label>
+                            </h:panelGroup>         
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>Motivo Colecta</label>
+                            </h:panelGroup>   
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText />
+                                <label>Tipo de caso</label>
+                            </h:panelGroup>   
+                        </p:panelGrid>
+
+                    </p:panel>
+                </p:tab>
+                <p:tab id="domicilio" title="Detalle collecta">
+                    <p:panel>
+                        <p:growl/>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Numero especimenes recolectados:"/>
+                                
+                                <p:inputNumber  value="#{mbBitacoraCampo.muestra.numeroMuestra}" />
+                                
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Numero de especies identificadas:"/>
+                                <p:inputNumber  value="#{mbBitacoraCampo.muestra.numeroIdentificados}" />
+                            </p:column>
+
+                        </h:panelGrid>
+                        
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Nombre jefe familia:"/>
+                                <p:inputText style="width: 450px" value="#{mbBitacoraCampo.muestra.nomJefeFam}" required="true" requiredMessage="Digite el domicilio" />
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Sexo :"/>
+                                
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Edad :"/>
+                                <p:spacer height="10" width="10" />
+                                <p:inputTextarea style="width: 450px" required="true" requiredMessage="Digite el domicilio" />
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Telefono :"/>
+                                <p:spacer height="10" width="10" />
+                                <p:inputTextarea style="width: 450px" required="true" requiredMessage="Digite el domicilio" />
+                            </p:column>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="contacto" title="Datos de captura">
+                    <p:panel>
+                        <p:growl/>
+                        <h:panelGrid columns="4" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Email:"/>
+                                <p:spacer height="10" width="10" />
+                                <p:inputText required="true" requiredMessage="Digite el email" />
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Telefono:" />
+                                <p:spacer height="10" width="10" />
+                                <p:inputMask mask="9999-9999" required="true" requiredMessage="Digite el telefono"/>
+                            </p:column>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <p:tab id="confirmar" title="Datos de colecta">
+                    <p:panel>
+                        <h:panelGrid columns="4" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Primer nombre:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Segundo nombre:" />
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Primer apellido:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Segundo apellido:" />
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Fecha de nacimiento:" />
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="DUI:" />
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="NIT:" />
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                            </p:column>
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Departamento:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Municipio"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Domicilio:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="4" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Email:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Telefono:" />
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="XXXXXXXXXXXXXXXXXX"/>
+                            </p:column>
+                        </h:panelGrid>
+                        <p:commandButton style="float: right;" class="secondary-btn" update="mensaje" value="Registrar" ajax="true" icon="ui-icon-plus" />    
+                        <br/><br/>
+                    </p:panel>
+
+                </p:tab>
+            </p:wizard>
+
+
+
+
+
+            <!--<p:panel header="Persona">
+                
+                <p:commandButton class="secondary-btn" update="mensaje" value="Registrar" actionListener="#{MbPersona.registrar()}" ajax="true" icon="ui-icon-plus" />
+                <br/>
+            </p:panel>-->
+        </h:form>
+
+        <!-- INICIO DIALOGO DEFAULT -->
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            Procesando...
+        </p:dialog>
+        <!-- FIN DIALOGO DEFAULT -->
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+    </ui:define>
+</ui:composition>

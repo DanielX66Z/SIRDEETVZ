@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-28-2019 09:05:09 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sv.ues.dominio.Muestra" table="muestra" schema="public" optimistic-lock="version">
+        <id name="codigoMuestra" type="string">
+            <column name="codigo_muestra" length="50" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="bitacoraCampo" class="sv.ues.dominio.BitacoraCampo" fetch="select">
+            <column name="id_bit_campo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="lote" class="sv.ues.dominio.Lote" fetch="select">
+            <column name="id_lote" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoMuestra" class="sv.ues.dominio.TipoMuestra" fetch="select">
+            <column name="id_tipo_mues" not-null="true" />
+        </many-to-one>
+        <property name="nomJefeFam" type="string">
+            <column name="nom_jefe_fam" length="50" not-null="true" />
+        </property>
+        <property name="edadMuestra" type="int">
+            <column name="edad_muestra" not-null="true" />
+        </property>
+        <property name="telefonoMuestra" type="string">
+            <column name="telefono_muestra" length="100" not-null="true" />
+        </property>
+        <property name="fechaTrabajo" type="date">
+            <column name="fecha_trabajo" length="13" not-null="true" />
+        </property>
+        <property name="fechaMuestra" type="date">
+            <column name="fecha_muestra" length="13" not-null="true" />
+        </property>
+        <property name="numeroMuestra" type="string">
+            <column name="numero_muestra" length="50" not-null="true" />
+        </property>
+        <property name="generoMuestra" type="string">
+            <column name="genero_muestra" length="50" />
+        </property>
+        <property name="motivoMuestra" type="string">
+            <column name="motivo_muestra" length="50" not-null="true" />
+        </property>
+        <set name="analisisLabs" table="analisis_lab" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="codigo_muestra" length="50" not-null="true" />
+            </key>
+            <one-to-many class="sv.ues.dominio.AnalisisLab" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Regitro de cargos</ui:define>
+
+
+
+    <style>
+        .capitalized {
+            text-transform: capitalize !important;
+        }
+    </style>
+    <ui:define name="content">
+        <h:form id="F01">
+            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" >
+                <p:autoUpdate/>
+            </p:growl>    
+           <p:growl id="mensaje2" showDetail="true" showSummary="true" sticky="false" life="3000" />
+            <p:panel header="Registro de cargos "/>
+            <p:wizard widgetVar="wiz" id="registro">
+                <p:messages id="msg"/>
+                <p:tab id="personal" title="Ingreso de datos">
+                    <p:panel>
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+                            <p:outputLabel for="cargo" value="Nombre del cargo"/>
+                            
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:inputText id="cargo"  value="#{MbCargo.cargo.cargo}"  required="true" requiredMessage="Ingreso cargo" validatorMessage=" al menos 4 caracteres" >
+                                    <f:validateLength minimum="4" />
+                                    <p:ajax event="blur" listener="#{MbCargo.validarCargo()}" update="mensaje"/>
+                                    <p:keyFilter regEx="/[a-zA-Z]/i" />
+                                </p:inputText>    
+                               
+                                <label>Nombre del cargo</label>
+                            </h:panelGroup>
+                            <p:outputLabel for="area" value="Descripcion"/>
+                            <p:inputTextarea id="area" autoResize="false" rows="3"  required="true" requiredMessage="Ingreso una descripcion"
+                                             validatorMessage="descripcion debe tener al menos 10 "  placeholder="Descripcion del cargo" value="#{MbCargo.cargo.descripcion}">
+                                <f:validateLength minimum="4" />
+                                <p:keyFilter regEx="/[a-zA-Z]/i" />
+                            </p:inputTextarea>     
+
+
+
+
+
+                        </p:panelGrid>
+
+                    </p:panel>
+                </p:tab>
+                <p:tab id="confirmar" title="Confirmar Datos">
+                    <p:panel>
+                        <h:panelGrid columns="1" cellpadding="10">
+                            <p:column >
+                                <h:outputText value="Nombre Cargo:"/>
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="#{MbCargo.cargo.cargo}"  styleClass="capitalized"  style="font-weight: bold;">
+
+                                </h:outputText>    
+                            </p:column>
+                            <p:column >
+                                <h:outputText value="Descripcion del cargo:" />
+                                <p:spacer height="10" width="10" />
+                                <h:outputText value="#{MbCargo.cargo.descripcion}" styleClass="capitalized"  style="font-weight: bold;"/>
+                            </p:column>
+
+
+
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <p:commandButton onclick="PF('bui').show()" oncomplete="PF('wiz').loadStep('personal',false)" id="btnSave" actionListener="#{MbCargo.registrar()}" style="float: right;" class="secondary-btn" 
+                                             update="mensaje2" value="Registrar" ajax="true" icon="ui-icon-plus" />    
+                            <br/>
+                        </h:panelGrid>
+
+
+                    </p:panel>
+                </p:tab>    
+            </p:wizard>
+            
+           
+            <p:blockUI block="F01" trigger="btnSave"  widgetVar="bui">
+                Procesando...
+            </p:blockUI>   
+        </h:form>
+        <!-- FIN FORMULARIO REGISTRAR cargo-->
+        <br/>
+        <br/>
+
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-28-2019 09:05:09 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sv.ues.dominio.Lote" table="lote" schema="public" optimistic-lock="version">
+        <id name="idLote" type="int">
+            <column name="id_lote" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="bitacoraLab" class="sv.ues.dominio.BitacoraLab" fetch="select">
+            <column name="cod_bit_lab" not-null="true" />
+        </many-to-one>
+        <many-to-one name="lote" class="sv.ues.dominio.Lote" fetch="select">
+            <column name="lot_id_lote" />
+        </many-to-one>
+        <property name="fechaCreacion" type="date">
+            <column name="fecha_creacion" length="13" />
+        </property>
+        <property name="fechaModificacion" type="date">
+            <column name="fecha_modificacion" length="13" />
+        </property>
+        <property name="estatus" type="java.lang.Integer">
+            <column name="estatus" />
+        </property>
+        <set name="mantenimientos" table="mantenimiento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_lote" not-null="true" />
+            </key>
+            <one-to-many class="sv.ues.dominio.Mantenimiento" />
+        </set>
+        <set name="lotes" table="lote" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="lot_id_lote" />
+            </key>
+            <one-to-many class="sv.ues.dominio.Lote" />
+        </set>
+        <set name="muestras" table="muestra" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_lote" not-null="true" />
+            </key>
+            <one-to-many class="sv.ues.dominio.Muestra" />
+        </set>
+    </class>
+</hibernate-mapping>
