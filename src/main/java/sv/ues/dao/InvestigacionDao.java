@@ -19,6 +19,7 @@ import org.hibernate.query.Query;
 
 import sv.ues.dominio.Investigacion;
 import sv.ues.dominio.Laboratorio;
+import sv.ues.dominio.PerfilInv;
 
 import sv.ues.utils.HibernateUtil;
 
@@ -131,6 +132,9 @@ public class InvestigacionDao {
         try {
             iniciaOperacion();
             sesion.save(investigacion);
+            PerfilInv perfil=investigacion.getPerfilInvs();
+            perfil.setInvestigacion(investigacion);
+            sesion.save(perfil);
             sesion.flush();
             tx.commit();
 

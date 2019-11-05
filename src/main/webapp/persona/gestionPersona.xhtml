@@ -8,7 +8,7 @@
     <ui:define name="content">
         <h:form id="registros">
             <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" />
-            <p:dataTable widgetVar="tabla" value="#{MbPersona.lista_personas()}" id="x" var="persona" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+            <p:dataTable emptyMessage="No se han encontrado registros" widgetVar="tabla"  value="#{MbPersona.lista_personas()}" id="x" var="persona" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                 <f:facet name="header">
                     Personas registradas
                 </f:facet>
@@ -67,7 +67,7 @@
                                 <p:column >
                                     <h:outputText value="Fecha de nacimiento:" />
                                     <p:spacer height="10" width="10" />
-                                    <h:outputText value="#{MbPersona.personaSeleccionada.fechaNacimiento}" style="font-weight: bold;">
+                                    <h:outputText  value="#{MbPersona.personaSeleccionada.fechaNacimiento}" style="font-weight: bold;">
                                         <f:convertDateTime pattern="dd-MM-yyyy" />
                                     </h:outputText>
                                 </p:column>
@@ -170,57 +170,57 @@
             <p:dialog style="margin-bottom: 22% !important;" header="Modificar" widgetVar="dialogoModificar" id="dlgMod" resizable="false" modal="true" onHide="PF('wiz').loadStep('personal',false)">
                 
                 <p:panel style="border: none !important;" id="panel_modificar" >
-                    <p:wizard widgetVar="wiz" id="registro" style="width: 1300px;">
-               <p:tab id="personal" title="Datos personales">
+                    <p:wizard widgetVar="wiz" id="registro" style="width: 1300px;" flowListener="#{MbPersona.flujoModificar}">
+               <p:tab id="personal" title="Datos personales" >
+                   <p:growl id="mensaje_personal" showDetail="true" showSummary="false" sticky="false" life="4000"/>
                    <p:panel>
-                       
                         <h:panelGrid columns="4" cellpadding="10">
                           <p:column >
                             <h:outputText value="Primer nombre:"/>
                             <p:spacer height="10" width="10" />
-                            <p:inputText value="#{MbPersona.personaSeleccionada.primerNombre}" required="true" requiredMessage="Digite el primer nombre" maxlength="15">
+                            <p:inputText value="#{MbPersona.personaSeleccionada.primerNombre}" required="true" requiredMessage="Digite el primer nombre" maxlength="15" validatorMessage="El primer nombre debe contener al menos 5 caracteres">
+                                <f:validateLength minimum="3" />
                                 <p:keyFilter regEx="/[a-zA-Z]/i" />
                             </p:inputText>
                         </p:column>
                             <p:column >
                                     <h:outputText value="Segundo nombre:" />
                                     <p:spacer height="10" width="10" />
-                                    <p:inputText value="#{MbPersona.personaSeleccionada.segundoNombre}" maxlength="15">
+                                    <p:inputText value="#{MbPersona.personaSeleccionada.segundoNombre}" maxlength="15" validatorMessage="El segundo nombre debe tener al menos 3 caracteres">
+                                        <f:validateLength minimum="3" />
                                         <p:keyFilter regEx="/[a-zA-Z]/i" />
                                     </p:inputText>
                                 </p:column>
                                 <p:column >
                                     <h:outputText value="Primer apellido:"/>
                                     <p:spacer height="10" width="10" />
-                                    <p:inputText value="#{MbPersona.personaSeleccionada.primerApellido}" required="true" requiredMessage="Digite el primer apellido" maxlength="15">
-                                            <p:keyFilter regEx="/[a-zA-Z]/i" />
+                                    <p:inputText value="#{MbPersona.personaSeleccionada.primerApellido}" required="true" requiredMessage="Digite el primer apellido" maxlength="15" validatorMessage="El primer apellido debe tener al menos 3 caracteres">
+                                        <f:validateLength minimum="3" />    
+                                        <p:keyFilter regEx="/[a-zA-Z]/i" />
                                     </p:inputText>
                                 </p:column>
                                 <p:column >
                                     <h:outputText value="Segundo apellido:" />
                                     <p:spacer height="10" width="10" />
-                                    <p:inputText value="#{MbPersona.personaSeleccionada.segundoApellido}" maxlength="15">
-                                            <p:keyFilter regEx="/[a-zA-Z]/i" />
+                                    <p:inputText value="#{MbPersona.personaSeleccionada.segundoApellido}" maxlength="15" validatorMessage="El segundo apellido debe tener al menos 3 caracteres">
+                                        <f:validateLength minimum="3" />    
+                                        <p:keyFilter regEx="/[a-zA-Z]/i" />
                                     </p:inputText>
                                 </p:column>
                                 <p:column >
                                     <h:outputText value="Fecha de nacimiento:" />
                                     <p:spacer height="10" width="10" />
-                                    <p:calendar maxdate="today" locale="es" navigator="true" value="#{MbPersona.personaSeleccionada.fechaNacimiento}" label="Fecha de nacimiento" pattern="dd-MM-yyyy" mask="true" required="true" requiredMessage="Fecha invalida"/>
+                                    <p:calendar mindate="#{MbPersona.minimafecha}" maxdate="#{MbPersona.maximafecha}" locale="es" navigator="true" value="#{MbPersona.personaSeleccionada.fechaNacimiento}" label="Fecha de nacimiento" pattern="dd-MM-yyyy" mask="true" required="true" requiredMessage="Fecha invalida"/>
                                 </p:column>
                                 <p:column >
                                     <h:outputText value="DUI:" />
                                     <p:spacer height="10" width="10" />
-                                    <p:inputMask id="persona_dui" value="#{MbPersona.personaSeleccionada.dui}" mask="99999999-9" required="true" requiredMessage="DUI invalido">
-                                        <p:ajax event="blur" listener="#{MbPersona.validarPersonaModificarDui()}" update="mensaje_modificar_datos_personales"/>
-                                    </p:inputMask>
+                                    <p:inputMask id="persona_dui" value="#{MbPersona.personaSeleccionada.dui}" mask="99999999-9" required="true" requiredMessage="DUI invalido"/>
                                 </p:column>
                                 <p:column >
                                     <h:outputText value="NIT:" />
                                     <p:spacer height="10" width="10" />
-                                    <p:inputMask id="persona_nit" value="#{MbPersona.personaSeleccionada.nit}" mask="9999-999999-999-9" required="true" requiredMessage="NIT invalido">
-                                        <p:ajax event="blur" listener="#{MbPersona.validarPersonaModificarNit()}" update="mensaje_modificar_datos_personales"/>
-                                    </p:inputMask>
+                                    <p:inputMask id="persona_nit" value="#{MbPersona.personaSeleccionada.nit}" mask="9999-999999-999-9" required="true" requiredMessage="NIT invalido"/>
                                 </p:column>
                                 <p:column >
                                 </p:column>
@@ -228,9 +228,9 @@
                     </p:panel>  
                </p:tab>
                         
-                        <p:tab id="domicilio" title="Domicilio">
+                <p:tab id="domicilio" title="Domicilio">
+                    <p:growl id="mensaje_domicilio" showDetail="true" showSummary="false" sticky="false" life="4000"/>
                     <p:panel>
-                        <p:growl/>
                         <h:panelGrid columns="2" cellpadding="10">
                             <p:column >
                                 <h:outputText value="Departamento:"/>
@@ -278,8 +278,8 @@
                         
                         
                         <p:tab id="contacto" title="Contacto">
+                            <p:growl id="mensaje_contacto" showDetail="true" showSummary="false" sticky="false" life="4000"/>
                     <p:panel>
-                        <p:growl/>
                         <h:panelGrid columns="4" cellpadding="10">
                             <p:column >
                                 <h:outputText value="Email:"/>
@@ -287,7 +287,6 @@
                                 <p:inputText maxlength="75" id="persona_email"  validatorMessage="Email invalido" value="#{MbPersona.personaSeleccionada.correoPersona}" required="true" requiredMessage="Digite el email">
                                     <p:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
                                     <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-                                    <p:ajax event="blur" listener="#{MbPersona.validarPersonaModificarEmail()}" update="mensaje_modificar_datos_personales"/>
                                 </p:inputText>
                             </p:column>
                             <p:column >

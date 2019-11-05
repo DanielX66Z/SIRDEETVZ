@@ -8,22 +8,21 @@
     <ui:define name="content">
 <!-- INICIO FORMULARIO REGISTRAR ROL -->
         <h:form id="F01">
-            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000">
-                <p:autoUpdate />
-            </p:growl>
+            <p:growl id="mensaje" showDetail="true" showSummary="false" sticky="false" life="3000"/>
             <p:panel header="Registrar rol"/>
-                <p:wizard widgetVar="wiz" id="registro">
+            <p:wizard widgetVar="wiz" id="registro" flowListener="#{MbRol.flujoResgistrar}">
                     <p:tab id="general" title="Datos generales">
+                        <p:growl id="mensaje_general_registro" showDetail="true" showSummary="false" sticky="false" life="3000"/>
                         <p:panel>
                             <h:panelGrid columns="1" cellpadding="5">
                                 <p:outputLabel value="Nombre rol" />
-                                <p:inputTextarea id="nombre" value="#{MbRol.roles.nomRol}" cols="50" rows="1" maxlength="25" required="true" requiredMessage="Debe digitar el nombre" validatorMessage="El nombre debe contener al menos 10 caracteres">
-                                    <f:validateLength minimum="10"/>
+                                <p:inputTextarea id="nombre" value="#{MbRol.roles.nomRol}" cols="50" rows="1" maxlength="25" required="true" requiredMessage="Debe digitar el nombre" validatorMessage="El nombre debe contener al menos 4 caracteres">
+                                    <f:validateLength minimum="4"/>
                                     <p:keyFilter regEx="/[a-zA-Z ]/i" />
                                 </p:inputTextarea>
                                 <p:outputLabel value="Descripcion" />
-                                <p:inputTextarea value="#{MbRol.roles.descripcion}" maxlength="500" cols="50" autoResize="true" required="true" requiredMessage="Debe digitar la descripcion" validatorMessage="La descripcion debe contener al menos 25 caracteres">
-                                    <f:validateLength minimum="25"  />
+                                <p:inputTextarea value="#{MbRol.roles.descripcion}" maxlength="500" cols="50" autoResize="true" required="true" requiredMessage="Debe digitar la descripcion" validatorMessage="La descripcion debe contener al menos 4 caracteres">
+                                    <f:validateLength minimum="4"  />
                                     <p:keyFilter regEx="/[a-zA-Z0-9 ]/i" />
                                 </p:inputTextarea>
                                 <p:outputLabel value="Estado" />

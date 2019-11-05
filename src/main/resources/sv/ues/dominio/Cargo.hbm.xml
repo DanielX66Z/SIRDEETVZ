@@ -1,7 +1,26 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-28-2019 09:05:09 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 08-22-2019 08:34:31 PM by Hibernate Tools 4.3.1 -->
+<!--<hibernate-mapping>
+    <class name="sv.ues.dominio.Cargo" table="cargo" schema="public" optimistic-lock="version">
+        <id name="idCargo" type="int">
+            <column name="id_cargo" />
+            <generator class="assigned" />
+        </id>
+        <property name="cargo" type="string">
+            <column name="cargo" length="200" />
+        </property>
+        <set name="usuarios" table="usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_cargo" not-null="true" />
+            </key>
+            <one-to-many class="sv.ues.dominio.Usuario" />
+        </set>
+    </class>
+</hibernate-mapping>-->
+
+
 <hibernate-mapping>
     <class name="sv.ues.dominio.Cargo" table="cargo" schema="public" optimistic-lock="version">
         <id name="idCargo" type="int">
@@ -14,14 +33,14 @@
         <property name="descripcion" type="string">
             <column name="descripcion" length="200" />
         </property>
+        <property name="fechaCreacion" type="timestamp">
+            <column name="fecha_creacion" length="29" />
+        </property>
         <property name="fechaModifica" type="timestamp">
             <column name="fecha_modifica" length="29" />
-        </property> 
-        <property name="fechaCreacion" type="date">
-            <column name="fecha_creacion" length="13" />
         </property>
-        <property name="activo" type="java.lang.Boolean">
-            <column name="activo" />
+        <property name="activo" type="boolean">
+            <column name="activo" length="29" />
         </property>
         <set name="usuarios" table="usuario" inverse="true" lazy="true" fetch="select">
             <key>

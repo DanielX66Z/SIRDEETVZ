@@ -2,13 +2,14 @@ package sv.ues.mbsesion;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.FlowEvent;
 import sv.ues.dao.RolesDao;
 import sv.ues.dominio.Rol;
 
@@ -30,57 +31,69 @@ public class MbRol  implements Serializable{
         roles.setEstadoRol(true);
     }
     
-    public void registrar() throws Exception
+    //Este metodo controla el flujo del wizard de registro
+    public String flujoResgistrar(FlowEvent event) throws Exception 
     {
-        if(validarCampos() == true)
+        if(event.getOldStep().equals("general") && event.getNewStep().equals("confirmar"))
         {
-            RolesDao rolesDao=new RolesDao(); 
-            rolesDao.registrar(roles);
-            roles = new Rol();
-            roles.setEstadoRol(true);
-            PrimeFaces.current().ajax().update("F01:registro");
-            //PrimeFaces.current().ajax().update("rolesResgistrados");
-            PrimeFaces.current().ajax().update("F01");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Rol registrado con exito")); 
+            RolesDao rolesDao=new RolesDao();  
+            if(rolesDao.validar_rol(roles.getNomRol())==true)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","El rol ya existe")); 
+                return event.getOldStep();
+            }
+            else
+            {
+                return event.getNewStep();
+            }
         }
+        return event.getNewStep();
     }
     
+    //Este metodo controla el flujo del wizard de registro
+    public String flujoModificar(FlowEvent event) throws Exception 
+    {
+        if(event.getOldStep().equals("general") && event.getNewStep().equals("confirmar"))
+        {
+            RolesDao rolesDao=new RolesDao();  
+            if(rolesDao.validar_rol_modificar(selectedRol.getNomRol(),selectedRol.getIdRol())==true)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","El rol ya existe")); 
+                return event.getOldStep();
+            }
+            else
+            {
+                return event.getNewStep();
+            }
+        }
+        return event.getNewStep();
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public void registrar() throws Exception
+    {
+        RolesDao rolesDao=new RolesDao();
+        rolesDao.registrar(roles);
+        roles = new Rol();
+        roles.setEstadoRol(true);
+        PrimeFaces.current().ajax().update("F01:registro");
+        PrimeFaces.current().ajax().update("F01");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Rol registrado con exito")); 
+    }
+
     public void modificar(Rol rol)
     {
         selectedRol=rol;
     }
     
     public void modificarDialog() throws Exception
-    {
-        if(validarCamposModificar() == true)
-        {
-            RolesDao rolesDao=new RolesDao();
-            rolesDao.actualizar_rol(selectedRol);
-            PrimeFaces current = PrimeFaces.current();
-            current.executeScript("PF('dialogoModificar').hide();");
-            PrimeFaces.current().ajax().update("registros");
-            selectedRol = new Rol();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Rol modificado exitosamente"));
-        }
+    {   RolesDao rolesDao=new RolesDao();
+        rolesDao.actualizar_rol(selectedRol);
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('dialogoModificar').hide();");
+        PrimeFaces.current().ajax().update("registros");
+        selectedRol = new Rol();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Rol modificado exitosamente"));
+        
     }
     
     public void setSelected(Rol roles)

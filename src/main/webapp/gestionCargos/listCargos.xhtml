@@ -8,15 +8,12 @@
 
     <ui:define name="content">
         <h:form id="F01">
-            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" />
+            <p:growl id="mensaje" showDetail="true" showSummary="false" sticky="false" life="3000" />
             <p:panel>
                 <p:dataTable value="#{MbCargo.listCargos()}" id="x" var="cargo" paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                     <f:facet name="header">
                         Cargos registrados
                     </f:facet>
-                    <p:column headerText="Id">
-                        <h:outputText value="#{cargo.idCargo}" />
-                    </p:column>
                     <p:column headerText="Nombre Cargo">
                         <h:outputText value="#{cargo.cargo}" />
                     </p:column>
@@ -28,9 +25,7 @@
                     </p:column>
                     <p:column headerText="Acciones">
                         <div align="center">
-                            <p:commandButton value="Desactivar" class="red-btn" actionListener="#{MbCargo.selectCargo(cargo)}" oncomplete="PF('dialogoEliminar').show();" update="formulario_eliminar:dlg" />
-                            <p:spacer height="10" width="10" />
-                            <p:commandButton value="Editar" class="orange-btn" actionListener="#{MbCargo.modificar(cargo)}" oncomplete="PF('dialogoModificar').show();" update="formulario_modificar:dlgMod" />
+                            <p:commandButton value="Modificar" class="orange-btn" actionListener="#{MbCargo.modificar(cargo)}" oncomplete="PF('dialogoModificar').show();" update="formulario_modificar:dlgMod" />
                         </div>
                     </p:column>
                 </p:dataTable>
@@ -39,49 +34,28 @@
 
         </h:form>
 
-        <br/>
-        <br/>
-
-        <!--formulario para eliminar -->
-        <h:form id="formulario_eliminar">
-            <p:dialog header="Desactivar" styleClass="" widgetVar="dialogoEliminar" id="dlg" resizable="false" modal="true">
-                <p:panel rendered="#{not empty MbCargo.selectedCargo}" id="panel_eliminar" style="border: none !important;">
-                    <div align="center">
-                        <p>Se desactivara el cargo .</p>
-                        <p>
-                            <p:commandButton class="secondary-btn" onclick="PF('dialogoEliminar').hide();" ajax="true" value="Cancelar" />
-                            <p:spacer height="10" width="10" />
-                            <p:commandButton class="red-btn" actionListener="#{MbCargo.eliminarDialog()}" ajax="true" value="Desactivar" update="F01:mensaje" />
-                        </p>
-                    </div>
-                </p:panel>
-            </p:dialog>
-        </h:form>
-
         <!--formulario para modificar -->
 
         <h:form id="formulario_modificar">
-            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" >
-                <p:autoUpdate/>
-            </p:growl>  
+            <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" />
             <p:dialog header="Modificar" styleClass="" widgetVar="dialogoModificar" id="dlgMod" resizable="false" modal="true">
 
-                <p:panel style="border: none !important;" rendered="#{not empty MbCargo.selectedCargo}" id="panel_modificar">
-                    <p:wizard widgetVar="wiz" id="modi"> 
+                <p:panel style="height: 300px;width: 500px;border: none !important;" rendered="#{not empty MbCargo.selectedCargo}" id="panel_modificar">
+                    <p:wizard widgetVar="wiz" id="modi" flowListener="#{MbCargo.flujomodificar}"> 
                         <p:tab id="general" title="Datos generales">
+                            <p:growl id="mensaje_general_modificar" showDetail="true" showSummary="false" sticky="false" life="3000"/>
                             <p:panel>
                                 <h:panelGrid columns="1" cellpadding="5">
                                     <p:outputLabel value="Nombre rol" />
-                                    <p:inputTextarea  id="cargo" value="#{MbCargo.selectedCargo.cargo}" cols="50" rows="1" validatorMessage="longitud minima 4" maxlength="25">
-                                        <f:validateLength minimum="4" />                                  
+                                    <p:inputTextarea  id="cargo" value="#{MbCargo.selectedCargo.cargo}" cols="50" rows="1" maxlength="25" validatorMessage="El nombre debe contener al menos 5 caracteres">
+                                        <f:validateLength minimum="5" />                                  
                                         <p:keyFilter regEx="/[a-zA-Z ]/i" />
-                                        
                                     </p:inputTextarea>
                                     <p:outputLabel value="Descripcion" />
-                                    <p:inputTextarea value="#{MbCargo.selectedCargo.descripcion}" validatorMessage="longitud minima 10" maxlength="500" cols="50" autoResize="true">
-                                        <f:validateLength minimum="10" /> 
-                                        <p:keyFilter regEx="/[a-zA-Z0-9 ]/i" />
-                                    </p:inputTextarea>
+                                    <p:inputTextarea maxlength="200" value="#{MbCargo.selectedCargo.descripcion}" cols="50" style="width: 450px" required="true" requiredMessage="Digite la descripcion" validatorMessage="La descripcion debe contener al menos 5 caracteres">
+                                    <f:validateLength minimum="5" />
+                                    <p:keyFilter regEx="/[a-zA-Z ]/i"/>
+                                </p:inputTextarea>
                                     <p:outputLabel value="Estado" />
                                     <p:selectOneMenu value="#{MbCargo.selectedCargo.activo}">
                                         <f:selectItem itemLabel="Activo" itemValue="true"/>
@@ -92,7 +66,7 @@
                             </p:panel>
 
                         </p:tab >
-                        <p:tab id="confirmar" title="Confirmar cambios">
+                        <p:tab id="confirmar" title="Confirmar">
                             <p:panel>
                                 <h:panelGrid columns="1" cellpadding="5">
                                     <p:outputLabel value="Nombre cargo:" />
@@ -104,8 +78,8 @@
                                 </h:panelGrid>
                                 <div align="center">
                             <p>
-                                <p:commandButton class="secondary-btn" onclick="PF('dialogoModificar').hide();" ajax="true" value="Cancelar" />
-                                <p:spacer height="10" width="10" />
+                                <!--<p:commandButton class="secondary-btn" onclick="PF('dialogoModificar').hide();" ajax="true" value="Cancelar" />
+                                <p:spacer height="10" width="10" />-->
                                 <p:commandButton class="orange-btn" oncomplete="PF('wiz').loadStep('general',false)" actionListener="#{MbCargo.modificarDialog()}" ajax="true" value="Modificar" update="F01:mensaje"/>
                             </p>
                         </div>

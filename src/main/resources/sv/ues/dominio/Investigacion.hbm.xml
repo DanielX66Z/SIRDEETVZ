@@ -46,11 +46,13 @@
             </key>
             <one-to-many class="sv.ues.dominio.InvVector" />
         </set>
-        <set name="perfilInvs" table="perfil_inv" inverse="true" lazy="true" fetch="select">
+        <one-to-one name="perfilInvs" class="sv.ues.dominio.PerfilInv" cascade="save-update">
+         </one-to-one>
+      <!--  <set name="perfilInvs" table="perfil_inv" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="cod_invest" />
             </key>
-            <one-to-many class="sv.ues.dominio.PerfilInv" />
-        </set>
+            <one-to-one class="sv.ues.dominio.PerfilInv" />
+        </set> -->
     </class>
 </hibernate-mapping>

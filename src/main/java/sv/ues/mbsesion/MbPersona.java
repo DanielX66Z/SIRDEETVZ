@@ -1,47 +1,33 @@
-      package sv.ues.mbsesion;
+package sv.ues.mbsesion;
 
 import java.io.Serializable;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
-import javax.activation.DataHandler;
 import javax.faces.bean.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import org.primefaces.PrimeFaces;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import sv.ues.dao.DepartamentoDao;
 import sv.ues.dao.MunicipioDao;
 import sv.ues.dao.PersonaDao;
-import sv.ues.dao.RolesDao;
 import sv.ues.dominio.Departamento;
 import sv.ues.dominio.Municipio;
 import sv.ues.dominio.Persona;
 import sv.ues.dominio.Rol;
 import sv.ues.dominio.Usuario;
-import javax.activation.DataSource;
+import org.primefaces.event.FlowEvent;
 import sv.ues.dao.UsuarioDao;
+import sv.ues.dominio.Cargo;
 import sv.ues.utils.EnvioCorreos;
 
-/**
- *
- * @author Miguel Martinez
- */
+//@author Miguel Martinez
 
 
 @ManagedBean(name="MbPersona")
@@ -51,243 +37,141 @@ public class MbPersona  implements Serializable
     
     private Persona persona;
     private Persona personaSeleccionada;
-    
+    private Municipio municipio;
+    private Municipio municipiomodificar;
+    private Departamento departamento;
+    private Usuario usuario;
+    private PersonaDao personaDao;
+    private MunicipioDao municipioDao;
+    private Rol rol;
+    private Cargo cargo;
+    private UsuarioDao usuarioDao;
+
     private List<SelectItem> items_municipio;
     private List<SelectItem> items_departamento;
+    private List<Rol> listaroles;
     
-    private Municipio municipio;
-    private Departamento departamento;
+    private Set rolset;
+    
     private String codigodepartamento = "";
     private String codigomunicipio = "";
-    
     private String listarolesconsulta = "";
+    private String clave = "";
+    private String hash = "";
+   
+    private Date fecha;
+    private Date maximafecha;
+    private Date minimafecha;
     
-    List<Rol> listaroles;
+    private Calendar calendario;
 
-
+    
+    //CONSTRUCTOR DEL BEAN
     public MbPersona()
     {
-        persona = new Persona();
-        municipio = new Municipio();
-        departamento = new Departamento();
+        inicializarVariables();
     }
     
-    public void registrar2() throws Exception
+    //METODO PARA INICIALIZAR LAS VARIABLES GLOBALES
+    private void inicializarVariables()
     {
-        Usuario usuario = new Usuario();
-       
-        usuario.setActivo(false);
-        usuario.setIdUsuario(155);
-        Rol rol = new Rol();
-        Rol rol2 = new Rol();
-        Set rols = new HashSet();
-        Set usuarios = new HashSet();
-        usuarios.add(usuario);
-        
-        rol.setIdRol(6);
-        rol.setUsuarios(usuarios);
-        rols.add(rol);
-        rol2.setIdRol(5);
-        rols.add(rol2);
-
-        usuario.setRols(rols);
-
-        PersonaDao personaDao = new PersonaDao();
-        personaDao.registrar(persona,usuario);
-
-        
-    }
-    
-    public void registrar() throws Exception
-    {
-        String clave = "";
-        String hash = "";
-        
-        Date fecha = new Date();
-        Usuario usuario = new Usuario();
-        
-        usuario.setNomUsuario(persona.getPrimerNombre().substring(0,1).toLowerCase()+persona.getSegundoNombre().substring(0,1).toLowerCase()+persona.getPrimerApellido());
-        usuario.setFechaRegistro(fecha);
-        usuario.setFechaUltimaModificacion(fecha);
-        usuario.setActivo(false);
-        clave = generarPassword(8);
-        usuario.setClave(BCrypt.hashpw(clave, BCrypt.gensalt()));
-        hash = usuario.getClave()+""+System.nanoTime();
-        usuario.setHash(hash);
-        
-        
-
-        PersonaDao personaDao = new PersonaDao();
-        persona.setMunicipio(municipio);
-        persona.setFechaRegistro(fecha);
-        persona.setFechaUltimaModificacion(fecha);
-        
-        Rol rol = new Rol();
-        rol.setIdRol(6);
-        Set rolset = new HashSet(0);
-        rolset.add(rol);
-        usuario.setRols(rolset);
-        
-        personaDao.registrar(persona,usuario);
-        
-        UsuarioDao usuarioDao = new UsuarioDao();
-        usuario = usuarioDao.obtener_usuario_hash(hash);
-        //StringUtils.capitalize(persona.getPrimerNombre())
-        //persona.getPrimerApellido().substring(0, 1).toUpperCase() + persona.getPrimerApellido().substring(1).toLowerCase();
-        
-        EnvioCorreos correos = new EnvioCorreos(persona.getCorreoPersona(), "Registro SIRDEETV", asunto_email(usuario.getNomUsuario(),clave,persona.getPrimerNombre().substring(0, 1).toUpperCase() + persona.getPrimerNombre().substring(1).toLowerCase(),persona.getPrimerApellido().substring(0, 1).toUpperCase() + persona.getPrimerApellido().substring(1).toLowerCase()));
-        correos.start();
-        
-        persona = new Persona();
-        municipio = new Municipio();
-        departamento = new Departamento();
-        usuario = new Usuario();
-        
-        
-        
+        this.persona = new Persona();
+        this.municipio = new Municipio();
+        this.municipiomodificar = new Municipio();
+        this.departamento = new Departamento();
+        this.usuario = new Usuario();
         this.items_departamento = new ArrayList();
         this.items_municipio = new ArrayList();
-        codigodepartamento = "";
-        codigomunicipio = "";
+        this.personaDao = new PersonaDao();
+        this.rol = new Rol();
+        this.rolset = new HashSet(0);
+        this.cargo = new Cargo();
+        this.usuarioDao = new UsuarioDao();
+        this.municipioDao = new MunicipioDao();
+        this.fecha = new Date();
+        this.calendario = Calendar.getInstance();
+        this.calendario.add(Calendar.YEAR, -18);
+        this.maximafecha = calendario.getTime();
+        this.calendario = Calendar.getInstance();
+        this.calendario.add(Calendar.YEAR, -85);
+        this.minimafecha = calendario.getTime();
+        this.codigodepartamento = "";
+        this.codigomunicipio = "";
+        this.listarolesconsulta = "";
+        this.clave = "";
+        this.hash = "";
+    }
+    
+    //METODO PARA REGISTRAR UNA PERSONA
+    public void registrar()
+    {
+        try
+        {
+            this.usuario.setNomUsuario(this.persona.getPrimerNombre().substring(0,1).toLowerCase()+this.persona.getSegundoNombre().substring(0,1).toLowerCase()+this.persona.getPrimerApellido());
+            this.usuario.setFechaRegistro(this.fecha);
+            this.usuario.setFechaUltimaModificacion(this.fecha);
+            this.usuario.setActivo(false);
+            this.clave = generarPassword(8);
+            this.usuario.setClave(BCrypt.hashpw(this.clave, BCrypt.gensalt()));
+            this.hash = this.usuario.getClave()+""+System.nanoTime();
+            this.usuario.setHash(this.hash);
+            this.persona.setMunicipio(this.municipio);
+            this.persona.setFechaRegistro(this.fecha);
+            this.persona.setFechaUltimaModificacion(this.fecha);
+            this.rol.setIdRol(6);
+            this.rolset.add(this.rol);
+            this.cargo.setIdCargo(5);
+            this.usuario.setCargo(this.cargo);
+            this.usuario.setRols(this.rolset);
+            this.personaDao.registrar(this.persona,this.usuario);
+            this.usuario = this.usuarioDao.obtener_usuario_hash(this.hash);
 
-        PrimeFaces.current().ajax().update("F01");
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Persona registrada con exito")); 
-    }
-    
-    public void modificar() throws Exception
-    {
-        Date fecha = new Date();
-        
-        PersonaDao personaDao = new PersonaDao();
-        Municipio municipiomodificar = new Municipio();
-        municipiomodificar.setCodMunicipio(codigomunicipio);
-        personaSeleccionada.setMunicipio(municipiomodificar);
-        personaSeleccionada.setFechaUltimaModificacion(fecha);
-        
-        personaDao.modificar(personaSeleccionada);
-        
-        //PROBABLEMENTE SE DEBA ENVAR CORREO DE PERSONA MODIFICADO
-        //EnvioCorreos correos = new EnvioCorreos(persona.getCorreoPersona(), "Registro SIRDEETV", asunto_email(usuario.getNomUsuario(),clave,persona.getPrimerNombre().substring(0, 1).toUpperCase() + persona.getPrimerNombre().substring(1).toLowerCase(),persona.getPrimerApellido().substring(0, 1).toUpperCase() + persona.getPrimerApellido().substring(1).toLowerCase()));
-        //correos.start();
+            //ESTE CODIGO MODIFICARLO, EL ASUNTO Y CUERPO DEL CORREO DEBE ESTAR EN LA BASE
+            EnvioCorreos correos = new EnvioCorreos(this.persona.getCorreoPersona(), "Registro SIRDEETV", asunto_email(this.usuario.getNomUsuario(),this.clave,this.persona.getPrimerNombre().substring(0, 1).toUpperCase() + this.persona.getPrimerNombre().substring(1).toLowerCase(),this.persona.getPrimerApellido().substring(0, 1).toUpperCase() + this.persona.getPrimerApellido().substring(1).toLowerCase()));
+            correos.start();
+            
+            inicializarVariables();
+            PrimeFaces.current().ajax().update("F01");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Persona registrada con exito")); 
 
+        }
+        catch(Exception x)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"",x.toString())); 
+        }
+    }
+    
+    
+    public void modificar()
+    {
+        try
+        {
+            this.municipiomodificar.setCodMunicipio(this.codigomunicipio);
+            this.personaSeleccionada.setMunicipio(this.municipiomodificar);
+            this.personaSeleccionada.setFechaUltimaModificacion(this.fecha);
+            this.personaDao.modificar(this.personaSeleccionada);
+            
+            inicializarVariables();
+            PrimeFaces.current().ajax().update("registros");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Persona modificada con exito")); 
+            PrimeFaces.current().executeScript("PF('dialogoModificar').hide();");
+        }
+        catch(Exception x)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"",x.toString())); 
+        }
         
-        persona = new Persona();
-        municipio = new Municipio();
-        departamento = new Departamento();
-        this.items_departamento = new ArrayList();
-        this.items_municipio = new ArrayList();
-        codigodepartamento = "";
-        codigomunicipio = "";
-
-        PrimeFaces.current().ajax().update("registros");
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Persona modificada con exito")); 
-        PrimeFaces.current().executeScript("PF('dialogoModificar').hide();");
-    }
-    
-    public void centrarDialogo() throws Exception
-    {
-        PrimeFaces.current().executeScript("PF('dialogoModificar').initPosition();");
-    }
-
-    public void validarPersonaDui() throws Exception
-    {
-        PersonaDao personaDao = new PersonaDao();
-        
-        if(validarDui(persona.getDui())== true)
-        {
-            if(personaDao.obtener_persona_dui(persona.getDui())!=null)
-            {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","DUI: " + persona.getDui() + " duplicado")); 
-                persona.setDui("");
-                PrimeFaces.current().ajax().update("F01:persona_dui");
-            }
-        }
-        else
-        {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","DUI: " + persona.getDui() + " invalido")); 
-                persona.setDui("");
-                PrimeFaces.current().ajax().update("F01:persona_dui");
-        } 
-    }
-    
-    public void validarPersonaModificarDui() throws Exception
-    {
-        PersonaDao personaDao = new PersonaDao();
-        if(validarDui(personaSeleccionada.getDui())== true)
-        {
-            if(personaDao.validar_persona_modificar_dui(personaSeleccionada.getDui(), personaSeleccionada.getIdPersona()) != false)
-            {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","DUI: " + personaSeleccionada.getDui() + " duplicado")); 
-                personaSeleccionada.setDui("");
-                PrimeFaces.current().ajax().update("formulario_modificar:persona_dui");
-            }
-        }
-        else
-        {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","DUI: " + personaSeleccionada.getDui() + " invalido")); 
-                personaSeleccionada.setDui("");
-                PrimeFaces.current().ajax().update("F01:persona_dui");
-        } 
-        
-    }
-    
-    public void validarPersonaEmail() throws Exception
-    {
-        PersonaDao personaDao = new PersonaDao();
-        if(personaDao.obtener_persona_email(persona.getCorreoPersona())!=null)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","Email: " + persona.getCorreoPersona() + " duplicado")); 
-            persona.setCorreoPersona("");
-            PrimeFaces.current().ajax().update("F01:persona_email");
-        }
-    }
-    
-    
-    public void validarPersonaModificarEmail() throws Exception
-    {
-        PersonaDao personaDao = new PersonaDao();
-        if(personaDao.validar_persona_modificar_email(personaSeleccionada.getCorreoPersona(),personaSeleccionada.getIdPersona())==true)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","Email: " + personaSeleccionada.getCorreoPersona() + " duplicado")); 
-            personaSeleccionada.setCorreoPersona("");
-            PrimeFaces.current().ajax().update("formulario_modificar:persona_email");
-        }
-    }
-    
-    public void validarPersonaNit() throws Exception
-    {
-        PersonaDao personaDao = new PersonaDao();
-        
-        if(personaDao.obtener_persona_nit(persona.getNit())!=null)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","NIT: " + persona.getNit() + " duplicado")); 
-            persona.setNit("");
-            PrimeFaces.current().ajax().update("F01:persona_nit");
-        }
-    }
-    
-    public void validarPersonaModificarNit() throws Exception
-    {
-        PersonaDao personaDao = new PersonaDao();
-        
-        if(personaDao.validar_persona_modificar_nit(personaSeleccionada.getNit(), personaSeleccionada.getIdPersona()) != false)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","NIT: " + personaSeleccionada.getNit() + " duplicado")); 
-            personaSeleccionada.setNit("");
-            PrimeFaces.current().ajax().update("formulario_modificar:persona_nit");
-        }
     }
     
     public List<Persona> lista_personas()
     {
-        PersonaDao personaDao = new PersonaDao();
         try
         {
-            return personaDao.obtener_personas();
+            return this.personaDao.obtener_personas();
         }
         catch(Exception x)
         {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,x.toString(),x.toString()));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,"",x.toString()));
             return null;
         }
     }
@@ -302,8 +186,8 @@ public class MbPersona  implements Serializable
         this.persona = persona;
     }
 
-    public List<SelectItem> getItems_municipio() throws Exception {
-        
+    public List<SelectItem> getItems_municipio() throws Exception 
+    {
         this.items_municipio = new ArrayList();
         MunicipioDao municipios = new MunicipioDao();
         Departamento departamento_seleccionado = new Departamento();
@@ -338,9 +222,8 @@ public class MbPersona  implements Serializable
         this.departamento = departamento;
     }
 
-    public List<SelectItem> getItems_departamento() throws Exception {
-        //this.codigomunicipio = "";
-        //this.items_municipio = new ArrayList();
+    public List<SelectItem> getItems_departamento() throws Exception 
+    {
         this.items_departamento = new ArrayList();
         DepartamentoDao departamentos = new DepartamentoDao();
         List<Departamento> lista_departamentos = departamentos.obtener_todos_los_departamentos();
@@ -373,25 +256,22 @@ public class MbPersona  implements Serializable
         this.codigomunicipio = codigomunicipio;
     }
 
-    public void resetCodigoMunicipio() {
+    public void resetCodigoMunicipio() 
+    {
         codigomunicipio = "";
     }
     
     public void asignarMunicipio() throws Exception 
     {
-        
-        MunicipioDao municipioDao = new MunicipioDao();
-        municipio = municipioDao.obtener_municipio(codigomunicipio);
-        if(municipio!=null)
+        this.municipio = this.municipioDao.obtener_municipio(this.codigomunicipio);
+        if(this.municipio != null)
         {
-            codigomunicipio = municipio.getCodMunicipio();
+            this.codigomunicipio = this.municipio.getCodMunicipio();
         }
         else
         {
-            codigomunicipio= ""; 
+            this.codigomunicipio = ""; 
         }
-        
-        //municipio.setCodMunicipio(codigomunicipio);
     }
 
     
@@ -427,70 +307,20 @@ public class MbPersona  implements Serializable
             "<spam>- Si en algún momento olvida sus credenciales, contacte con el administrador de SIRDEETV.</spam>";
  }
  
- /*public void enviar_email(String destinatario, String asunto, String cuerpo) throws AddressException, MessagingException
- {
-     try
-     {
-        String remitente = "mm09255@ues.edu.sv";
-        Properties props = System.getProperties();
-        props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
-        props.put("mail.smtp.user", remitente);
-        props.put("mail.smtp.clave", "miguel751991");    //La clave de la cuenta
-        props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
-        props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
-        props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
 
-        Session session = Session.getDefaultInstance(props);
-        MimeMessage message = new MimeMessage(session);
-        //message.setDataHandler(new DataHandler(new HTMLDataSource(cuerpo)));
-        Address address = new InternetAddress(destinatario);
-        try {
-           message.setFrom(new InternetAddress(remitente));
-           message.addRecipient(Message.RecipientType.TO, address);   //Se podrían añadir varios de la misma manera
-           message.setSubject(asunto);
-           //message.setText(cuerpo);
-           message.setContent(cuerpo,"text/html");
-           Transport transport = session.getTransport("smtp");
-           transport.connect("smtp.gmail.com", remitente, "miguel751991");
-           transport.sendMessage(message, message.getAllRecipients());
-           transport.close();
-        }
-        catch (MessagingException me) {
-           me.printStackTrace();   //Si se produce un error
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","Sin conexion, el email no ha sido enviado")); 
-        }
-     }
-     catch(Exception x)
-     {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Advertencia","Sin conexion, el email no ha sido enviado")); 
-     }
-    
- }*/
-
-    public Persona getPersonaSeleccionada() {
+    public Persona getPersonaSeleccionada() 
+    {
         return personaSeleccionada;
     }
 
-    public void setPersonaSeleccionada(Persona personaSeleccionada) {
+    public void setPersonaSeleccionada(Persona personaSeleccionada) 
+    {
         this.personaSeleccionada = personaSeleccionada;
         this.codigomunicipio = personaSeleccionada.getMunicipio().getCodMunicipio();
         this.codigodepartamento = personaSeleccionada.getMunicipio().getDepartamento().getCodDepto();
         listarolesconsulta = "";
         try
         {
-            /*Usuario usuario = new Usuario();
-            Rol rol = new Rol();
-            
-            Set roles = new HashSet(0);
-            
-            roles.add(rol);
-            roles.add(rol);
-            roles.add(rol);
-            roles.add(rol);
-            roles.add(rol);
-            
-            usuario.setRols(roles);*/
-            
             this.personaSeleccionada.getUsuario().getRols().toArray();
             listaroles = new ArrayList<Rol>(this.personaSeleccionada.getUsuario().getRols());
             
@@ -505,7 +335,7 @@ public class MbPersona  implements Serializable
         }
         catch(Exception x)
         {
-            System.out.println("\n\n\nEXcepcion: " + x.toString());
+            System.out.println("Excepcion: " + x.toString());
         }
         
     }
@@ -527,10 +357,6 @@ public class MbPersona  implements Serializable
     }
     
     
-    
-    
-    
-    
     public static boolean validarDui(String dui) {
         //String mensaje = "";
         boolean mensaje = false;
@@ -541,7 +367,7 @@ public class MbPersona  implements Serializable
             return false;//"Demasiados caracteres en el DUI";
         }
 
-        String strDigitos = dui.substring(0, 8);
+        String strDigitos = dui.replace("-","").substring(0, 8);
         int verificador = 0;
         char verifi=Character.MIN_VALUE;
         if (dui.contains("-")) {
@@ -592,11 +418,247 @@ public class MbPersona  implements Serializable
 
         return mensaje;
     }
+
+    public static boolean validarNIT( String nit ){//Creamos metodo estatico para poderlo llamar en cualquier parte; pedimos como datos una cadena string donde se aloja el nit
+        int calculo = 0;//Variable para llevar el control de la suma del algoritmo
+        int digitos = Integer.parseInt(nit.substring(12, 15));//Tomamos los digitos que estan entre la posicion 12 y 15
+        boolean resultado;
+        
+        if ( digitos <= 100 ) {//Verificamos que estos digitos sean menores o iguales a 100
+            for ( int posicion = 0; posicion <= 14; posicion++ ) {//Ciclo que nos ayuda a ir aumentando la posicion que se utiliza posteriormente en el algoritmo
+                if ( !( posicion == 4 || posicion == 11 ) ){
+                    calculo += ( 14 * (int) ( Character.getNumericValue( nit.charAt( posicion ) ) ) );
+                }//Si la posicion no es 4 ni 11 (que son los guiones) se ejecuta esta operacion
+                calculo = calculo % 11;//Al calculo se le va sacando el modular de 11
+            }
+        } 
+        else {
+            int n = 1;//Variable contadora
+            for ( int posicion = 0; posicion <= 14; posicion++ ){//Ciclo que nos ayuda a ir aumentando la posicion que se utiliza posteriormente en el algoritmo
+                if ( !( posicion == 4 || posicion == 11 ) ){
+                    calculo = (int) ( calculo + ( ( (int) Character.getNumericValue( nit.charAt( posicion ) ) ) * ( ( 3 + 6 * Math.floor( Math.abs( ( n + 4) / 6 ) ) ) - n ) ) );
+                    n++;
+                }//Si la posicion no es 4 ni 11 (que son los guiones) se ejecuta esta operacion
+            }
+            
+            calculo = calculo % 11;//sacamos el modular 11 de calculo
+            if ( calculo > 1 ){
+                calculo = 11 - calculo;//Si el resultado nos da mayor a uno se le resta a 11 esta respuesta
+            } else {
+                calculo = 0;//Sino el calculo lo hacemos 0
+            }
+        }
+        
+        resultado = (calculo == (int) ( Character.getNumericValue( nit.charAt( 16 ) ) ) ); //Verificamos si el calculo es direfente del resultado de nuestro algoritmo, si lo es entonces es falso
+        return resultado;//enviamos el resultado
+    }
+    
+    //Este metodo controla el flujo del wizard de registro
+    public String flujoResgistrar(FlowEvent event) throws Exception 
+    {
+        String cadena_validadora = "";
+        
+        //VALIDACION AVANZAR PERSONAL -> DOMICILIO
+        if(event.getOldStep().equals("personal") && event.getNewStep().equals("domicilio"))
+        {
+            //VERIFICA SI ES UN DUI VALIDO
+            if(validarDui(this.persona.getDui()) == true)
+            {
+                //VERIFICAR SI EL DUI YA EXISTE
+                if(this.personaDao.obtener_persona_dui(this.persona.getDui()) != null)
+                {
+                    cadena_validadora = cadena_validadora + "B";
+                }
+            }
+            else
+            {
+                cadena_validadora = cadena_validadora + "A";
+            }
+            
+            if(validarNIT(this.persona.getNit()) == true)
+            {
+                //VERIFICAR SI EL NIT YA EXISTE
+                if(this.personaDao.obtener_persona_nit(this.persona.getNit())!=null)
+                {
+                    cadena_validadora = cadena_validadora + "G";
+                }
+            }
+            else
+            {
+                cadena_validadora = cadena_validadora + "F";
+            }
+        }
+        
+        //VERIFICAR QUE LA DIRECCION NO ESTE VACIA
+        if(event.getOldStep().equals("domicilio") && event.getNewStep().equals("contacto"))
+        {
+            if(this.persona.getDireccionResidencia().trim().length() == 0)
+            {
+                cadena_validadora = cadena_validadora + "D";
+            }
+        }
+        
+        //VERIFICAR SI EL EMAIL YA EXISTE
+        if(event.getOldStep().equals("contacto") && event.getNewStep().equals("confirmar"))
+        {
+            if(this.personaDao.obtener_persona_email(this.persona.getCorreoPersona())!=null)
+            {
+                cadena_validadora = cadena_validadora + "E";
+            }
+        }
+        
+        //MOSTRAR MENSAJES
+        if(cadena_validadora.length() > 0)
+        {
+            if(cadena_validadora.contains("A"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","DUI " + this.persona.getDui() + " invalido")); 
+            }
+            if(cadena_validadora.contains("B"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","DUI " + this.persona.getDui() + " duplicado")); 
+            }
+            if(cadena_validadora.contains("C"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","NIT " + this.persona.getNit() + " duplicado")); 
+            }
+            if(cadena_validadora.contains("D"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Digite la direccion de domicilio")); 
+            }
+            if(cadena_validadora.contains("E"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Email " + this.persona.getCorreoPersona() + " duplicado")); 
+            }
+            if(cadena_validadora.contains("F"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","NIT " + this.persona.getNit() + " invalido")); 
+            }
+            if(cadena_validadora.contains("G"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","NIT " + this.persona.getNit() + " duplicado")); 
+            }
+            return event.getOldStep();
+        }
+        else
+        {
+            return event.getNewStep();
+        }
+    }
+
+    
+    //Este metodo controla el flujo del wizard de modificacion
+    public String flujoModificar(FlowEvent event) throws Exception 
+    {
+        //PersonaDao personaDao = new PersonaDao();
+        String cadena_validadora = "";
+        
+        //VALIDACION AVANZAR PERSONAL -> DOMICILIO
+        if(event.getOldStep().equals("personal") && event.getNewStep().equals("domicilio"))
+        {
+            //VERIFICA SI ES UN DUI VALIDO
+            if(validarDui(this.personaSeleccionada.getDui()) == true)
+            {
+                //VERIFICAR SI EL DUI YA EXISTE
+                if(this.personaDao.validar_persona_modificar_dui(this.personaSeleccionada.getDui(), this.personaSeleccionada.getIdPersona()) != false)
+                {
+                    cadena_validadora = cadena_validadora + "B";
+                }
+            }
+            else
+            {
+                cadena_validadora = cadena_validadora + "A";
+            }
+            
+            if(validarNIT(this.personaSeleccionada.getNit()) == true)
+            {
+                //VERIFICAR SI EL NIT YA EXISTE
+                if(this.personaDao.validar_persona_modificar_nit(this.personaSeleccionada.getNit(),this.personaSeleccionada.getIdPersona())!=false)
+                {
+                    cadena_validadora = cadena_validadora + "G";
+                }
+            }
+            else
+            {
+                cadena_validadora = cadena_validadora + "F";
+            }
+        }
+        
+        //VERIFICAR QUE LA DIRECCION NO ESTE VACIA
+        if(event.getOldStep().equals("domicilio") && event.getNewStep().equals("contacto"))
+        {
+            if(this.personaSeleccionada.getDireccionResidencia().trim().length() == 0)
+            {
+                cadena_validadora = cadena_validadora + "D";
+            }
+        }
+        
+        //VERIFICAR SI EL EMAIL YA EXISTE
+        if(event.getOldStep().equals("contacto") && event.getNewStep().equals("confirmar"))
+        {
+            if(this.personaDao.validar_persona_modificar_email(this.personaSeleccionada.getCorreoPersona(),this.personaSeleccionada.getIdPersona())!=false)
+            {
+                cadena_validadora = cadena_validadora + "E";
+            }
+        }
+        
+        //MOSTRAR MENSAJES
+        if(cadena_validadora.length() > 0)
+        {
+            if(cadena_validadora.contains("A"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","DUI " + this.personaSeleccionada.getDui() + " invalido")); 
+            }
+            if(cadena_validadora.contains("B"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","DUI " + this.personaSeleccionada.getDui() + " duplicado")); 
+            }
+            if(cadena_validadora.contains("C"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","NIT " + this.personaSeleccionada.getNit() + " duplicado")); 
+            }
+            if(cadena_validadora.contains("D"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Digite la direccion de domicilio")); 
+            }
+            if(cadena_validadora.contains("E"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Email " + this.personaSeleccionada.getCorreoPersona() + " duplicado")); 
+            }
+            if(cadena_validadora.contains("F"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","NIT " + this.personaSeleccionada.getNit() + " invalido")); 
+            }
+            if(cadena_validadora.contains("G"))
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","NIT " + this.personaSeleccionada.getNit() + " duplicado")); 
+            }
+            return event.getOldStep();
+        }
+        else
+        {
+            return event.getNewStep();
+        }
+    }
+    
+    
+    public Date getMaximafecha() {
+        return maximafecha;
+    }
+
+    public void setMaximafecha(Date maximafecha) {
+        this.maximafecha = maximafecha;
+    }
+
+    public Date getMinimafecha() {
+        return minimafecha;
+    }
+
+    public void setMinimafecha(Date minimafecha) {
+        this.minimafecha = minimafecha;
+    }
     
     
     
-    
-    
-    
-    
+ 
 }

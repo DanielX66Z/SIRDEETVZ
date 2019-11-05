@@ -13,7 +13,9 @@
         </many-to-one>
         <many-to-one name="perfilInv" class="sv.ues.dominio.PerfilInv" fetch="select">
             <column name="per_id_perfil" />
-        </many-to-one>
+        </many-to-one> 
+       
+        
         <property name="antecedente" type="string">
             <column name="antecedente" length="200" />
         </property>
@@ -41,12 +43,15 @@
         <property name="numeroPersona" type="java.lang.Integer">
             <column name="numero_persona" />
         </property>
-        <set name="perfilInvs" table="perfil_inv" inverse="true" lazy="true" fetch="select">
+        <!--<set name="perfilInvs" table="perfil_inv" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="per_id_perfil" />
             </key>
             <one-to-many class="sv.ues.dominio.PerfilInv" />
-        </set>
+        </set>-->
+         <one-to-one name="perfilInvs" class="sv.ues.dominio.PerfilInv"
+			constrained="true"></one-to-one>
+        
         <set name="documentos" table="documento" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_perfil" not-null="true" />

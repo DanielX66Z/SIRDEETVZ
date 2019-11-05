@@ -11,7 +11,7 @@ import java.util.Set;
 public class Laboratorio  implements java.io.Serializable {
 
 
-     private int codLaboratorio;
+     private Integer codLaboratorio;
      private String nomLab;
      private String alias;
      private Set usuarios = new HashSet(0);
@@ -21,11 +21,11 @@ public class Laboratorio  implements java.io.Serializable {
     }
 
 	
-    public Laboratorio(int codLaboratorio, String nomLab) {
+    public Laboratorio(Integer codLaboratorio, String nomLab) {
         this.codLaboratorio = codLaboratorio;
         this.nomLab = nomLab;
     }
-    public Laboratorio(int codLaboratorio, String nomLab, String alias, Set usuarios, Set investigacions) {
+    public Laboratorio(Integer codLaboratorio, String nomLab, String alias, Set usuarios, Set investigacions) {
        this.codLaboratorio = codLaboratorio;
        this.nomLab = nomLab;
        this.alias = alias;
@@ -33,11 +33,11 @@ public class Laboratorio  implements java.io.Serializable {
        this.investigacions = investigacions;
     }
    
-    public int getCodLaboratorio() {
+    public Integer getCodLaboratorio() {
         return this.codLaboratorio;
     }
     
-    public void setCodLaboratorio(int codLaboratorio) {
+    public void setCodLaboratorio(Integer codLaboratorio) {
         this.codLaboratorio = codLaboratorio;
     }
     public String getNomLab() {
@@ -69,7 +69,36 @@ public class Laboratorio  implements java.io.Serializable {
         this.investigacions = investigacions;
     }
 
+    @Override
+    public String toString() {
+        return "Laboratorio[codLaboratorio=" + codLaboratorio + "]";
+    }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + this.codLaboratorio;
+        hash = 59 * hash + (this.nomLab != null ? this.nomLab.hashCode() : 0);
+        hash = 59 * hash + (this.alias != null ? this.alias.hashCode() : 0);
+        hash = 59 * hash + (this.usuarios != null ? this.usuarios.hashCode() : 0);
+        hash = 59 * hash + (this.investigacions != null ? this.investigacions.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+          // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Laboratorio)) {
+            return false;
+        }
+        Laboratorio other = (Laboratorio) object;
+        if ((this.codLaboratorio == null && other.codLaboratorio != null) || (this.codLaboratorio != null && !this.codLaboratorio.equals(other.codLaboratorio))) {
+            return false;
+        }
+        return true;
+    }
+
+    
 
 
 }

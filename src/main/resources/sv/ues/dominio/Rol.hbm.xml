@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-28-2019 09:05:09 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 08-22-2019 08:34:31 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="sv.ues.dominio.Rol" table="rol" schema="public" optimistic-lock="version">
         <id name="idRol" type="int">
@@ -9,13 +9,13 @@
             <generator class="identity" />
         </id>
         <property name="nomRol" type="string">
-            <column name="nom_rol" length="150" not-null="true" />
+            <column name="nom_rol" length="150" not-null="false" />
         </property>
         <property name="descripcion" type="string">
             <column name="descripcion" length="250" />
         </property>
         <property name="estadoRol" type="boolean">
-            <column name="estado_rol" not-null="true" />
+            <column name="estado_rol" not-null="false" />
         </property>
         <set name="permisos" table="rol_permiso" inverse="true" lazy="true" fetch="select">
             <key>
@@ -25,13 +25,35 @@
                 <column name="id_permiso" not-null="true" />
             </many-to-many>
         </set>
-        <set name="usuarios" table="usuario_rol" inverse="false" lazy="true" fetch="select">
+        <!--<set name="usuarios" table="usuario_rol" inverse="false" lazy="true" fetch="select">-->
+        <!--<set name="usuarios" table="usuario_rol" inverse="false" lazy="true" fetch="select">-->
+        <set name="usuarios" table="usuario_rol" inverse="false" lazy="false" fetch="select">
             <key>
-                <column name="id_rol" not-null="true" />
+                <column name="id_rol" not-null="false" />
             </key>
             <many-to-many entity-name="sv.ues.dominio.Usuario">
-                <column name="id_usuario" not-null="true" />
+                <column name="id_usuario" not-null="false" />
             </many-to-many>
         </set>
     </class>
 </hibernate-mapping>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

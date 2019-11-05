@@ -158,6 +158,29 @@ public class CargoDao {
         }
     }
     
+    public Cargo validarExistCargoModificar(String cargo,long id) throws Exception 
+    {
+        try
+        {
+            iniciaOperacion();
+            CriteriaBuilder builder = sesion.getCriteriaBuilder();
+            
+            CriteriaQuery<Cargo> query = builder.createQuery(Cargo.class);
+            Root<Cargo> root = query.from(Cargo.class);
+            query.select(root).where(builder.equal(root.get("cargo"), cargo),builder.notEqual(root.get("idCargo"), id));
+            Query<Cargo> q =sesion.createQuery(query);
+            return q.getSingleResult();
+        }
+        catch(Exception x)
+        {
+            return null;
+        }
+        finally 
+        {
+            sesion.close();
+        }
+    }
+    
    public void actualizarCargo(Cargo cargo) throws Exception {
         
         try {

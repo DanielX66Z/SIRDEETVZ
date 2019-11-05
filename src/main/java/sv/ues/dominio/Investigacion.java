@@ -20,7 +20,7 @@ public class Investigacion  implements java.io.Serializable {
      private Set investigadors = new HashSet(0);
      private Set investigacions = new HashSet(0);
      private Set invVectors = new HashSet(0);
-     private Set perfilInvs = new HashSet(0);
+     private PerfilInv perfilInvs ;
 
     public Investigacion() {
     }
@@ -31,7 +31,7 @@ public class Investigacion  implements java.io.Serializable {
         this.laboratorio = laboratorio;
         this.nomInvest = nomInvest;
     }
-    public Investigacion(int codInvest, Investigacion investigacion, Laboratorio laboratorio, String nomInvest, Boolean estadoInvest, Set actividads, Set investigadors, Set investigacions, Set invVectors, Set perfilInvs) {
+    public Investigacion(int codInvest, Investigacion investigacion, Laboratorio laboratorio, String nomInvest, Boolean estadoInvest, Set actividads, Set investigadors, Set investigacions, Set invVectors, PerfilInv perfilInvs) {
        this.codInvest = codInvest;
        this.investigacion = investigacion;
        this.laboratorio = laboratorio;
@@ -107,15 +107,19 @@ public class Investigacion  implements java.io.Serializable {
     public void setInvVectors(Set invVectors) {
         this.invVectors = invVectors;
     }
-    public Set getPerfilInvs() {
+    public PerfilInv getPerfilInvs() {
         return this.perfilInvs;
     }
     
-    public void setPerfilInvs(Set perfilInvs) {
+    public void setPerfilInvs(PerfilInv perfilInvs) {
         this.perfilInvs = perfilInvs;
     }
 
 
+    @Override
+    public String toString() {
+        return "Investigacion [codInvest=" + codInvest + " ]";
+    }
 
 
 }

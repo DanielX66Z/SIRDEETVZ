@@ -18,6 +18,7 @@ import javax.faces.model.SelectItem;
 import sv.ues.dao.InvestigacionDao;
 import sv.ues.dominio.Investigacion;
 import sv.ues.dominio.Laboratorio;
+import sv.ues.dominio.PerfilInv;
 
 /**
  *
@@ -42,6 +43,7 @@ public class MbInvestigacion implements Serializable {
 
     public MbInvestigacion() {
         investigacion = new Investigacion();
+        investigacion.setPerfilInvs(new PerfilInv());
     }
 
     public Investigacion getInvestigacion() {

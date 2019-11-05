@@ -172,7 +172,6 @@ public class PersonaDao
         {
             iniciaOperacion();
             CriteriaBuilder builder = sesion.getCriteriaBuilder();
-            
             CriteriaQuery<Persona> query = builder.createQuery(Persona.class);
             Root<Persona> root = query.from(Persona.class);
             query.select(root).where(builder.equal(root.get("dui"), dui));
