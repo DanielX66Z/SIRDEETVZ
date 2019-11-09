@@ -24,7 +24,7 @@ public class PerfilInv  implements java.io.Serializable {
      private String descResul;
      private BigDecimal presupuesto;
      private Integer numeroPersona;
-     private Set perfilInvs = new HashSet(0);
+     private PerfilInv perfilInvs ;
      private Set documentos = new HashSet(0);
 
     public PerfilInv() {
@@ -34,7 +34,7 @@ public class PerfilInv  implements java.io.Serializable {
     public PerfilInv(int idPerfil) {
         this.idPerfil = idPerfil;
     }
-    public PerfilInv(int idPerfil, Investigacion investigacion, PerfilInv perfilInv, String antecedente, String justificacion, String planteamiento, String objGeneral, String objEspecifico, String metodologia, String descResul, BigDecimal presupuesto, Integer numeroPersona, Set perfilInvs, Set documentos) {
+    public PerfilInv(int idPerfil, Investigacion investigacion, PerfilInv perfilInv, String antecedente, String justificacion, String planteamiento, String objGeneral, String objEspecifico, String metodologia, String descResul, BigDecimal presupuesto, Integer numeroPersona, PerfilInv perfilInvs, Set documentos) {
        this.idPerfil = idPerfil;
        this.investigacion = investigacion;
        this.perfilInv = perfilInv;
@@ -135,11 +135,11 @@ public class PerfilInv  implements java.io.Serializable {
     public void setNumeroPersona(Integer numeroPersona) {
         this.numeroPersona = numeroPersona;
     }
-    public Set getPerfilInvs() {
+    public PerfilInv getPerfilInvs() {
         return this.perfilInvs;
     }
     
-    public void setPerfilInvs(Set perfilInvs) {
+    public void setPerfilInvs(PerfilInv perfilInvs) {
         this.perfilInvs = perfilInvs;
     }
     public Set getDocumentos() {

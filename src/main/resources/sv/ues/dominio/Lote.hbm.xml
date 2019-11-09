@@ -23,6 +23,9 @@
         <property name="estatus" type="java.lang.Integer">
             <column name="estatus" />
         </property>
+        <property name="nombreLote" type="string">
+            <column name="nombre_lote" length="50" not-null="true" />
+        </property>
         <set name="mantenimientos" table="mantenimiento" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_lote" not-null="true" />

@@ -12,9 +12,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import sv.ues.dao.InvVectorDao;
+import sv.ues.dao.InvestigacionDao;
 import sv.ues.dao.PerfilInvDao;
 import sv.ues.dao.VectorDao;
 import sv.ues.dominio.InvVector;
+import sv.ues.dominio.Investigacion;
 import sv.ues.dominio.PerfilInv;
 import sv.ues.dominio.Vector;
 
@@ -27,21 +29,21 @@ import sv.ues.dominio.Vector;
 public class MbInvVector implements Serializable{
     
     private InvVector invVector;
-    private List<PerfilInv> lsPerfil;
+    private List<Investigacion> lsInvestigacion;
     private List<Vector> lsVector;
     
     public MbInvVector(){
         invVector=new InvVector();
        
     }    
-    public List<PerfilInv> getLsPerfil() {
-        PerfilInvDao perfilDao=new PerfilInvDao();
-        this.lsPerfil=perfilDao.getPerfilInvestigacionByActivo();
-        return lsPerfil;
+    public List<Investigacion> getLsInvestigacion() {
+        InvestigacionDao investigacionDao=new InvestigacionDao();
+        this.lsInvestigacion=  investigacionDao.getInvestiagacionByActivo();
+       return lsInvestigacion;
     }
 
-    public void setLsPerfil(List<PerfilInv> lsPerfil) {
-        this.lsPerfil = lsPerfil;
+    public void setLsInvestigacion(List<Investigacion> lsInvestigacion) {
+        this.lsInvestigacion = lsInvestigacion;
     }
 
     public List<Vector> getLsVector() {

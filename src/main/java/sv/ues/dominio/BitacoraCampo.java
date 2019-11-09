@@ -4,6 +4,7 @@ package sv.ues.dominio;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,19 +19,23 @@ public class BitacoraCampo  implements java.io.Serializable {
      private Date fechaCampo;
      private Set bitacoraCampos = new HashSet(0);
      private Set encuestas = new HashSet(0);
-     private Set muestras = new HashSet(0);
+     private List<Muestra> muestras;
      private Set ubicacions = new HashSet(0);
+     private String codigoBitacora;
+     private String descripcionBitacora;
 
     public BitacoraCampo() {
     }
 
 	
-    public BitacoraCampo(int idBitCampo, InvVector invVector, Date fechaCampo) {
+    public BitacoraCampo(int idBitCampo, InvVector invVector, Date fechaCampo,String codigoBitacora,String descripcionBitacora) {
         this.idBitCampo = idBitCampo;
         this.invVector = invVector;
         this.fechaCampo = fechaCampo;
+        this.descripcionBitacora=descripcionBitacora;
+        this.codigoBitacora=codigoBitacora;
     }
-    public BitacoraCampo(int idBitCampo, BitacoraCampo bitacoraCampo, InvVector invVector, Date fechaCampo, Set bitacoraCampos, Set encuestas, Set muestras, Set ubicacions) {
+    public BitacoraCampo(int idBitCampo, BitacoraCampo bitacoraCampo, InvVector invVector, Date fechaCampo, Set bitacoraCampos, Set encuestas, List<Muestra> muestras, Set ubicacions) {
        this.idBitCampo = idBitCampo;
        this.bitacoraCampo = bitacoraCampo;
        this.invVector = invVector;
@@ -40,7 +45,25 @@ public class BitacoraCampo  implements java.io.Serializable {
        this.muestras = muestras;
        this.ubicacions = ubicacions;
     }
+
+    public String getCodigoBitacora() {
+        return codigoBitacora;
+    }
+
+    public void setCodigoBitacora(String codigoBitacora) {
+        this.codigoBitacora = codigoBitacora;
+    }
+
+    public String getDescripcionBitacora() {
+        return descripcionBitacora;
+    }
+
+    public void setDescripcionBitacora(String descripcionBitacora) {
+        this.descripcionBitacora = descripcionBitacora;
+    }
    
+    
+    
     public int getIdBitCampo() {
         return this.idBitCampo;
     }
@@ -83,11 +106,11 @@ public class BitacoraCampo  implements java.io.Serializable {
     public void setEncuestas(Set encuestas) {
         this.encuestas = encuestas;
     }
-    public Set getMuestras() {
+    public List<Muestra> getMuestras() {
         return this.muestras;
     }
     
-    public void setMuestras(Set muestras) {
+    public void setMuestras(List<Muestra> muestras) {
         this.muestras = muestras;
     }
     public Set getUbicacions() {

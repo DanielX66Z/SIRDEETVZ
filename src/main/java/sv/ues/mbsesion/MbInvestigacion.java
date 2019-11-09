@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import org.primefaces.PrimeFaces;
 import sv.ues.dao.InvestigacionDao;
 import sv.ues.dominio.Investigacion;
 import sv.ues.dominio.Laboratorio;
@@ -73,6 +74,9 @@ public class MbInvestigacion implements Serializable {
           //  investigacion.setFechaRegistro(new Date());
             InvestigacionDao investigacionDao = new InvestigacionDao();
             investigacionDao.registrar(investigacion);
+            investigacion=new Investigacion();
+            PrimeFaces.current().ajax().update("F01");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Infomracion","Datos registrados correctamente"));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Error al guardar"));
         }

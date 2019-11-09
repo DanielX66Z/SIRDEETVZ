@@ -146,4 +146,21 @@ public class InvestigacionDao {
             sesion.close();
         }
     }
+     
+     
+     //obtener todas las investigaciones
+    public List<Investigacion> obtenerInvestigaciones() throws Exception {
+        try{
+        iniciaOperacion();
+        CriteriaQuery criteria = sesion.getCriteriaBuilder().createQuery(Investigacion.class);
+        criteria.from(Investigacion.class);
+        List<Investigacion> lsinvestigaciones = sesion.createQuery(criteria).getResultList();
+        return lsinvestigaciones;
+        }catch(HibernateException e){
+            throw e;
+        }finally{
+        sesion.close();
+        
+        }
+    }
 }

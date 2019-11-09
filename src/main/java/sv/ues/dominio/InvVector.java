@@ -11,7 +11,7 @@ import java.util.Set;
 public class InvVector  implements java.io.Serializable {
 
 
-     private int idInvVector;
+     private Integer idInvVector;
      private Investigacion investigacion;
      private Vector vector;
      private String tituloInv;
@@ -27,7 +27,7 @@ public class InvVector  implements java.io.Serializable {
         this.idInvVector = idInvVector;
         this.vector = vector;
     }
-    public InvVector(int idInvVector, Investigacion investigacion, Vector vector, String tituloInv, String descInvVector, Set bitacoraCampos, Set bitacoraLabs) {
+    public InvVector(Integer idInvVector, Investigacion investigacion, Vector vector, String tituloInv, String descInvVector, Set bitacoraCampos, Set bitacoraLabs) {
        this.idInvVector = idInvVector;
        this.investigacion = investigacion;
        this.vector = vector;
@@ -37,11 +37,11 @@ public class InvVector  implements java.io.Serializable {
        this.bitacoraLabs = bitacoraLabs;
     }
    
-    public int getIdInvVector() {
+    public Integer getIdInvVector() {
         return this.idInvVector;
     }
     
-    public void setIdInvVector(int idInvVector) {
+    public void setIdInvVector(Integer idInvVector) {
         this.idInvVector = idInvVector;
     }
     public Investigacion getInvestigacion() {
@@ -86,8 +86,24 @@ public class InvVector  implements java.io.Serializable {
     public void setBitacoraLabs(Set bitacoraLabs) {
         this.bitacoraLabs = bitacoraLabs;
     }
+    
+    @Override
+    public String toString() {
+        return "InvVector [idInvVector=" + idInvVector + " ]";
+    }
 
-
+    @Override
+    public boolean equals(Object object) {
+          // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof InvVector)) {
+            return false;
+        }
+        InvVector other = (InvVector) object;
+        if ((this.idInvVector == null && other.idInvVector != null) || (this.idInvVector != null && !this.idInvVector.equals(other.idInvVector))) {
+            return false;
+        }
+        return true;
+    }
 
 
 }

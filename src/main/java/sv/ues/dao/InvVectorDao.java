@@ -5,12 +5,19 @@
  */
 package sv.ues.dao;
 
+import java.util.List;
 import java.util.logging.Logger;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import sv.ues.dominio.InvVector;
+import sv.ues.dominio.TipoMuestra;
+
 import sv.ues.utils.HibernateUtil;
 
 /**
@@ -52,5 +59,45 @@ public class InvVectorDao {
             sesion.close();
         }
         
+    }
+    
+    
+    public InvVector getInvVectorById(int id){
+        try
+        {
+            iniciaOperacion();
+            CriteriaBuilder builder = sesion.getCriteriaBuilder();
+            
+            CriteriaQuery<InvVector> query = builder.createQuery(InvVector.class);
+            Root<InvVector> root = query.from(InvVector.class);
+            query.select(root).where(builder.equal(root.get("idInvVector"), id));
+            Query<InvVector> q =sesion.createQuery(query);
+            return q.getSingleResult();
+        }
+        catch(Exception x)
+        {
+            return null;
+        }
+        finally 
+        {
+            sesion.close();
+        }
+    }
+    
+    public List<InvVector> getListInvVector() {
+
+        try {
+            iniciaOperacion();
+            CriteriaQuery criteria = sesion.getCriteriaBuilder().createQuery(InvVector.class);//Roles  .class);
+            criteria.from(InvVector.class);
+            List<InvVector> lsTipo = sesion.createQuery(criteria).getResultList();
+            //sesion.close();
+            return lsTipo;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            sesion.close();
+
+        }
     }
 }

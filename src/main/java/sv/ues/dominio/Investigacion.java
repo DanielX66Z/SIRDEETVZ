@@ -11,7 +11,7 @@ import java.util.Set;
 public class Investigacion  implements java.io.Serializable {
 
 
-     private int codInvest;
+     private Integer codInvest;
      private Investigacion investigacion;
      private Laboratorio laboratorio;
      private String nomInvest;
@@ -26,12 +26,12 @@ public class Investigacion  implements java.io.Serializable {
     }
 
 	
-    public Investigacion(int codInvest, Laboratorio laboratorio, String nomInvest) {
+    public Investigacion(Integer codInvest, Laboratorio laboratorio, String nomInvest) {
         this.codInvest = codInvest;
         this.laboratorio = laboratorio;
         this.nomInvest = nomInvest;
     }
-    public Investigacion(int codInvest, Investigacion investigacion, Laboratorio laboratorio, String nomInvest, Boolean estadoInvest, Set actividads, Set investigadors, Set investigacions, Set invVectors, PerfilInv perfilInvs) {
+    public Investigacion(Integer codInvest, Investigacion investigacion, Laboratorio laboratorio, String nomInvest, Boolean estadoInvest, Set actividads, Set investigadors, Set investigacions, Set invVectors, PerfilInv perfilInvs) {
        this.codInvest = codInvest;
        this.investigacion = investigacion;
        this.laboratorio = laboratorio;
@@ -44,11 +44,11 @@ public class Investigacion  implements java.io.Serializable {
        this.perfilInvs = perfilInvs;
     }
    
-    public int getCodInvest() {
+    public Integer getCodInvest() {
         return this.codInvest;
     }
     
-    public void setCodInvest(int codInvest) {
+    public void setCodInvest(Integer codInvest) {
         this.codInvest = codInvest;
     }
     public Investigacion getInvestigacion() {
@@ -121,7 +121,38 @@ public class Investigacion  implements java.io.Serializable {
         return "Investigacion [codInvest=" + codInvest + " ]";
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.codInvest;
+        hash = 37 * hash + (this.investigacion != null ? this.investigacion.hashCode() : 0);
+        hash = 37 * hash + (this.laboratorio != null ? this.laboratorio.hashCode() : 0);
+        hash = 37 * hash + (this.nomInvest != null ? this.nomInvest.hashCode() : 0);
+        hash = 37 * hash + (this.estadoInvest != null ? this.estadoInvest.hashCode() : 0);
+        hash = 37 * hash + (this.actividads != null ? this.actividads.hashCode() : 0);
+        hash = 37 * hash + (this.investigadors != null ? this.investigadors.hashCode() : 0);
+        hash = 37 * hash + (this.investigacions != null ? this.investigacions.hashCode() : 0);
+        hash = 37 * hash + (this.invVectors != null ? this.invVectors.hashCode() : 0);
+        hash = 37 * hash + (this.perfilInvs != null ? this.perfilInvs.hashCode() : 0);
+        return hash;
+    }
 
+    @Override
+    public boolean equals(Object object) {
+          // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Investigacion)) {
+            return false;
+        }
+        Investigacion other = (Investigacion) object;
+        if ((this.codInvest == null && other.codInvest != null) || (this.codInvest != null && !this.codInvest.equals(other.codInvest))) {
+            return false;
+        }
+        return true;
+    }
+
+
+    
+    
 }
 
 

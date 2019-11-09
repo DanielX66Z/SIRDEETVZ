@@ -11,7 +11,7 @@ import java.util.Set;
 public class TipoMuestra  implements java.io.Serializable {
 
 
-     private int idTipoMues;
+     private Integer idTipoMues;
      private String nomMuestra;
      private Set muestras = new HashSet(0);
 
@@ -19,21 +19,21 @@ public class TipoMuestra  implements java.io.Serializable {
     }
 
 	
-    public TipoMuestra(int idTipoMues, String nomMuestra) {
+    public TipoMuestra(Integer idTipoMues, String nomMuestra) {
         this.idTipoMues = idTipoMues;
         this.nomMuestra = nomMuestra;
     }
-    public TipoMuestra(int idTipoMues, String nomMuestra, Set muestras) {
+    public TipoMuestra(Integer idTipoMues, String nomMuestra, Set muestras) {
        this.idTipoMues = idTipoMues;
        this.nomMuestra = nomMuestra;
        this.muestras = muestras;
     }
    
-    public int getIdTipoMues() {
+    public Integer getIdTipoMues() {
         return this.idTipoMues;
     }
     
-    public void setIdTipoMues(int idTipoMues) {
+    public void setIdTipoMues(Integer idTipoMues) {
         this.idTipoMues = idTipoMues;
     }
     public String getNomMuestra() {
@@ -52,7 +52,25 @@ public class TipoMuestra  implements java.io.Serializable {
     }
 
 
+     @Override
+    public String toString() {
+        return "TipoMuestra[idTipoMues=" + idTipoMues + "]";
+    }
 
+ 
+
+    @Override
+    public boolean equals(Object object) {
+          // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TipoMuestra)) {
+            return false;
+        }
+        TipoMuestra other = (TipoMuestra) object;
+        if ((this.idTipoMues == null && other.idTipoMues != null) || (this.idTipoMues != null && !this.idTipoMues.equals(other.idTipoMues))) {
+            return false;
+        }
+        return true;
+    }
 
 }
 

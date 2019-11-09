@@ -16,7 +16,8 @@
         <h:form id="F01">
             <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" >
                 <p:autoUpdate/>
-            </p:growl>    
+            </p:growl> 
+            <p:growl id="mensaje2" showDetail="true" showSummary="true" sticky="false" life="3000"/>
 
             <p:panel header="Registro de investigacion "/>
             <p:wizard widgetVar="wiz" id="registro">
@@ -38,7 +39,7 @@
                             <h:panelGroup styleClass="md-inputfield">
                                 <p:inputText id="nom" value="#{mbInvestigacion.investigacion.nomInvest}"  required="true" requiredMessage="Ingreso nom" validatorMessage=" al menos 4 caracteres" >
                                     <f:validateLength minimum="4" />
-                                    <p:keyFilter regEx="/[a-zA-Z]/i" />
+                                   
                                 </p:inputText>    
 
                             </h:panelGroup>
@@ -276,16 +277,52 @@
 
                                 </h:outputText>    
                             </p:column>
+
                         </h:panelGrid>
                     </p:panel>
                     <p:panel header="Perfil de investigacion">
                         <h:panelGrid columns="1" cellpadding="10">
+                            <p:column >
+                                <p:outputLabel value="Atecedentes de la investigacion:"/>
+                                <p:spacer height="10" width="10" />
+                                <p:textEditor value="#{mbInvestigacion.investigacion.perfilInvs.antecedente}"  readonly="true">
+
+                                </p:textEditor>    
+                            </p:column>
+                            <p:column >
+
+                                <p:outputLabel value="Descripcion de resultados"/>
+                                <p:textEditor    value="#{mbInvestigacion.investigacion.perfilInvs.descResul}" readonly="true"  >
+
+                                </p:textEditor>  
+
+                            </p:column>
                             
+                            <p:column >
+
+                                <p:outputLabel value="Descripcion de resultados"/>
+                                <p:textEditor    value="#{mbInvestigacion.investigacion.perfilInvs.descResul}" readonly="true"  >
+
+                                </p:textEditor>  
+
+                            </p:column>
+                            
+                            <p:column >
+                                <p:outputLabel value="Presupuesto :"/>
+                                <p:outputLabel value="#{mbInvestigacion.investigacion.perfilInvs.presupuesto}"  />
+
+
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Numero de personas asignadas:"/>
+                                <p:outputLabel value="#{mbInvestigacion.investigacion.perfilInvs.numeroPersona}"  />
+
+                            </p:column>
                         </h:panelGrid>
                     </p:panel>
                     <h:panelGrid columns="1">
-                        <p:commandButton onclick="PF('bui').show()" oncomplete="PF('wiz').loadStep('personal',false)" id="btnSave" actionListener="#{mbInvestigacion.registrar()}" style="float: right;" class="secondary-btn" 
-                                         update="mensaje" value="Registrar" ajax="true" icon="ui-icon-plus" />    
+                        <p:commandButton onclick="PF('bui').show()"  oncomplete="PF('wiz').loadStep('personal',false)" id="btnSave" actionListener="#{mbInvestigacion.registrar()}" style="float: right;" class="secondary-btn" 
+                                         update="mensaje2" value="Registrar" ajax="true" icon="ui-icon-plus" />    
                         <br/>
                     </h:panelGrid>
                 </p:tab>    

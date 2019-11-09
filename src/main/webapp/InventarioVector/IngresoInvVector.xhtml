@@ -3,11 +3,11 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Ingreso de investigacion de vector</ui:define>
+    <ui:define name="title">Ingreso de inventario de vector</ui:define>
 
     <ui:define name="content">
-        <h1>Investigacion de vector</h1>
-        <h:form>
+        <h1>Inventario de vector</h1>
+        <h:form id="F01">
             <p:growl id="mensaje" showDetail="true" showSummary="true" sticky="false" life="3000" >
                 <p:autoUpdate/>
             </p:growl>    
@@ -15,8 +15,8 @@
             <p:wizard widgetVar="wiz" id="registro">
                 <p:tab id="general" title="Datos generales">
                     <p:panel>
-                        <h:panelGrid columns="2" cellpadding="10">
-                            <p:column>
+                        <h:panelGrid columns="1" cellpadding="10">
+                        
                             <p:outputLabel value="Seleccione Vector a estudiar"/>
                             <p:selectOneMenu id="lab" value="#{mbInvVector.invVector.vector}" required="true" requiredMessage="Seleccione vector" >
 
@@ -27,19 +27,18 @@
                                                itemLabel="#{vector.nomVector}"/>
                                 <f:converter binding="#{converterVector}" />
                             </p:selectOneMenu>
-                            </p:column>
-                            <p:column>
-                            <p:outputLabel value="Perfil de investigacion"/>
-                            <p:selectOneMenu id="labx" value="#{mbInvVector.invVector.perfilInv}" required="true" requiredMessage="Seleccione perfil" >
+                            
+                            <p:outputLabel value="Investigacion asociada"/>
+                            <p:selectOneMenu id="labx" value="#{mbInvVector.invVector.investigacion}" required="true" requiredMessage="Seleccione investigacion" >
 
-                                <f:selectItem itemLabel="--Seleccione Perfil--" itemValue="#{null}" />
-                                <f:selectItems value="#{mbInvVector.lsPerfil}"
-                                               var="perfil"
-                                               itemValue="#{perfil}"
-                                               itemLabel="#{perfil.idPerfil}"/>
-                                <f:converter binding="#{converterPerfil}" />
+                                <f:selectItem itemLabel="--Seleccione investigacion--" itemValue="#{null}" />
+                                <f:selectItems value="#{mbInvVector.lsInvestigacion}"
+                                               var="investigacion"
+                                               itemValue="#{investigacion}"
+                                               itemLabel="#{investigacion.nomInvest}"/>
+                                <f:converter binding="#{converterInvestigacion}" />
                             </p:selectOneMenu>
-                            </p:column>
+                          
                         </h:panelGrid>
                         <h:panelGrid columns="2">
                                                       
@@ -62,15 +61,23 @@
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Vector a estudiar"/>
                             <p:outputLabel value="#{mbInvVector.invVector.vector.nomVector}"/>
-                            <p:outputLabel value="Titulo de la investigacion"/>
+                            <p:outputLabel value="Investigaciñon asociada"/>
+                            <p:outputLabel value="#{mbInvVector.invVector.investigacion.nomInvest}"/>
+                            <p:outputLabel value="Titulo del inventario de vector"/>
                             <p:outputLabel value="#{mbInvVector.invVector.tituloInv}"/>
                             <p:outputLabel value="Descripcion de la investigacion"/>
                             <p:outputLabel value="#{mbInvVector.invVector.descInvVector}"/>
-                            <p:commandButton value="Guardar" actionListener="#{mbInvVector.registrarVector()}" update="@form"/>
+                            <p:commandButton value="Guardar" onclick="PF('bui').show()" oncomplete="PF('wiz').loadStep('general',false)" 
+                                             actionListener="#{mbInvVector.registrarVector()}" update="mensaje2" id="btnSave"
+                                             style="float: right;" class="secondary-btn" ajax="true" icon="ui-icon-plus" />
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
             </p:wizard>
+            
+             <p:blockUI block="F01" trigger="btnSave"  widgetVar="bui">
+                Procesando...
+            </p:blockUI>   
         </h:form>
     </ui:define>
 </ui:composition>    

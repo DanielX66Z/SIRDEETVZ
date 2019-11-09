@@ -21,6 +21,8 @@ public class Lote  implements java.io.Serializable {
      private Set mantenimientos = new HashSet(0);
      private Set lotes = new HashSet(0);
      private Set muestras = new HashSet(0);
+     
+     private String nombreLote;
 
     public Lote() {
     }
@@ -30,7 +32,7 @@ public class Lote  implements java.io.Serializable {
         this.idLote = idLote;
         this.bitacoraLab = bitacoraLab;
     }
-    public Lote(int idLote, BitacoraLab bitacoraLab, Lote lote, Date fechaCreacion, Date fechaModificacion, Integer estatus, Set mantenimientos, Set lotes, Set muestras) {
+    public Lote(int idLote, BitacoraLab bitacoraLab, Lote lote, Date fechaCreacion, Date fechaModificacion, Integer estatus, Set mantenimientos, Set lotes, Set muestras,String nombreLote) {
        this.idLote = idLote;
        this.bitacoraLab = bitacoraLab;
        this.lote = lote;
@@ -40,8 +42,22 @@ public class Lote  implements java.io.Serializable {
        this.mantenimientos = mantenimientos;
        this.lotes = lotes;
        this.muestras = muestras;
+       this.nombreLote=nombreLote;
+    }
+    
+    
+    
+
+    public String getNombreLote() {
+        return nombreLote;
+    }
+
+    public void setNombreLote(String nombreLote) {
+        this.nombreLote = nombreLote;
     }
    
+    
+    
     public int getIdLote() {
         return this.idLote;
     }
