@@ -71,6 +71,29 @@ public class UsuarioDao
         }
     }
     
+    public Usuario obtener_usuario_id(int id) throws Exception 
+    {
+        try
+        {
+            iniciaOperacion();
+            CriteriaBuilder builder = sesion.getCriteriaBuilder();
+            
+            CriteriaQuery<Usuario> query = builder.createQuery(Usuario.class);
+            Root<Usuario> root = query.from(Usuario.class);
+            query.select(root).where(builder.equal(root.get("idUsuario"), id));
+            Query<Usuario> q =sesion.createQuery(query);
+            return q.getSingleResult();
+        }
+        catch(Exception x)
+        {
+            return null;
+        }
+        finally 
+        {
+            sesion.close();
+        }
+    }
+    
     public void modificar(Usuario usuario) throws Exception 
     {
         try 

@@ -1,21 +1,21 @@
 package sv.ues.mbsesion;
 
 import java.io.Serializable;
-//import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-//import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FlowEvent;
+import sv.ues.dao.CargoDao;
 import sv.ues.dao.PersonaDao;
 import sv.ues.dao.RolesDao;
 import sv.ues.dao.UsuarioDao;
+import sv.ues.dominio.Cargo;
 import sv.ues.dominio.Persona;
 import sv.ues.dominio.Rol;
 import sv.ues.dominio.Usuario;
@@ -24,26 +24,28 @@ import sv.ues.dominio.Usuario;
  *
  * @author Miguel
  */
-@ManagedBean(name="MbUsuarioRol")
+@ManagedBean(name="MbUsuarioCargo")
 @ViewScoped
-public class MbUsuarioRol  implements Serializable{
+public class MbUsuarioCargo  implements Serializable{
     
     Usuario usuario;
     Usuario usuarioModificar;
     Persona persona;
     Persona personaModificar;
     
-    private List<Rol> rolesSeleccionados;
-    private List<Rol> rolesPrevios;
+    //private List<Cargo>  rolesSeleccionados;
+    private Cargo  rolesSeleccionados;
+    private List<Cargo> rolesPrevios;
     
-    public MbUsuarioRol()
+    public MbUsuarioCargo()
     {
         usuario = new Usuario();
         persona = new Persona();
         
         personaModificar = new Persona();
-        rolesSeleccionados = new ArrayList<Rol>();
-        rolesPrevios = new ArrayList<Rol>();
+        //rolesSeleccionados = new ArrayList<Cargo>();
+        rolesSeleccionados = new Cargo();
+        rolesPrevios = new ArrayList<Cargo>();
     }
     
     public List<Persona> lista_personas() throws Exception
@@ -65,19 +67,16 @@ public class MbUsuarioRol  implements Serializable{
     
     //Este metodo controla el flujo del wizard
     public String onFlowProcess(FlowEvent event) {
-               
-        //SI SE QUIERE PASAR A LA PESTANA DE CONFIRMAR PERO NO SE HA SELECCIONADO NINGUN ROL
-        //QUEDARSE EN LA PESTANA DE ROLES
-        if(event.getNewStep().equals("confirmar") && this.rolesSeleccionados.isEmpty())
+ 
+        if(event.getNewStep().equals("roles") && event.getOldStep().equals("personal"))
         {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Debe seleccionar almenos un rol"));
-            PrimeFaces.current().ajax().update("registros:mensaje");
-            return "roles";
+            //rolesSeleccionados.add(persona.getUsuario().getCargo());
+            rolesSeleccionados = persona.getUsuario().getCargo();
+            System.out.println("################# "+rolesSeleccionados.getIdCargo());
+            //System.out.println("################# "+rolesSeleccionados.get(0).getCargo());
         }
-        else
+        /*else
         {
-            //SI SE QUIERE PASAR A CONFIRMAR, ASIGNAR A LA VARIABLE ROLESPREVIOS LOS ROLES SELECCIONADOS
-            //SINO SE HACE ESTO, LA VARIABLE ROLESSELECCIONADOS SE RESETEA
             if(event.getNewStep().equals("confirmar") && event.getOldStep().equals("roles"))
             {
                 rolesPrevios = rolesSeleccionados;
@@ -96,7 +95,8 @@ public class MbUsuarioRol  implements Serializable{
                 }
             }
             return event.getNewStep();
-        }
+        }*/
+        return event.getNewStep();
     }
     
     public void asignarRoles() throws Exception
@@ -105,21 +105,23 @@ public class MbUsuarioRol  implements Serializable{
      usuario = persona.getUsuario();
      
     //PersonaDao personaDao = new PersonaDao();
-    Set setUsuarios = new HashSet(0);
+    //Set setUsuarios = new HashSet(0);
      
-    setUsuarios.addAll(this.rolesPrevios);//Agrega toda la lista de roles al set
+    //setUsuarios.addAll(this.rolesPrevios);//Agrega toda la lista de roles al set
      
-    usuario.setRols(setUsuarios);
+    //usuario.setRols(setUsuarios);
+    usuario.setCargo(rolesSeleccionados);
     
     usuarioDao.modificar(usuario);
      
     usuario = new Usuario();
     //persona = new Persona();
     personaModificar = new Persona();
-    rolesSeleccionados = new ArrayList<Rol>();
-    rolesPrevios = new ArrayList<Rol>();
+    //rolesSeleccionados = new ArrayList<Cargo>();
+    rolesSeleccionados = new Cargo();
+    rolesPrevios = new ArrayList<Cargo>();
     PrimeFaces.current().ajax().update("registros");
-    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Roles asignados con exito"));
+    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Cargo asignado con exito"));
 
     
     }
@@ -136,17 +138,16 @@ public class MbUsuarioRol  implements Serializable{
         
         List<Rol> rolesSeteados = new ArrayList<Rol>();
         persona.getUsuario().getRols();
-        rolesSeleccionados = new ArrayList<Rol>(persona.getUsuario().getRols());
-        
+        //rolesSeleccionados.add(persona.getUsuario().getCargo());
         return persona;
     }
     
-    public List<Rol> lista_rol()
+    public List<Cargo> lista_rol()
     {
-        RolesDao rolesDao = new RolesDao();
+        CargoDao rolesDao = new CargoDao();
         try
         {
-            return rolesDao.obtener_roles();
+            return rolesDao.obtenerCargo();
         }
         catch(Exception x)
         {
@@ -159,20 +160,22 @@ public class MbUsuarioRol  implements Serializable{
         this.persona = persona;
     }
 
-    public List<Rol> getRolesSeleccionados() {
-        rolesSeleccionados = new ArrayList<Rol>(persona.getUsuario().getRols());
+    public Cargo getRolesSeleccionados() 
+    {
+        //System.out.println("CARGO DE PERSONA SELECCIONADA: "+persona.getUsuario().getCargo());
+        //rolesSeleccionados.add(persona.getUsuario().getCargo());
         return rolesSeleccionados;
     }
 
-    public void setRolesSeleccionados(List<Rol> rolesSeleccionados) {
+    public void setRolesSeleccionados(Cargo rolesSeleccionados) {
         this.rolesSeleccionados = rolesSeleccionados;
     }
 
-    public List<Rol> getRolesPrevios() {
+    public List<Cargo> getRolesPrevios() {
         return rolesPrevios;
     }
 
-    public void setRolesPrevios(List<Rol> rolesPrevios) {
+    public void setRolesPrevios(List<Cargo> rolesPrevios) {
         this.rolesPrevios = rolesPrevios;
     }
     

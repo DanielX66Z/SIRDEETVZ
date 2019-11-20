@@ -1,5 +1,5 @@
 package sv.ues.dominio;
-// Generated 10-28-2019 09:05:07 PM by Hibernate Tools 4.3.1
+// Generated 08-22-2019 08:34:29 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,40 +15,40 @@ public class Usuario  implements java.io.Serializable {
      private int idUsuario;
      private Cargo cargo;
      private String nomUsuario;
-    // private String email;
+     //private String email;
      private String clave;
      private boolean activo;
      private Set personas = new HashSet(0);
-     private Set rols = new HashSet(0);
      private Set laboratorios = new HashSet(0);
-
-     private Date fechaRegistro;
+     private Set rols = new HashSet(0);
+     
+     
+    private Date fechaRegistro;
     private Date fechaUltimaModificacion;
     private String hash;
 
-     
     public Usuario() {
     }
 
 	
-    public Usuario(int idUsuario, Cargo cargo, String nomUsuario, String clave, boolean activo) {
+    public Usuario(int idUsuario, Cargo cargo, String nomUsuario, /*String email,*/ String clave, boolean activo) {
         this.idUsuario = idUsuario;
         this.cargo = cargo;
         this.nomUsuario = nomUsuario;
-       // this.email = email;
+        //this.email = email;
         this.clave = clave;
         this.activo = activo;
     }
-    public Usuario(int idUsuario, Cargo cargo, String nomUsuario,  String clave, boolean activo, Set personas, Set rols, Set laboratorios) {
+    public Usuario(int idUsuario, Cargo cargo, String nomUsuario, /*String email,*/ String clave, boolean activo, Set personas, Set laboratorios, Set rols) {
        this.idUsuario = idUsuario;
        this.cargo = cargo;
        this.nomUsuario = nomUsuario;
-      // this.email = email;
+       //this.email = email;
        this.clave = clave;
        this.activo = activo;
        this.personas = personas;
-       this.rols = rols;
        this.laboratorios = laboratorios;
+       this.rols = rols;
     }
    
     public int getIdUsuario() {
@@ -100,13 +100,6 @@ public class Usuario  implements java.io.Serializable {
     public void setPersonas(Set personas) {
         this.personas = personas;
     }
-    public Set getRols() {
-        return this.rols;
-    }
-    
-    public void setRols(Set rols) {
-        this.rols = rols;
-    }
     public Set getLaboratorios() {
         return this.laboratorios;
     }
@@ -114,8 +107,16 @@ public class Usuario  implements java.io.Serializable {
     public void setLaboratorios(Set laboratorios) {
         this.laboratorios = laboratorios;
     }
+    public Set getRols() {
+        return this.rols;
+    }
+    
+    public void setRols(Set rols) {
+        
+        this.rols = rols;
+    }
 
-      public Date getFechaRegistro() {
+    public Date getFechaRegistro() {
         return fechaRegistro;
     }
 
@@ -138,6 +139,7 @@ public class Usuario  implements java.io.Serializable {
     public void setHash(String hash) {
         this.hash = hash;
     }
+
 
 
 

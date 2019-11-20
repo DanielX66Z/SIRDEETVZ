@@ -118,6 +118,7 @@ public class MbBitacoraCampo implements Serializable {
                                      if (muestra.getTipoMuestra()==null) {
                                           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Seleccione tipo de muestra"));
                                      }else{
+                                         muestra.setBitacoraCampo(bitacoraCampo);
                                          lsMuestras.add(muestra);
                                          FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO,"Exito", "Datos ingresados correctamente"));
                                      }

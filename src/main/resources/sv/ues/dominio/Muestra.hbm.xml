@@ -12,7 +12,7 @@
             <column name="id_bit_campo" not-null="true" />
         </many-to-one>
         <many-to-one name="lote" class="sv.ues.dominio.Lote" fetch="select">
-            <column name="id_lote" not-null="true" />
+            <column name="id_lote" not-null="false" />
         </many-to-one>
         <many-to-one name="tipoMuestra" class="sv.ues.dominio.TipoMuestra" fetch="select">
             <column name="id_tipo_mues" not-null="true" />

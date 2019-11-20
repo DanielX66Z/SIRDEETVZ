@@ -1,5 +1,5 @@
 package sv.ues.dominio;
-// Generated 10-28-2019 09:05:07 PM by Hibernate Tools 4.3.1
+// Generated 08-22-2019 08:34:29 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;

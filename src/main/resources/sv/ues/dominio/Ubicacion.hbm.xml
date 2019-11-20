@@ -26,5 +26,14 @@
         <property name="poblacion" type="java.lang.Integer">
             <column name="poblacion" />
         </property>
+        <property name="codDepto" type="string">
+            <column name="cod_depto" length="10" not-null="false" />
+        </property>
+        <property name="codMun" type="string">
+            <column name="cod_mun" length="10" not-null="false" />
+        </property>
+        <property name="codCanton" type="string">
+            <column name="cod_canton" length="10" not-null="false" />
+        </property>
     </class>
 </hibernate-mapping>

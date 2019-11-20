@@ -14,6 +14,9 @@ public class Ubicacion  implements java.io.Serializable {
      private Cacerio cacerio;
      private String latitud;
      private String longitud;
+     private String codDepto;
+     private String codMun;
+     private String codCanton;
      private String altitud;
      private Integer poblacion;
 
@@ -86,6 +89,30 @@ public class Ubicacion  implements java.io.Serializable {
     
     public void setPoblacion(Integer poblacion) {
         this.poblacion = poblacion;
+    }
+
+    public String getCodDepto() {
+        return codDepto;
+    }
+
+    public void setCodDepto(String codDepto) {
+        this.codDepto = codDepto;
+    }
+
+    public String getCodMun() {
+        return codMun;
+    }
+
+    public void setCodMun(String codMun) {
+        this.codMun = codMun;
+    }
+
+    public String getCodCanton() {
+        return codCanton;
+    }
+
+    public void setCodCanton(String codCanton) {
+        this.codCanton = codCanton;
     }
 
 

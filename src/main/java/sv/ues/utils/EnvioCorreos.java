@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sv.ues.utils;
 
 import java.util.Properties;
@@ -35,11 +40,11 @@ public class EnvioCorreos extends Thread
     {
         try
         {
-           String remitente = "mm09255@ues.edu.sv";
+           String remitente = "666666@ues.edu.sv";
            Properties props = System.getProperties();
            props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
            props.put("mail.smtp.user", remitente);
-           props.put("mail.smtp.clave", "miguel751991");    //La clave de la cuenta
+           props.put("mail.smtp.clave", "xxxxxxx");    //La clave de la cuenta
            props.put("mail.smtp.auth", "true");    //Usar autenticaci�n mediante usuario y clave
            props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
            props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
