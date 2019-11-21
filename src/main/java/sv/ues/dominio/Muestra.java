@@ -1,5 +1,5 @@
 package sv.ues.dominio;
-// Generated 10-28-2019 09:05:07 PM by Hibernate Tools 4.3.1
+// Generated 21-nov-2019 13:01:51 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,43 +18,48 @@ public class Muestra  implements java.io.Serializable {
      private TipoMuestra tipoMuestra;
      private String nomJefeFam;
      private int edadMuestra;
-     private String telefonoMuestra;
      private Date fechaTrabajo;
      private Date fechaMuestra;
      private String numeroMuestra;
      private String generoMuestra;
+     private Integer secuencia;
+     private String nomCientifico;
+     private String familiaMuestra;
+     private Boolean parasito;
+     private String telefonoMuestra;
      private String motivoMuestra;
      private Set analisisLabs = new HashSet(0);
 
     public Muestra() {
     }
 
-	
-    public Muestra(String codigoMuestra, BitacoraCampo bitacoraCampo, Lote lote, TipoMuestra tipoMuestra, String nomJefeFam, int edadMuestra, String telefonoMuestra, Date fechaTrabajo, Date fechaMuestra, String numeroMuestra, String motivoMuestra) {
+    
+    public Muestra(String codigoMuestra, BitacoraCampo bitacoraCampo, TipoMuestra tipoMuestra, String nomJefeFam, int edadMuestra, Date fechaTrabajo, Date fechaMuestra, String numeroMuestra) {
         this.codigoMuestra = codigoMuestra;
         this.bitacoraCampo = bitacoraCampo;
-        this.lote = lote;
         this.tipoMuestra = tipoMuestra;
         this.nomJefeFam = nomJefeFam;
         this.edadMuestra = edadMuestra;
-        this.telefonoMuestra = telefonoMuestra;
         this.fechaTrabajo = fechaTrabajo;
         this.fechaMuestra = fechaMuestra;
         this.numeroMuestra = numeroMuestra;
-        this.motivoMuestra = motivoMuestra;
     }
-    public Muestra(String codigoMuestra, BitacoraCampo bitacoraCampo, Lote lote, TipoMuestra tipoMuestra, String nomJefeFam, int edadMuestra, String telefonoMuestra, Date fechaTrabajo, Date fechaMuestra, String numeroMuestra, String generoMuestra, String motivoMuestra, Set analisisLabs) {
+    public Muestra(String codigoMuestra, BitacoraCampo bitacoraCampo, Lote lote, TipoMuestra tipoMuestra, String nomJefeFam, int edadMuestra, Date fechaTrabajo, Date fechaMuestra, String numeroMuestra, String generoMuestra, Integer secuencia, String nomCientifico, String familiaMuestra, Boolean parasito, String telefonoMuestra, String motivoMuestra, Set analisisLabs) {
        this.codigoMuestra = codigoMuestra;
        this.bitacoraCampo = bitacoraCampo;
        this.lote = lote;
        this.tipoMuestra = tipoMuestra;
        this.nomJefeFam = nomJefeFam;
        this.edadMuestra = edadMuestra;
-       this.telefonoMuestra = telefonoMuestra;
        this.fechaTrabajo = fechaTrabajo;
        this.fechaMuestra = fechaMuestra;
        this.numeroMuestra = numeroMuestra;
        this.generoMuestra = generoMuestra;
+       this.secuencia = secuencia;
+       this.nomCientifico = nomCientifico;
+       this.familiaMuestra = familiaMuestra;
+       this.parasito = parasito;
+       this.telefonoMuestra = telefonoMuestra;
        this.motivoMuestra = motivoMuestra;
        this.analisisLabs = analisisLabs;
     }
@@ -101,13 +106,6 @@ public class Muestra  implements java.io.Serializable {
     public void setEdadMuestra(int edadMuestra) {
         this.edadMuestra = edadMuestra;
     }
-    public String getTelefonoMuestra() {
-        return this.telefonoMuestra;
-    }
-    
-    public void setTelefonoMuestra(String telefonoMuestra) {
-        this.telefonoMuestra = telefonoMuestra;
-    }
     public Date getFechaTrabajo() {
         return this.fechaTrabajo;
     }
@@ -135,6 +133,41 @@ public class Muestra  implements java.io.Serializable {
     
     public void setGeneroMuestra(String generoMuestra) {
         this.generoMuestra = generoMuestra;
+    }
+    public Integer getSecuencia() {
+        return this.secuencia;
+    }
+    
+    public void setSecuencia(Integer secuencia) {
+        this.secuencia = secuencia;
+    }
+    public String getNomCientifico() {
+        return this.nomCientifico;
+    }
+    
+    public void setNomCientifico(String nomCientifico) {
+        this.nomCientifico = nomCientifico;
+    }
+    public String getFamiliaMuestra() {
+        return this.familiaMuestra;
+    }
+    
+    public void setFamiliaMuestra(String familiaMuestra) {
+        this.familiaMuestra = familiaMuestra;
+    }
+    public Boolean getParasito() {
+        return this.parasito;
+    }
+    
+    public void setParasito(Boolean parasito) {
+        this.parasito = parasito;
+    }
+    public String getTelefonoMuestra() {
+        return this.telefonoMuestra;
+    }
+    
+    public void setTelefonoMuestra(String telefonoMuestra) {
+        this.telefonoMuestra = telefonoMuestra;
     }
     public String getMotivoMuestra() {
         return this.motivoMuestra;

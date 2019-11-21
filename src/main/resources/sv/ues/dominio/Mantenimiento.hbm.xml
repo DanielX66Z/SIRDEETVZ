@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 10-28-2019 09:05:09 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 21-nov-2019 13:01:56 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="sv.ues.dominio.Mantenimiento" table="mantenimiento" schema="public" optimistic-lock="version">
         <id name="idManto" type="int">
             <column name="id_manto" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
         <many-to-one name="lote" class="sv.ues.dominio.Lote" fetch="select">
             <column name="id_lote" not-null="true" />
@@ -14,11 +14,14 @@
         <many-to-one name="preservante" class="sv.ues.dominio.Preservante" fetch="select">
             <column name="id_preservante" />
         </many-to-one>
-        <property name="fechaManto" type="string">
-            <column name="fecha_manto" length="50" not-null="true" />
-        </property>
         <property name="completadoManto" type="boolean">
             <column name="completado_manto" not-null="true" />
+        </property>
+        <property name="fechaManto" type="date">
+            <column name="fecha_manto" length="13" />
+        </property>
+        <property name="fechaProxManto" type="date">
+            <column name="fecha_prox_manto" length="13" />
         </property>
     </class>
 </hibernate-mapping>

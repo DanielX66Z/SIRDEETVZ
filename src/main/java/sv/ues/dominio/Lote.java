@@ -1,5 +1,5 @@
 package sv.ues.dominio;
-// Generated 10-28-2019 09:05:07 PM by Hibernate Tools 4.3.1
+// Generated 21-nov-2019 13:01:51 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,46 +18,35 @@ public class Lote  implements java.io.Serializable {
      private Date fechaCreacion;
      private Date fechaModificacion;
      private Integer estatus;
+     private String nombreLote;
+     private Integer numMuestras;
+     private Integer idVector;
      private Set mantenimientos = new HashSet(0);
      private Set lotes = new HashSet(0);
      private Set muestras = new HashSet(0);
-     
-     private String nombreLote;
 
     public Lote() {
     }
 
-	
-    public Lote(int idLote, BitacoraLab bitacoraLab) {
+    
+    public Lote(int idLote) {
         this.idLote = idLote;
-        this.bitacoraLab = bitacoraLab;
     }
-    public Lote(int idLote, BitacoraLab bitacoraLab, Lote lote, Date fechaCreacion, Date fechaModificacion, Integer estatus, Set mantenimientos, Set lotes, Set muestras,String nombreLote) {
+    public Lote(int idLote, BitacoraLab bitacoraLab, Lote lote, Date fechaCreacion, Date fechaModificacion, Integer estatus, String nombreLote, Integer numMuestras, Integer idVector, Set mantenimientos, Set lotes, Set muestras) {
        this.idLote = idLote;
        this.bitacoraLab = bitacoraLab;
        this.lote = lote;
        this.fechaCreacion = fechaCreacion;
        this.fechaModificacion = fechaModificacion;
        this.estatus = estatus;
+       this.nombreLote = nombreLote;
+       this.numMuestras = numMuestras;
+       this.idVector = idVector;
        this.mantenimientos = mantenimientos;
        this.lotes = lotes;
        this.muestras = muestras;
-       this.nombreLote=nombreLote;
-    }
-    
-    
-    
-
-    public String getNombreLote() {
-        return nombreLote;
-    }
-
-    public void setNombreLote(String nombreLote) {
-        this.nombreLote = nombreLote;
     }
    
-    
-    
     public int getIdLote() {
         return this.idLote;
     }
@@ -99,6 +88,27 @@ public class Lote  implements java.io.Serializable {
     
     public void setEstatus(Integer estatus) {
         this.estatus = estatus;
+    }
+    public String getNombreLote() {
+        return this.nombreLote;
+    }
+    
+    public void setNombreLote(String nombreLote) {
+        this.nombreLote = nombreLote;
+    }
+    public Integer getNumMuestras() {
+        return this.numMuestras;
+    }
+    
+    public void setNumMuestras(Integer numMuestras) {
+        this.numMuestras = numMuestras;
+    }
+    public Integer getIdVector() {
+        return this.idVector;
+    }
+    
+    public void setIdVector(Integer idVector) {
+        this.idVector = idVector;
     }
     public Set getMantenimientos() {
         return this.mantenimientos;
