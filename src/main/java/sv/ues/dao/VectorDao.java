@@ -90,7 +90,7 @@ public class VectorDao extends BaseDao {
             from = criteria.from(Vector.class);
             //Obtenemos los valores
             select = criteria.select(from);
-            
+
             //Devolviendo resultados
             vect = sesion.createQuery(criteria).getResultList();
             vect.size();
@@ -100,5 +100,33 @@ public class VectorDao extends BaseDao {
         } 
         
         return vect;
+    }
+    /**
+     * Devuelve una lista de los vectores que pertenecen a las investigaciones
+     * activas
+     *
+     * @return Lista de Vector
+     */
+    public List<Vector> listar_vectores_invest_activas() {
+        try {
+            iniciaOperacion();
+            List<Vector> lista = null;
+
+            //ESTAS TRES LINEAS DEBERAN SER REEMPLAZADAS PARA QUE FILTRE SOLO LOS
+            //VECTORES QUE PERTENECEN A INVESTIGACIONES ACTIVAS, POR EL MOMENTO
+            //DEVUELVE TODOS LOS VECTORES
+            CriteriaQuery criteria = sesion.getCriteriaBuilder().createQuery(Vector.class);
+            criteria.from(Vector.class);
+            lista = sesion.createQuery(criteria).getResultList();
+
+            return lista;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            //Confirma transacción
+            tx.commit();
+            //siempre cierra la sesion
+            sesion.close();
+        }
     }
 }

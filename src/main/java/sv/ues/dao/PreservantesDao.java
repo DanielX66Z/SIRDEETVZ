@@ -175,4 +175,25 @@ public class PreservantesDao {
     }
     //nuevo cambio 
 
+    /**
+     * Devuelve el preservante correspondiente al ID
+     * @param id
+     * @return 
+     */
+    public Preservante findByPreservanteById(int id){
+        try{
+             iniciaOperacion();
+            CriteriaBuilder builder = sesion.getCriteriaBuilder();
+            
+            CriteriaQuery<Preservante> query = builder.createQuery(Preservante.class);
+            Root<Preservante> root = query.from(Preservante.class);
+             query.select(root).where(builder.equal(root.get("idPreservante"), id));
+            Query<Preservante> q =sesion.createQuery(query);
+            return q.getSingleResult();
+        }catch(HibernateException e){
+            throw e;
+        }finally{
+            sesion.close();
+        }
+    }
 }

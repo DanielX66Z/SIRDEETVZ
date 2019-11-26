@@ -227,4 +227,19 @@ public class MbPreservante  implements Serializable{
             return null;
         }
     }
+    
+    /**
+     * Muestra el nombre del preservante segun ID
+     * @param id
+     * @return 
+     */
+    public String nombre_pres_por_ID(Integer id) {
+        PreservantesDao pre_dao = new PreservantesDao();
+        try {
+            return pre_dao.findByPreservanteById(id).getNomPreservante();
+        } catch (Exception x) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
+            return null;
+        }
+    }
 }

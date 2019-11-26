@@ -6,7 +6,7 @@
     <class name="sv.ues.dominio.Mantenimiento" table="mantenimiento" schema="public" optimistic-lock="version">
         <id name="idManto" type="int">
             <column name="id_manto" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="lote" class="sv.ues.dominio.Lote" fetch="select">
             <column name="id_lote" not-null="true" />
