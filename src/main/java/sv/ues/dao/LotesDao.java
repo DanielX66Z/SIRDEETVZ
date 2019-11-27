@@ -101,4 +101,40 @@ public class LotesDao {
         }
     }
 
+    public List<Lote> obtener_lotes_activos_inactivos(Integer estado) {
+        try {
+            iniciaOperacion();
+            CriteriaBuilder cb = sesion.getCriteriaBuilder();
+            CriteriaQuery<Lote> query = cb.createQuery(Lote.class);
+            Root<Lote> root = query.from(Lote.class);
+            query.select(root).where(cb.equal(root.get("estatus"), estado));
+            Query<Lote> q = sesion.createQuery(query);
+            return q.getResultList();
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            tx.commit();
+            sesion.close();
+        }
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Lote lote_por_id(Integer idLote) {
+        try {
+            iniciaOperacion();
+            CriteriaBuilder cb = sesion.getCriteriaBuilder();
+            CriteriaQuery<Lote> query = cb.createQuery(Lote.class);
+            Root<Lote> root = query.from(Lote.class);
+            query.select(root).where(cb.equal(root.get("idLote"), idLote));
+            Query<Lote> q = sesion.createQuery(query);
+            return q.getSingleResult();
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            tx.commit();
+            sesion.close();
+        }
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

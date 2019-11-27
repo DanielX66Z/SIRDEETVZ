@@ -175,5 +175,24 @@ public class MbLote implements Serializable {
             return null;
         }
     }
-
+    
+    public List<Lote> lista_lote_activos_inactivos(Integer estado) {
+        LotesDao lotesDao = new LotesDao();
+        try {
+            return lotesDao.obtener_lotes_activos_inactivos(estado);
+        } catch (Exception x) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
+            return null;
+        }
+    }
+    
+    public Lote lote_por_id(Integer idLote){
+         LotesDao lotesDao = new LotesDao();
+        try {
+            return lotesDao.lote_por_id(idLote);
+        } catch (Exception x) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
+            return null;
+        }
+    }
 }
