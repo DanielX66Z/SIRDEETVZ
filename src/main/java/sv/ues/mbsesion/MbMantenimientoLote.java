@@ -167,4 +167,13 @@ public class MbMantenimientoLote implements Serializable {
         }
     }
 
+    public List<Mantenimiento> lista_mantenimientos_por_lote(Integer idLote){
+        MantoLoteDao mantoDao = new MantoLoteDao();
+        try {
+            return mantoDao.lista_mantenimientos_por_lote(idLote);
+        } catch (Exception x) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
+            return null;
+        }
+    }
 }
