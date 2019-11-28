@@ -36,11 +36,14 @@ public class MbLote implements Serializable {
     private Muestra muestra;
     private Integer cod_preservante;//
     private Integer cod_vector;
+    private Integer correlativo=0;//Solo para mostrar al usuario
+    private Lote loteSeleccionado;//Para ser usado en consultar lotes
 
     public MbLote() {
         lote = new Lote();
         manto = new Mantenimiento();
         muestra = new Muestra();
+        loteSeleccionado = new Lote();
 
     }
 
@@ -96,6 +99,22 @@ public class MbLote implements Serializable {
 
     public void setCod_vector(Integer cod_vector) {
         this.cod_vector = cod_vector;
+    }
+
+    public Integer getCorrelativo() {
+        return correlativo=correlativo+1;
+    }
+
+    public void setCorrelativo(Integer correlativo) {
+        this.correlativo = correlativo;
+    }
+
+    public Lote getLoteSeleccionado() {
+        return loteSeleccionado;
+    }
+
+    public void setLoteSeleccionado(Lote loteSeleccionado) {
+        this.loteSeleccionado = loteSeleccionado;
     }
 
     public void registrar_lote() {

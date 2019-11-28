@@ -139,4 +139,25 @@ public class MantoLoteDao {
             sesion.close();
         }
     }
+
+    public List<Mantenimiento> lista_mantenimientos_por_lote(Integer idLote) {
+        try {
+            iniciaOperacion();
+            CriteriaBuilder cb = sesion.getCriteriaBuilder();
+            
+            //Falta que devuelva solo los id_lote(lote) diferentes de este dia
+            CriteriaQuery<Mantenimiento> query = cb.createQuery(Mantenimiento.class);
+            Root<Mantenimiento> root = query.from(Mantenimiento.class);
+            query.select(root).where(cb.equal(root.get("lote"), idLote));
+            Query<Mantenimiento> q = sesion.createQuery(query);
+            
+            return q.getResultList();
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            tx.commit();
+            sesion.close();
+        }
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
