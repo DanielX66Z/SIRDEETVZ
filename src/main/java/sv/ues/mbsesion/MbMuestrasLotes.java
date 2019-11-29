@@ -13,7 +13,9 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.FlowEvent;
 import sv.ues.dao.MuestrasDao;
+import sv.ues.dao.TipoMuestraDao;
 import sv.ues.dominio.Muestra;
+import sv.ues.dominio.TipoMuestra;
 
 /**
  *
@@ -24,6 +26,9 @@ import sv.ues.dominio.Muestra;
 public class MbMuestrasLotes implements Serializable{
     
     private Muestra muestraLote;
+     private Integer cod_lote;
+     private Integer cod_tipomuestra;
+
 
     /**
      * Creates a new instance of MbMuestrasLotes
@@ -32,6 +37,23 @@ public class MbMuestrasLotes implements Serializable{
         muestraLote = new Muestra();
     }
 
+    public Integer getCod_tipomuestra() {
+        return cod_tipomuestra;
+    }
+
+    public void setCod_tipomuestra(Integer cod_tipomuestra) {
+        this.cod_tipomuestra = cod_tipomuestra;
+    }
+    
+
+    public Integer getCod_lote() {
+        return cod_lote;
+    }
+
+    public void setCod_lote(Integer cod_lote) {
+        this.cod_lote = cod_lote;
+    }
+    
     public Muestra getMuestraLote() {
         return muestraLote;
     }
@@ -74,4 +96,46 @@ public class MbMuestrasLotes implements Serializable{
             return null;
         }
     }
+    //Metodo que permite obtener el listado de tipo de muestras
+    public List<TipoMuestra> listaTipoMuestras(){
+        TipoMuestraDao tipoMuestraDao= new TipoMuestraDao();
+        return 
+                tipoMuestraDao.getTiposMuestras();
+    }
+    
+    public String estadio_muestra(Integer estadio) {
+        String est = "";
+        try {
+            switch (estadio) {
+                case 1:
+                    est = "Huevo";
+                    break;
+                case 2:
+                    est = "1 Fase ninfal";
+                    break;
+                case 3:
+                    est = "2 Fase ninfal";
+                    break;
+                case 4:
+                    est = "3 Fase ninfal";
+                    break;
+                case 5:
+                    est = "4 Fase ninfal";
+                    break;
+                case 6:
+                    est = "5 Fase ninfal";
+                    break;
+                case 7:
+                    est = "Fase adulta";
+                    break;
+                default:
+                    est = "No determinada";
+                // code block
+            }
+        } catch (Exception e) {
+            est = "No determinada";
+        }
+        return est;
+    }
+
 }

@@ -96,11 +96,11 @@
                     <p:panel header="Datos muestras" id="panel_consultar_dmuestras">
                         <h:panelGrid columns="4" cellpadding="10">
                             <p:dataTable emptyMessage="No se han encontrado registros" var="mu" value="#{mbMuestrasLotes.muestras_por_lote(MbLote.loteSeleccionado.idLote)}">
-                                <p:column headerText="codigoMuestra">
+                                <p:column headerText="codigo Muestra">
                                     <h:outputText value="#{mu.codigoMuestra}" />
                                 </p:column>
-                                <p:column headerText="Edad">
-                                    <h:outputText value="#{mu.edadMuestra}" />
+                                <p:column headerText="Estadio">
+                                    <h:outputText value="#{mbMuestrasLotes.estadio_muestra(mu.edadMuestra)}" />
                                 </p:column>
                                 <p:column headerText="Genero">
                                     <h:outputText value="#{mu.generoMuestra == 'Hembra'? 'Hembra' : 'Macho'}" style="font-weight: bold;"/>
