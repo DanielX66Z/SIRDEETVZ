@@ -1,0 +1,204 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Registrar Muestras al Lote</ui:define>
+
+    <ui:define name="content">
+        <!-- INICIO FORMULARIO REGISTRAR MUESTRA -->
+        <h:form id="F01">
+            <p:growl id="mensaje" showDetail="true" showSummary="false" sticky="false" life="3000"/>
+            <p:panel header="Registrar Muestras"/>
+            <p:wizard widgetVar="wiz" id="registro" flowListener="#{mbMuestrasLotes.flujoResgistrar}">
+                <p:tab id="general" title="Datos generales">
+                    <p:growl id="mensaje_general_registro" showDetail="true" showSummary="false" sticky="false" life="3000"/>
+                    <p:panel>
+                        <!--aca va Datos Generales-->
+                        <h:panelGrid columns="6" cellpadding="2" width="100% !important">
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Correlativo" />
+                                <p:inputText value="#{mbMuestrasLotes.muestraLote.secuencia}"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Nombre del lote:" />
+                                <p:selectOneMenu value="#{mbMuestrasLotes.cod_lote}">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItems value="#{MbLote.lista_lote_activos_inactivos(1)}" var="ve" itemValue="#{ve.idLote}" itemLabel="#{ve.nombreLote}" />
+                                </p:selectOneMenu><br/>  
+                            </h:panelGrid>   
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Codigo de orden:" />
+                                <p:inputText value="#{mbMuestrasLotes.muestraLote.codigoMuestra}"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Tipo de muestra:" />
+                                <p:selectOneMenu value="#{mbMuestrasLotes.cod_tipomuestra}">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItems value="#{mbMuestrasLotes.listaTipoMuestras()}" var="tm" itemValue="#{tm.idTipoMues}" itemLabel="#{tm.nomMuestra}" />
+                                </p:selectOneMenu><br/>  
+                            </h:panelGrid> 
+
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Nombre cientifico" />
+                                <p:inputText value="#{mbMuestrasLotes.muestraLote.nomCientifico}"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Familia" />
+                                <p:inputText value="#{mbMuestrasLotes.muestraLote.familiaMuestra}"/>
+                            </h:panelGrid>
+                            
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Estadio" />
+                                <p:selectOneMenu value="#{mbMuestrasLotes.cod_estadio}">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItem itemLabel="Huevo" itemValue="1"/>
+                                    <f:selectItem itemLabel="Primera fase ninfal" itemValue="2" />
+                                    <f:selectItem itemLabel="Segunda fase ninfal" itemValue="3"/>
+                                    <f:selectItem itemLabel="Tercera fase ninfal" itemValue="4" />
+                                    <f:selectItem itemLabel="Cuarta fase ninfal" itemValue="5"/>
+                                    <f:selectItem itemLabel="Quinta fase ninfal" itemValue="6"/>
+                                    <f:selectItem itemLabel="Fase adulta" itemValue="7"/>
+                                </p:selectOneMenu>  <br/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Genero de la muestra" />
+                                <p:selectOneRadio value="#{mbMuestrasLotes.muestraLote.generoMuestra}" id="console" unselectable="false">
+                                    <f:selectItem itemLabel="Hembra" itemValue="Hembra" />
+                                    <f:selectItem itemLabel="Macho" itemValue="Macho" />
+                                </p:selectOneRadio>
+                            </h:panelGrid> 
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Posee parasito:" />
+                                <p:selectOneRadio value="#{mbMuestrasLotes.muestraLote.parasito}" id="console1" unselectable="false">
+                                    <f:selectItem itemLabel="Si" itemValue="true" />
+                                    <f:selectItem itemLabel="No" itemValue="false" />
+                                </p:selectOneRadio>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <h:outputLabel id="lbl_departamento_domicilio" value="Departamento" class="label" style="margin-bottom: 0px;"/>
+                                <p:selectOneMenu id="coddepartamentodd1" value="San Vicente">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItem itemLabel="San Vicente" itemValue="10"/>
+
+
+                                    <!--    <p:ajax update="coddepartamentotxt"/>
+                                      <p:ajax update="som_municipio"/>
+                                      <p:ajax update="codmunicipiotxt"/>
+                                    -->
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Codigo departamento:" />
+                                <p:inputText id="coddepartamentotxt2" style="width: 33%" value="10">
+                                    <!--   <p:ajax event="keyup" update="coddepartamentodd2"/>
+                                     <p:ajax update="som_municipio"/>
+                                    -->
+
+                                </p:inputText>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <h:outputLabel id="lbl_municipio_domicilio" value="Municipio" class="label" style="margin-bottom: 0px;"/>
+                                <p:selectOneMenu  id="som_municipio2" value="Apastepeque">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItem itemLabel="Apastepeque" itemValue="1001"/>
+                                    <!--  <p:ajax update="codmunicipiotxt2"/> -->
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Codigo municipio:" />
+                                <p:inputText id="codmunicipiotxt2" style="width: 33%" value="1001">
+                                    <!-- <p:ajax event="keyup" update="som_municipio3"/> -->
+                                </p:inputText>
+                            </h:panelGrid> 
+                        </h:panelGrid>
+
+                        <!--aca termina Datos generales-->
+                    </p:panel>
+                </p:tab>
+                <p:tab id="confirmar" title="Confirmar">
+                    <p:panel>
+                        <!--aca va confirmar-->
+                        <h:panelGrid columns="6" cellpadding="2" width="100% !important">
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Correlativo" />
+                                <h:outputText value="#{mbMuestrasLotes.muestraLote.secuencia}" style="font-weight: bold;"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Nombre del lote:" />
+                                <h:outputText value="#{MbLote.lote_por_id(mbMuestrasLotes.cod_lote).nombreLote}" style="font-weight: bold;"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Codigo de orden:" />
+                                <h:outputText value="#{mbMuestrasLotes.muestraLote.codigoMuestra}" style="font-weight: bold;"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Tipo de muestra:" />
+                                <h:outputText value="#{mbMuestrasLotes.tipo_muestra_por_id(mbMuestrasLotes.cod_tipomuestra).nomMuestra}" style="font-weight: bold;"/>            
+                            </h:panelGrid> 
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Nombre cientifico" />
+                                <h:outputText value="#{mbMuestrasLotes.muestraLote.nomCientifico}" style="font-weight: bold;"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Familia" />
+                                <p:inputText value="#{mbMuestrasLotes.muestraLote.familiaMuestra}" style="font-weight: bold;"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Estadio" />
+                                <h:outputText value="#{mbMuestrasLotes.estadio_muestra(mbMuestrasLotes.cod_estadio)}" style="font-weight: bold;"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Genero de la muestra" />
+                                <h:outputText value="#{mbMuestrasLotes.muestraLote.generoMuestra}" style="font-weight: bold;"/>
+                            </h:panelGrid> 
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Posee parasito:" />
+                                <h:outputText value="#{mbMuestrasLotes.muestraLote.parasito == true ? 'Si': 'No'}" style="font-weight: bold;"/>
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel id="coddepartamentotxt3" value="Departamento" class="label" style="margin-bottom: 0px;"/>
+                                <h:outputText id="coddepartamentodd3" value="San Vicente"/>
+                                <p:outputLabel value="Codigo departamento:" />
+                                <h:outputText id="coddepartamentotxt4" style="width: 33%" value="10" />
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel id="lbl_municipio_domicili2" value="Municipio" class="label" style="margin-bottom: 0px;"/>
+                                <h:outputText  id="som_municipio4" value="Apastepeque"/>
+                                <p:outputLabel value="Codigo municipio:" />
+                                <h:outputText id="codmunicipiotxt3" style="width: 33%" value="1001" />
+                            </h:panelGrid>
+                        </h:panelGrid>   
+
+                        <!--aca termina confirmar-->
+                        <br/>
+                        <p:commandButton onclick="PF('bui').show()" oncomplete="PF('wiz').loadStep('general',false)" style="float: right;" class="secondary-btn" update="mensaje" value="Registrar Muestras" actionListener="#{mbMuestrasLotes.registrar_nueva_muestra_lote()}" ajax="true" icon="ui-icon-plus" />
+                        <br/><br/>
+                    </p:panel>
+                </p:tab>
+            </p:wizard>
+            <p:blockUI block="F01" widgetVar="bui">
+                Procesando...
+            </p:blockUI>
+        </h:form>
+        <!-- FIN FORMULARIO REGISTRAR MUESTRAS -->
+    </ui:define>
+</ui:composition>
