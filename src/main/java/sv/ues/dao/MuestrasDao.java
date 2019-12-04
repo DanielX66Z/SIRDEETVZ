@@ -74,4 +74,19 @@ public class MuestrasDao {
         }
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public void registrar_nueva_muestra(Muestra mu) {
+        try {
+            iniciaOperacion();
+            sesion.save(mu);
+            sesion.flush();
+            tx.commit();
+        } catch (HibernateException he) {
+            tx.rollback();
+            manejaExcepcion(he);
+            throw he;
+        } finally {
+            sesion.close();
+        }
+    }
 }
