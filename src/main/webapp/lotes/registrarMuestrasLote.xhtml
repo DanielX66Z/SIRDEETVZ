@@ -19,7 +19,7 @@
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Correlativo" />
-                                <p:inputText value="#{mbMuestrasLotes.muestraLote.secuencia}"/>
+                                <p:inputNumber minValue="0" decimalPlaces="0" value="#{mbMuestrasLotes.muestraLote.secuencia}"/>
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
@@ -149,12 +149,12 @@
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Nombre cientifico" />
-                                <h:outputText value="#{mbMuestrasLotes.muestraLote.nomCientifico}" style="font-weight: bold;"/>
+                                <h:outputText value="#{mbMuestrasLotes.muestraLote.nomCientifico}" style=" font-style: italic; font-weight: bold;"/>
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Familia" />
-                                <p:inputText value="#{mbMuestrasLotes.muestraLote.familiaMuestra}" style="font-weight: bold;"/>
+                                <p:inputText value="#{mbMuestrasLotes.muestraLote.familiaMuestra}" style=" font-style: italic; font-weight: bold;"/>
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
