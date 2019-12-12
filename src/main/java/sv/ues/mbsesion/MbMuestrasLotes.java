@@ -33,6 +33,7 @@ public class MbMuestrasLotes implements Serializable{
      private Integer cod_lote;
      private Integer cod_tipomuestra;
     private Integer cod_estadio;
+     private Integer cod_lote2;
 
 
     /**
@@ -41,6 +42,15 @@ public class MbMuestrasLotes implements Serializable{
     public MbMuestrasLotes() {
         muestraLote = new Muestra();        
     }
+
+    public Integer getCod_lote2() {
+        return cod_lote2;
+    }
+
+    public void setCod_lote2(Integer cod_lote2) {
+        this.cod_lote2 = cod_lote2;
+    }
+    
 
     public Integer getCod_estadio() {
         return cod_estadio;
