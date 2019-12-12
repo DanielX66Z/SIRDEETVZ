@@ -81,5 +81,7 @@ Contributor(s):
   <table-filter match-name="tratamiento"/>
   <table-filter match-name="perfil_inv"/>
   <table-filter match-name="analisis_lab"/>
+  <table-filter match-name="orden"/>
+  <table-filter match-name="familia"/>
   <table-filter match-name="vector"/>
 </hibernate-reverse-engineering>
