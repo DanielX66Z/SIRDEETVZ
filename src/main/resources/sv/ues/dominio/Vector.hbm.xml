@@ -14,6 +14,12 @@
         <property name="descVector" type="string">
             <column name="desc_vector" length="200" />
         </property>
+        <many-to-one name="familia" class="sv.ues.dominio.Familia" fetch="select">
+            <column name="id_familia" />
+        </many-to-one>
+        <property name="nomCientifico" type="string">
+            <column name="nom_cientifico" length="50" />
+        </property>
         <set name="invVectors" table="inv_vector" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="cod_vector" not-null="true" />

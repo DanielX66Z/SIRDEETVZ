@@ -14,6 +14,8 @@ public class Vector  implements java.io.Serializable {
      private Integer codVector;
      private String nomVector;
      private String descVector;
+     private Familia familia;
+     private String nomCientifico;
      private Set invVectors = new HashSet(0);
 
     public Vector() {
@@ -30,7 +32,16 @@ public class Vector  implements java.io.Serializable {
        this.descVector = descVector;
        this.invVectors = invVectors;
     }
-   
+    
+    public Vector(int codVector, Familia familia, String nomVector, String descVector, String nomCientifico, Set invVectors) {
+       this.codVector = codVector;
+       this.familia = familia;
+       this.nomVector = nomVector;
+       this.descVector = descVector;
+       this.nomCientifico = nomCientifico;
+       this.invVectors = invVectors;
+    }
+    
     public Integer getCodVector() {
         return this.codVector;
     }
@@ -59,7 +70,22 @@ public class Vector  implements java.io.Serializable {
     public void setInvVectors(Set invVectors) {
         this.invVectors = invVectors;
     }
-    
+
+    public Familia getFamilia() {
+        return familia;
+    }
+
+    public void setFamilia(Familia familia) {
+        this.familia = familia;
+    }
+
+    public String getNomCientifico() {
+        return nomCientifico;
+    }
+
+    public void setNomCientifico(String nomCientifico) {
+        this.nomCientifico = nomCientifico;
+    }
     
     @Override
     public String toString() {
