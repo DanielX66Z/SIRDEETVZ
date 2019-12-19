@@ -20,5 +20,12 @@
             </key>
             <one-to-many class="sv.ues.dominio.Ubicacion" />
         </set>
+        <set name="muestras" table="muestra" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_caserio" />
+            </key>
+            <one-to-many class="sv.ues.dominio.Muestra" />
+        </set>
+
     </class>
 </hibernate-mapping>

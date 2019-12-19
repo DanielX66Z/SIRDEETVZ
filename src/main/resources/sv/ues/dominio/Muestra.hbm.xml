@@ -17,6 +17,10 @@
         <many-to-one name="tipoMuestra" class="sv.ues.dominio.TipoMuestra" fetch="select">
             <column name="id_tipo_mues" not-null="true" />
         </many-to-one>
+        <many-to-one name="cacerio" class="sv.ues.dominio.Cacerio" fetch="select">
+            <column name="id_caserio" />
+        </many-to-one>
+
         <property name="nomJefeFam" type="string">
             <column name="nom_jefe_fam" length="50" not-null="true" />
         </property>
@@ -38,12 +42,7 @@
         <property name="secuencia" type="java.lang.Integer">
             <column name="secuencia" />
         </property>
-        <property name="nomCientifico" type="string">
-            <column name="nom_cientifico" length="50" />
-        </property>
-        <property name="familiaMuestra" type="string">
-            <column name="familia_muestra" length="50" />
-        </property>
+       
         <property name="parasito" type="java.lang.Boolean">
             <column name="parasito" />
         </property>

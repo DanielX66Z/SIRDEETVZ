@@ -23,8 +23,7 @@ public class Muestra  implements java.io.Serializable {
      private String numeroMuestra;
      private String generoMuestra;
      private Integer secuencia;
-     private String nomCientifico;
-     private String familiaMuestra;
+     private Cacerio cacerio;
      private Boolean parasito;
      private String telefonoMuestra;
      private String motivoMuestra;
@@ -44,7 +43,7 @@ public class Muestra  implements java.io.Serializable {
         this.fechaMuestra = fechaMuestra;
         this.numeroMuestra = numeroMuestra;
     }
-    public Muestra(String codigoMuestra, BitacoraCampo bitacoraCampo, Lote lote, TipoMuestra tipoMuestra, String nomJefeFam, int edadMuestra, Date fechaTrabajo, Date fechaMuestra, String numeroMuestra, String generoMuestra, Integer secuencia, String nomCientifico, String familiaMuestra, Boolean parasito, String telefonoMuestra, String motivoMuestra, Set analisisLabs) {
+    public Muestra(String codigoMuestra, BitacoraCampo bitacoraCampo, Lote lote, TipoMuestra tipoMuestra, String nomJefeFam, int edadMuestra, Date fechaTrabajo, Date fechaMuestra, String numeroMuestra, String generoMuestra, Integer secuencia,Cacerio cacerio, Boolean parasito, String telefonoMuestra, String motivoMuestra, Set analisisLabs) {
        this.codigoMuestra = codigoMuestra;
        this.bitacoraCampo = bitacoraCampo;
        this.lote = lote;
@@ -56,13 +55,21 @@ public class Muestra  implements java.io.Serializable {
        this.numeroMuestra = numeroMuestra;
        this.generoMuestra = generoMuestra;
        this.secuencia = secuencia;
-       this.nomCientifico = nomCientifico;
-       this.familiaMuestra = familiaMuestra;
+       this.cacerio= cacerio;
        this.parasito = parasito;
        this.telefonoMuestra = telefonoMuestra;
        this.motivoMuestra = motivoMuestra;
        this.analisisLabs = analisisLabs;
     }
+
+    public Cacerio getCacerio() {
+        return cacerio;
+    }
+
+    public void setCacerio(Cacerio cacerio) {
+        this.cacerio = cacerio;
+    }
+    
    
     public String getCodigoMuestra() {
         return this.codigoMuestra;
@@ -141,20 +148,7 @@ public class Muestra  implements java.io.Serializable {
     public void setSecuencia(Integer secuencia) {
         this.secuencia = secuencia;
     }
-    public String getNomCientifico() {
-        return this.nomCientifico;
-    }
     
-    public void setNomCientifico(String nomCientifico) {
-        this.nomCientifico = nomCientifico;
-    }
-    public String getFamiliaMuestra() {
-        return this.familiaMuestra;
-    }
-    
-    public void setFamiliaMuestra(String familiaMuestra) {
-        this.familiaMuestra = familiaMuestra;
-    }
     public Boolean getParasito() {
         return this.parasito;
     }

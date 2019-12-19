@@ -139,16 +139,7 @@ public class MbMuestrasLotes implements Serializable {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione tipo de muestra"));
                     return true;
                 } else {
-                    muestraLote.setNomCientifico("s");
-                    if (muestraLote.getNomCientifico().equals("")) {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Ingrese el nombre cientifico"));
-                        return true;
-                    } else {
-                        muestraLote.setFamiliaMuestra("f");
-                        if (muestraLote.getFamiliaMuestra().equals("")) {
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Ingrese familia de muestra"));
-                            return true;
-                        } else {
+                    
                             if (cod_estadio == null) {
                                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione el estadio"));
                                 return true;
@@ -169,8 +160,8 @@ public class MbMuestrasLotes implements Serializable {
                     }
                 }
             }
-        }
-    }
+        
+    
 
     public List<Muestra> muestras_por_lote(Integer idLote) {
         MuestrasDao muDao = new MuestrasDao();
