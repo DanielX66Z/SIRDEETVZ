@@ -14,33 +14,63 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FlowEvent;
+import sv.ues.dao.LotesDao;
 import sv.ues.dao.MuestrasDao;
 import sv.ues.dao.TipoMuestraDao;
+import sv.ues.dao.VectorDao;
 import sv.ues.dominio.BitacoraCampo;
+import sv.ues.dominio.Familia;
 import sv.ues.dominio.Lote;
 import sv.ues.dominio.Muestra;
+import sv.ues.dominio.Orden;
 import sv.ues.dominio.TipoMuestra;
+import sv.ues.dominio.Vector;
 
 /**
  *
  * @author Flor Diaz
  */
-@ManagedBean (name = "mbMuestrasLotes")
+@ManagedBean(name = "mbMuestrasLotes")
 @ViewScoped
-public class MbMuestrasLotes implements Serializable{
-    
-    private Muestra muestraLote;
-     private Integer cod_lote;
-     private Integer cod_tipomuestra;
-    private Integer cod_estadio;
-     private Integer cod_lote2;
+public class MbMuestrasLotes implements Serializable {
 
+    private Muestra muestraLote;
+    private Integer cod_lote;
+    private Integer cod_tipomuestra;
+    private Integer cod_estadio;
+    private Integer cod_lote2;
+    private Integer codOrden, codFamilia;
+    private Vector vector;
 
     /**
      * Creates a new instance of MbMuestrasLotes
      */
     public MbMuestrasLotes() {
-        muestraLote = new Muestra();        
+        muestraLote = new Muestra();
+    }
+
+    public Integer getCodOrden() {
+        return codOrden;
+    }
+
+    public void setCodOrden(Integer codOrden) {
+        this.codOrden = codOrden;
+    }
+
+    public Integer getCodFamilia() {
+        return codFamilia;
+    }
+
+    public void setCodFamilia(Integer codFamilia) {
+        this.codFamilia = codFamilia;
+    }
+
+    public Vector getVector() {
+        return vector;
+    }
+
+    public void setVector(Vector vector) {
+        this.vector = vector;
     }
 
     public Integer getCod_lote2() {
@@ -50,7 +80,6 @@ public class MbMuestrasLotes implements Serializable{
     public void setCod_lote2(Integer cod_lote2) {
         this.cod_lote2 = cod_lote2;
     }
-    
 
     public Integer getCod_estadio() {
         return cod_estadio;
@@ -67,7 +96,6 @@ public class MbMuestrasLotes implements Serializable{
     public void setCod_tipomuestra(Integer cod_tipomuestra) {
         this.cod_tipomuestra = cod_tipomuestra;
     }
-    
 
     public Integer getCod_lote() {
         return cod_lote;
@@ -76,7 +104,7 @@ public class MbMuestrasLotes implements Serializable{
     public void setCod_lote(Integer cod_lote) {
         this.cod_lote = cod_lote;
     }
-    
+
     public Muestra getMuestraLote() {
         return muestraLote;
     }
@@ -84,11 +112,10 @@ public class MbMuestrasLotes implements Serializable{
     public void setMuestraLote(Muestra muestraLote) {
         this.muestraLote = muestraLote;
     }
-    
+
     public String flujoResgistrar(FlowEvent event) throws Exception {
         if (event.getOldStep().equals("general") && event.getNewStep().equals("confirmar")) {
-            if (falla_validar_ingreso_muestra())
-            {
+            if (falla_validar_ingreso_muestra()) {
                 //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "El lote ya existe"));
                 return event.getOldStep();
             } else {
@@ -97,12 +124,13 @@ public class MbMuestrasLotes implements Serializable{
         }
         return event.getNewStep();
     }
-    
+
     private boolean falla_validar_ingreso_muestra() {
         if (cod_lote == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione el lote correspondiente"));
             return true;
         } else {
+            muestraLote.setCodigoMuestra("1");
             if (muestraLote.getCodigoMuestra().equals("")) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Digite el codigo de orden"));
                 return true;
@@ -111,10 +139,12 @@ public class MbMuestrasLotes implements Serializable{
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione tipo de muestra"));
                     return true;
                 } else {
+                    muestraLote.setNomCientifico("s");
                     if (muestraLote.getNomCientifico().equals("")) {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Ingrese el nombre cientifico"));
                         return true;
                     } else {
+                        muestraLote.setFamiliaMuestra("f");
                         if (muestraLote.getFamiliaMuestra().equals("")) {
                             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Ingrese familia de muestra"));
                             return true;
@@ -141,8 +171,8 @@ public class MbMuestrasLotes implements Serializable{
             }
         }
     }
-    
-    public List<Muestra> muestras_por_lote(Integer idLote){
+
+    public List<Muestra> muestras_por_lote(Integer idLote) {
         MuestrasDao muDao = new MuestrasDao();
         try {
             return muDao.muestra_por_lote(idLote);
@@ -151,13 +181,13 @@ public class MbMuestrasLotes implements Serializable{
             return null;
         }
     }
+
     //Metodo que permite obtener el listado de tipo de muestras
-    public List<TipoMuestra> listaTipoMuestras(){
-        TipoMuestraDao tipoMuestraDao= new TipoMuestraDao();
-        return 
-                tipoMuestraDao.getTiposMuestras();
+    public List<TipoMuestra> listaTipoMuestras() {
+        TipoMuestraDao tipoMuestraDao = new TipoMuestraDao();
+        return tipoMuestraDao.getTiposMuestras();
     }
-    
+
     public String estadio_muestra(Integer estadio) {
         String est = "";
         try {
@@ -192,16 +222,18 @@ public class MbMuestrasLotes implements Serializable{
         }
         return est;
     }
+
     /**
      * Devuelve Tipo muestra segun el ID dado
+     *
      * @param idTipoMuestra Integer, ID dado
      * @return TipoMuestra
      */
-    public TipoMuestra tipo_muestra_por_id(Integer idTipoMuestra){
-        TipoMuestraDao tipoMuestraDao= new TipoMuestraDao();
+    public TipoMuestra tipo_muestra_por_id(Integer idTipoMuestra) {
+        TipoMuestraDao tipoMuestraDao = new TipoMuestraDao();
         return tipoMuestraDao.getTipoMuestraById(idTipoMuestra);
     }
-    
+
     public void registrar_nueva_muestra_lote() {
         MuestrasDao mDao = new MuestrasDao();
 
@@ -216,6 +248,7 @@ public class MbMuestrasLotes implements Serializable{
          * "Setiando" los ID a cada instancia de objetos para ser usados como FK
          * en muestras
          */
+        muestraLote.setEdadMuestra(cod_estadio);
         lo.setIdLote(cod_lote);
         tm.setIdTipoMues(cod_tipomuestra);
         bc.setIdBitCampo(3);/*La tabla bitacora_campo, solo tiene un registro con ID 3; Debe modificarse para soportar nulos o buscar otra alternativa, por el momento es obligatorio*/
@@ -239,10 +272,42 @@ public class MbMuestrasLotes implements Serializable{
         /**
          * Guardando nuevo registro
          */
+        muestraLote.setCodigoMuestra(Integer.toString(mDao.obtenerNumMuestras()+1));
         mDao.registrar_nueva_muestra(muestraLote);
-        
+
         PrimeFaces.current().ajax().update("F01:registro");
         PrimeFaces.current().ajax().update("F01");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Lote registrado con éxito"));
     }
+    public void obtener_cod_fam_vector(Integer idLote){
+        LotesDao ld = new LotesDao();
+        VectorDao vec = new VectorDao();
+        
+        Lote lote = ld.lote_por_id(idLote);
+        vector = vec.findByVectorById(lote.getIdVector());
+        
+        setCodFamilia(vector.getFamilia().getId());
+    }
+    
+    public Familia obtener_familia() {
+       MuestrasDao md = new MuestrasDao();
+        try {
+            Familia f = md.obtenerFamilia(getCodFamilia());
+            setCodOrden(f.getOrden().getId());
+            return f;
+        } catch (Exception x) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
+            return null;
+        }
+    }
+    public Orden obtener_orden() {
+       MuestrasDao md = new MuestrasDao();
+        try {
+            return md.obtenerOrden(getCodOrden());
+        } catch (Exception x) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
+            return null;
+        }
+    }
+
 }

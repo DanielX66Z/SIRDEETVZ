@@ -14,7 +14,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import sv.ues.dominio.Familia;
 import sv.ues.dominio.Muestra;
+import sv.ues.dominio.Orden;
 import sv.ues.utils.HibernateUtil;
 
 
@@ -89,4 +91,48 @@ public class MuestrasDao {
             sesion.close();
         }
     }
+    
+    public Orden obtenerOrden(int id){
+        try{
+             iniciaOperacion();
+            CriteriaBuilder builder = sesion.getCriteriaBuilder();
+            
+            CriteriaQuery<Orden> query = builder.createQuery(Orden.class);
+            Root<Orden> root = query.from(Orden.class);
+             query.select(root).where(builder.equal(root.get("id"), id));
+            Query<Orden> q =sesion.createQuery(query);
+            return q.getSingleResult();
+        }catch(HibernateException e){
+            throw e;
+        }finally{
+            sesion.close();
+        }
+    }
+    public Familia obtenerFamilia(int id){
+        try{
+             iniciaOperacion();
+            CriteriaBuilder builder = sesion.getCriteriaBuilder();
+            
+            CriteriaQuery<Familia> query = builder.createQuery(Familia.class);
+            Root<Familia> root = query.from(Familia.class);
+             query.select(root).where(builder.equal(root.get("id"), id));
+            Query<Familia> q =sesion.createQuery(query);
+            return q.getSingleResult();
+        }catch(HibernateException e){
+            throw e;
+        }finally{
+            sesion.close();
+        }
+    }
+      public Integer obtenerNumMuestras()
+    {
+        
+        iniciaOperacion();
+        CriteriaQuery builder = sesion.getCriteriaBuilder().createQuery(Muestra.class);
+        builder.from(Muestra.class);
+        List<Muestra> lsVector = sesion.createQuery(builder).getResultList();
+        sesion.close();
+        return lsVector.size();
+    }
+
 }
