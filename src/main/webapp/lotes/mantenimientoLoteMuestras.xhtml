@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core" 
                 xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Registrar Muestras</ui:define>
+    <ui:define name="title">Mantenimiento lote de muestras</ui:define>
 
     <ui:define name="content">
         <!-- INICIO FORMULARIO REGISTRAR MUESTRAS -->
@@ -55,7 +55,7 @@
                             
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">     
                                 <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                    <p:outputLabel value="Fecha próximo mantenimiento:" />
+                                    <p:outputLabel value="Fecha proximo mantenimiento:" />
                                     <p:calendar style="width: 33%" showOn="button" value="#{mbMantenimientoLote.manto.fechaProxManto}" pattern="dd/MM/yyyy" mask="true" mindate="today"/><br/>
                                 </h:panelGrid>
                             </h:panelGrid>
@@ -91,7 +91,7 @@
                             </h:panelGrid>
 
                             <h:panelGrid>
-                                <p:outputLabel value="Fecha próximo mantenimiento:" />      
+                                <p:outputLabel value="Fecha proximo mantenimiento:" />      
                                 <h:outputText value="#{mbMantenimientoLote.manto.fechaProxManto}" style="font-weight: bold;">
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>

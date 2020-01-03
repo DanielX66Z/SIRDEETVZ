@@ -38,15 +38,6 @@
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Tipo de muestra:" />
-                                <p:selectOneMenu value="#{mbMuestrasLotes.cod_tipomuestra}">
-                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
-                                    <f:selectItems value="#{mbMuestrasLotes.listaTipoMuestras()}" var="tm" itemValue="#{tm.idTipoMues}" itemLabel="#{tm.nomMuestra}" />
-                                </p:selectOneMenu><br/>  
-                            </h:panelGrid> 
-
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Nombre cientifico" />
                                 <p:inputText id="txtnomcie" value="#{mbMuestrasLotes.vector.nomCientifico}" style=" font-style: italic; font-weight: bold;"/>
 
@@ -56,6 +47,14 @@
                                 <p:outputLabel value="Familia" />
                                 <p:inputText id="txtFam" value="#{mbMuestrasLotes.obtener_familia().nombreFamilia}"/>
                             </h:panelGrid>
+                            
+                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Tipo de muestra:" />
+                                <p:selectOneMenu value="#{mbMuestrasLotes.cod_tipomuestra}">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItems value="#{mbMuestrasLotes.listaTipoMuestras()}" var="tm" itemValue="#{tm.idTipoMues}" itemLabel="#{tm.nomMuestra}" />
+                                </p:selectOneMenu><br/>  
+                            </h:panelGrid> 
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Estadio" />
@@ -88,7 +87,7 @@
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <h:outputLabel id="lbl_departamento_domicilio" value="Departamento" class="label" style="margin-bottom: 0px;"/>
+                                <h:outputLabel id="lbl_departamento_domicilio" value="Departamento:" class="label" style="margin-bottom: 0px;"/>
                                 <p:selectOneMenu id="coddepartamentodd1" value="#{MbPersona.codigodepartamento}">
                                     <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
                                     <f:selectItems value="#{MbPersona.items_departamento}" />
@@ -121,6 +120,19 @@
                                     <!-- <p:ajax event="keyup" update="som_municipio3"/> -->
                                 </p:inputText>
                             </h:panelGrid> 
+                             <!-- Esto es lo ultimo que he agregado hacia parte de abajo"/> -->
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <h:outputLabel id="lbl_municipio_domicilio2" value="Colonia o Canton:" class="label" style="margin-bottom: 0px;"/>
+                                <p:selectOneMenu  id="som_municipio3" value="#{MbPersona.codigomunicipio}">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItems value="#{MbPersona.items_municipio}"/>
+                                    <p:ajax update="codmunicipiotxt3" event="change" listener="#{MbPersona.asignarMunicipio()}"/> 
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Codigo Colonia o Canton :" />
+                                <p:inputText id="codmunicipiotxt3" style="width: 33%" value="#{MbPersona.codigomunicipio}">
+                                    <!-- <p:ajax event="keyup" update="som_municipio3"/> -->
+                                </p:inputText>
+                            </h:panelGrid> 
                         </h:panelGrid>
 
                         <!--aca termina Datos generales-->
@@ -147,11 +159,6 @@
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Tipo de muestra:" />
-                                <h:outputText value="#{mbMuestrasLotes.tipo_muestra_por_id(mbMuestrasLotes.cod_tipomuestra).nomMuestra}" style="font-weight: bold;"/>            
-                            </h:panelGrid> 
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Nombre cientifico" />
                                 <h:outputText value="#{mbMuestrasLotes.vector.nomCientifico}" style=" font-style: italic; font-weight: bold;"/>
                             </h:panelGrid>
@@ -160,6 +167,11 @@
                                 <p:outputLabel value="Familia" />
                                 <p:inputText value="#{mbMuestrasLotes.obtener_familia().nombreFamilia}" style="font-weight: bold;"/>
                             </h:panelGrid>
+                            
+                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <p:outputLabel value="Tipo de muestra:" />
+                                <h:outputText value="#{mbMuestrasLotes.tipo_muestra_por_id(mbMuestrasLotes.cod_tipomuestra).nomMuestra}" style="font-weight: bold;"/>            
+                            </h:panelGrid> 
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Estadio" />
@@ -176,22 +188,6 @@
                                 <h:outputText value="#{mbMuestrasLotes.muestraLote.parasito == true ? 'Si': 'No'}" style="font-weight: bold;"/>
                             </h:panelGrid>
 
-                            <!--
-                                                       <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                                           <p:outputLabel id="coddepartamentotxt3" value="Departamento" class="label" style="margin-bottom: 0px;"/>
-                                                           <h:outputText id="coddepartamentodd3" value="San Vicente"/>
-                                                           <p:outputLabel value="Codigo departamento:" />
-                                                           <h:outputText id="coddepartamentotxt4" style="width: 33%" value="10" />
-                           
-                                                       </h:panelGrid>
-                           
-                                                       <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                                           <p:outputLabel id="lbl_municipio_domicili2" value="Municipio" class="label" style="margin-bottom: 0px;"/>
-                                                           <h:outputText  id="som_municipio4" value="Apastepeque"/>
-                                                           <p:outputLabel value="Codigo municipio:" />
-                                                           <h:outputText id="codmunicipiotxt3" style="width: 33%" value="1001" />
-                                                       </h:panelGrid>
-                            -->
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Departamento:"/>
                                 <h:outputText value="#{MbPersona.municipio.departamento.nomDepto}" style="font-weight: bold;"/>
@@ -211,6 +207,19 @@
                                 <p:outputLabel value="Codigo municipio:"/>
                                 <h:outputText value="#{MbPersona.codigomunicipio}" style="font-weight: bold;"/>
                             </h:panelGrid>
+                            <!-- codigo agregado este dia 28/12/19-->
+                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
+                                <h:outputLabel id="lbl_municipio_domicilio2" value="Colonia o Canton:" class="label" style="margin-bottom: 0px;"/>
+                                <p:selectOneMenu  id="som_municipio3" value="#{MbPersona.codigomunicipio}">
+                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
+                                    <f:selectItems value="#{MbPersona.items_municipio}"/>
+                                    <p:ajax update="codmunicipiotxt3" event="change" listener="#{MbPersona.asignarMunicipio()}"/> 
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Codigo Colonia o Canton :" />
+                                <p:inputText id="codmunicipiotxt3" style="width: 33%" value="#{MbPersona.codigomunicipio}">
+                                    <!-- <p:ajax event="keyup" update="som_municipio3"/> -->
+                                </p:inputText>
+                            </h:panelGrid> 
                         </h:panelGrid>   
 
                         <!--aca termina confirmar-->
