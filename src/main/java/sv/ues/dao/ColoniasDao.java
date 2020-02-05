@@ -90,4 +90,30 @@ public class ColoniasDao {
             sesion.close();
         }
     }
+    public ColoniaCanton obtenerColoniaCanton_por_id(Integer id) throws Exception 
+    {
+        try
+        {
+            iniciaOperacion();
+            CriteriaBuilder builder = sesion.getCriteriaBuilder();
+            
+            CriteriaQuery<ColoniaCanton> query = builder.createQuery(ColoniaCanton.class);
+            Root<ColoniaCanton> root = query.from(ColoniaCanton.class);
+            query.select(root).where(builder.equal(root.get("idColCan"), id));
+
+            Query<ColoniaCanton> q =sesion.createQuery(query);
+            ColoniaCanton coloniacanton = q.getSingleResult();
+
+            return coloniacanton;
+        }
+        catch(HibernateException x)
+        {
+            System.out.println(x.toString());
+            return null;
+        }
+        finally 
+        {
+            sesion.close();
+        }
+    }
 }

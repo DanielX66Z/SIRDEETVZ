@@ -6,6 +6,7 @@
 package sv.ues.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -136,5 +137,68 @@ public class LotesDao {
         }
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    public List<Lote> obtener_lotes_activos_falta_muestra(Integer estado) {
+        MuestrasDao mDao = new MuestrasDao();
+        try {
+            iniciaOperacion();
+            CriteriaBuilder cb = sesion.getCriteriaBuilder();
+            CriteriaQuery<Lote> query = cb.createQuery(Lote.class);
+            Root<Lote> root = query.from(Lote.class);
+            query.select(root).where(cb.equal(root.get("estatus"), estado));
+            Query<Lote> q = sesion.createQuery(query);
+            List<Lote> tl = q.getResultList();
+            List<Lote> tlotes= new ArrayList();
+            for (Lote lote : tl) {
+                if(lote.getNumMuestras()>mDao.numero_muestras_lote(lote.getIdLote())){
+                    tlotes.add(lote);
+                }
+            }
+            return tlotes;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            tx.commit();
+            sesion.close();
+        }
+    }
+    public void modificar_lote(Lote lote){
+            try 
+        {
+            iniciaOperacion();
+            sesion.update(lote);
+            sesion.flush();
+            tx.commit();
+        } 
+        catch (HibernateException he) 
+        {
+            tx.rollback();
+            manejaExcepcion(he);
+            throw he;
+        } 
+        finally 
+        {
+            sesion.close();
+        }
+    }
+    public boolean existe_otro_lote_asi(Lote l){
+        try {
+            iniciaOperacion();
+            CriteriaBuilder cb = sesion.getCriteriaBuilder();
+            CriteriaQuery<Lote> query = cb.createQuery(Lote.class);
+            Root<Lote> root = query.from(Lote.class);
+            query.select(root).where(cb.equal(root.get("nombreLote"), l.getNombreLote()),cb.notEqual(root.get("idLote"), l.getIdLote()));
+            Query<Lote> q = sesion.createQuery(query);
+            if (q.getResultList().isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            tx.commit();
+            sesion.close();
+        }
+    }
 }
+    

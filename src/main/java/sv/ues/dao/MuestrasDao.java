@@ -66,6 +66,7 @@ public class MuestrasDao {
             CriteriaQuery<Muestra> query = cb.createQuery(Muestra.class);
             Root<Muestra> root = query.from(Muestra.class);
             query.select(root).where(cb.equal(root.get("lote"), idLote));
+            query.orderBy(cb.asc(root.get("secuencia")));
             Query<Muestra> q = sesion.createQuery(query);
             return q.getResultList();
         } catch (HibernateException e) {
@@ -135,4 +136,41 @@ public class MuestrasDao {
         return lsVector.size();
     }
 
+    public Integer numero_muestras_lote(Integer idLote) {
+        try {
+            iniciaOperacion();
+            CriteriaBuilder cb = sesion.getCriteriaBuilder();
+
+            CriteriaQuery<Muestra> query = cb.createQuery(Muestra.class);
+            Root<Muestra> root = query.from(Muestra.class);
+            query.select(root).where(cb.equal(root.get("lote"), idLote));
+            Query<Muestra> q = sesion.createQuery(query);
+            Integer i = q.getResultList().size();
+            return i;
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+            tx.commit();
+            sesion.close();
+        }
+    }
+    public void modificar_muestra(Muestra m){
+            try 
+        {
+            iniciaOperacion();
+            sesion.update(m);
+            sesion.flush();
+            tx.commit();
+        } 
+        catch (HibernateException he) 
+        {
+            tx.rollback();
+            manejaExcepcion(he);
+            throw he;
+        } 
+        finally 
+        {
+            sesion.close();
+        }
+    }
 }

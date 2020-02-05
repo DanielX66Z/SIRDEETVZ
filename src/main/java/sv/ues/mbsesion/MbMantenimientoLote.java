@@ -14,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FlowEvent;
+import sv.ues.dao.MantenimientoDao;
 import sv.ues.dao.MantoLoteDao;
 import sv.ues.dominio.Lote;
 import sv.ues.dominio.Mantenimiento;
@@ -30,6 +31,7 @@ public class MbMantenimientoLote implements Serializable {
     private Integer nManto;//Solo es un correlativo a mostrar en la vista
     private Integer cod_lote, cod_preservante;//para los combo
     private Mantenimiento manto;
+    private int idPreservante = 0;
 
     /**
      * Creates a new instance of MbMantenimientoLote
@@ -38,8 +40,16 @@ public class MbMantenimientoLote implements Serializable {
         manto = new Mantenimiento();
     }
 
+    public int getIdPreservante() {
+        return idPreservante;
+    }
+
+    public void setIdPreservante(int idPreservante) {
+        this.idPreservante = idPreservante;
+    }
+    
     public Integer getnManto() {
-        return numero_manto(cod_lote);
+       return numero_manto(cod_lote)+1;
     }
 
     public void setnManto(Integer nManto) {
@@ -72,7 +82,7 @@ public class MbMantenimientoLote implements Serializable {
 
     public String flujoResgistrar(FlowEvent event) throws Exception {
         if (event.getOldStep().equals("general") && event.getNewStep().equals("confirmar")) {
-            if (falla_validar_ingreso_manto())//Aca tienes que poner "validar_ingreso_lote()"
+            if (falla_validar_ingreso_manto())
             {
                 //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "El lote ya existe"));
                 return event.getOldStep();
@@ -175,5 +185,25 @@ public class MbMantenimientoLote implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
             return null;
         }
+    }
+    //Metodo para modificar el mantenimiento
+    public void modificarMantenimiento(){
+      MantenimientoDao mantenimiento = new MantenimientoDao();
+      //MantoLoteDao mantenimiento=new MantoLoteDao();
+        MbPreservante pre = new MbPreservante();
+        List<Preservante> listaPre = pre.getLsPreservante();
+        for (int i = 0; i < listaPre.size(); i++) {
+            if (listaPre.get(i).getIdPreservante() == idPreservante) {
+                manto.setPreservante(listaPre.get(i));
+            }
+        }
+        mantenimiento.actualizar_manto(manto);
+        //mantenimiento.modificar_manto(manto);
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('dialogoModificar').hide();");
+        manto = new Mantenimiento();
+        System.out.println(""+idPreservante);
+        idPreservante = 0;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Informacion","Mantenimiento modificado exitosamente"));
     }
 }

@@ -100,7 +100,7 @@ public class MantoLoteDao {
             //Falta que devuelva solo los id_lote(lote) diferentes de este dia
             CriteriaQuery<Mantenimiento> query = cb.createQuery(Mantenimiento.class);
             Root<Mantenimiento> root = query.from(Mantenimiento.class);
-            query.select(root).where(cb.equal(root.get("fechaProxManto"), new Date()));
+            query.select(root).where(cb.equal(root.get("fechaProxManto"), new Date()),cb.equal(root.get("completadoManto"), estado));
             Query<Mantenimiento> q = sesion.createQuery(query);
             
             return q.getResultList();
@@ -160,4 +160,47 @@ public class MantoLoteDao {
         }
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    public Mantenimiento ultimo_manto_de_lote(Integer idLote) {
+        try {
+            iniciaOperacion();
+            CriteriaBuilder cb = sesion.getCriteriaBuilder();
+
+            CriteriaQuery<Mantenimiento> query = cb.createQuery(Mantenimiento.class);
+            Root<Mantenimiento> root = query.from(Mantenimiento.class);
+            query.select(root).where(
+                    cb.equal(root.get("lote"), idLote)
+                    );
+            //query.orderBy(cb.desc(root.get("fechaProxManto")));
+            Query<Mantenimiento> q = sesion.createQuery(query);
+            if(q.getResultList().size() != 0){
+                return q.getResultList().get(0);
+            }else{
+                return null;
+            }
+        } catch (HibernateException e) {
+            throw e;
+        } finally {
+           sesion.close();
+        }
+    }
+    public void modificar_manto(Mantenimiento m){
+        try 
+        {
+            iniciaOperacion();
+            sesion.update(m);
+            sesion.flush();
+            tx.commit();
+        } 
+        catch (HibernateException he) 
+        {
+            tx.rollback();
+            manejaExcepcion(he);
+            throw he;
+        } 
+        finally 
+        {
+            sesion.close();
+        }
+    }
+    
 }

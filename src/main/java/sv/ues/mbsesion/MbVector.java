@@ -64,15 +64,15 @@ public class MbVector implements Serializable{
     }
 
     /**
-     * Devuelve el nombre de un vector segun ID
-     *
-     * @param id Integer ID del vector
-     * @return String Nombre del vector
+     * devuelve un objeto de tipo de vector 
+     * @param id representa el ID del vector
+     * @return Vector
      */
-    public String muestra_vector_por_ID(Integer id) {
+    public Vector muestra_vector_por_ID(Integer id) {
         VectorDao vec_dao = new VectorDao();
         try {
-            return vec_dao.findByVectorById(id).getNomVector();
+            //return vec_dao.findByVectorById(id);
+            return (id!=null)?vec_dao.findByVectorById(id):new Vector();
         } catch (Exception x) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
             return null;

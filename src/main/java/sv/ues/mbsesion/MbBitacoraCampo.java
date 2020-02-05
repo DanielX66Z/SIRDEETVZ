@@ -132,7 +132,6 @@ public class MbBitacoraCampo implements Serializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("Error al agregar elemento en bean mbbitacoracampo");
         }
 

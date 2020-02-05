@@ -69,6 +69,12 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -92,12 +98,12 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.5</version>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>org.primefaces.themes</groupId>
             <artifactId>serenity</artifactId>
             <version>2.0</version>
-        </dependency>   
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -121,13 +127,24 @@
             <version>1.6.2</version>
         </dependency>
     </dependencies>
-
+    <repositories>
+ 
+        <repository>
+            <id>central maven repo</id>
+            <name>central maven repo https</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+             
+        </repository>
+       
+        
+    </repositories>
+     
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.8.0</version>
                
             </plugin>
             <plugin>
@@ -139,7 +156,7 @@
                 </configuration>
             </plugin>
             
-        </plugins>
+        </plugins>       
     </build>
-
+    
 </project>

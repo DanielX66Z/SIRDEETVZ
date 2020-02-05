@@ -658,7 +658,14 @@ public class MbPersona  implements Serializable
         this.minimafecha = minimafecha;
     }
     
+    public void resetCodigoDepto(){
+	codigodepartamento ="";
+}
+public void resetCodigos(){
+	resetCodigoDepto();
+	resetCodigoMunicipio();
+}
+
     
     
- 
 }

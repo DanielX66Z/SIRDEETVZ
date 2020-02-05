@@ -16,6 +16,7 @@ public class Mantenimiento  implements java.io.Serializable {
      private boolean completadoManto;
      private Date fechaManto;
      private Date fechaProxManto;
+     private int numeroMantenimiento;
 
     public Mantenimiento() {
     }
@@ -26,13 +27,14 @@ public class Mantenimiento  implements java.io.Serializable {
         this.lote = lote;
         this.completadoManto = completadoManto;
     }
-    public Mantenimiento(int idManto, Lote lote, Preservante preservante, boolean completadoManto, Date fechaManto, Date fechaProxManto) {
+    public Mantenimiento(int idManto, Lote lote, Preservante preservante, boolean completadoManto, Date fechaManto, Date fechaProxManto,int numeroMantenimiento) {
        this.idManto = idManto;
        this.lote = lote;
        this.preservante = preservante;
        this.completadoManto = completadoManto;
        this.fechaManto = fechaManto;
        this.fechaProxManto = fechaProxManto;
+       this.numeroMantenimiento= numeroMantenimiento;
     }
    
     public int getIdManto() {
@@ -77,6 +79,15 @@ public class Mantenimiento  implements java.io.Serializable {
     public void setFechaProxManto(Date fechaProxManto) {
         this.fechaProxManto = fechaProxManto;
     }
+
+    public int getNumeroMantenimiento() {
+        return numeroMantenimiento;
+    }
+
+    public void setNumeroMantenimiento(int numeroMantenimiento) {
+        this.numeroMantenimiento = numeroMantenimiento;
+    }
+    
 
 
 

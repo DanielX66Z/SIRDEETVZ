@@ -23,5 +23,8 @@
         <property name="fechaProxManto" type="date">
             <column name="fecha_prox_manto" length="13" />
         </property>
+        <property name="numeroMantenimiento" type="int">
+            <column name="numero_mantenimiento" length="13" />
+        </property>
     </class>
 </hibernate-mapping>
