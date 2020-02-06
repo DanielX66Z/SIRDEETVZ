@@ -97,23 +97,23 @@ public class MbMantenimientoLote implements Serializable {
         MantoLoteDao mlDao = new MantoLoteDao();
         manto.setFechaManto(new Date());
         if (cod_lote == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione un lote"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione un lote"));
             return true;
         } else {
             if (cod_preservante == null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione el preservante"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione el preservante"));
                 return true;
             } else {
                 if (!manto.isCompletadoManto()) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Selecione mantenimiento completado"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Selecione mantenimiento completado"));
                     return true;
                 } else {
                     if (manto.getFechaManto() == null || manto.getFechaProxManto() == null) {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione la fecha"));
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione la fecha"));
                         return true;
                     } else {
                         if (mlDao.existe_fechamanto_lote(manto.getFechaProxManto(), cod_lote)) {
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Ya existe mantenimiento programdo para esta fecha"));
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Ya existe mantenimiento programado para esta fecha"));
                             return true;
                         } else {
                             return false;
