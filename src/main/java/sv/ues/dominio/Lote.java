@@ -21,6 +21,7 @@ public class Lote  implements java.io.Serializable {
      private String nombreLote;
      private Integer numMuestras;
      private Integer idVector;
+     private ColoniaCanton coloniaCanton;
      private Set mantenimientos = new HashSet(0);
      private Set lotes = new HashSet(0);
      private Set muestras = new HashSet(0);
@@ -45,6 +46,30 @@ public class Lote  implements java.io.Serializable {
        this.mantenimientos = mantenimientos;
        this.lotes = lotes;
        this.muestras = muestras;
+    }
+    
+    public Lote(int idLote, BitacoraLab bitacoraLab, ColoniaCanton coloniaCanton, Lote lote, Date fechaCreacion, Date fechaModificacion, Integer estatus, String nombreLote, Integer numMuestras, Integer idVector, Set mantenimientos, Set lotes, Set muestras) {
+       this.idLote = idLote;
+       this.bitacoraLab = bitacoraLab;
+       this.coloniaCanton = coloniaCanton;
+       this.lote = lote;
+       this.fechaCreacion = fechaCreacion;
+       this.fechaModificacion = fechaModificacion;
+       this.estatus = estatus;
+       this.nombreLote = nombreLote;
+       this.numMuestras = numMuestras;
+       this.idVector = idVector;
+       this.mantenimientos = mantenimientos;
+       this.lotes = lotes;
+       this.muestras = muestras;
+    }
+
+    public ColoniaCanton getColoniaCanton() {
+        return coloniaCanton;
+    }
+
+    public void setColoniaCanton(ColoniaCanton coloniaCanton) {
+        this.coloniaCanton = coloniaCanton;
     }
    
     public int getIdLote() {

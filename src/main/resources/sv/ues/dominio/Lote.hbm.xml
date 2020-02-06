@@ -14,6 +14,9 @@
         <many-to-one name="lote" class="sv.ues.dominio.Lote" fetch="select">
             <column name="lot_id_lote" />
         </many-to-one>
+        <many-to-one name="coloniaCanton" class="sv.ues.dominio.ColoniaCanton" fetch="select">
+            <column name="id_colcan" />
+        </many-to-one>
         <property name="fechaCreacion" type="date">
             <column name="fecha_creacion" length="13" />
         </property>

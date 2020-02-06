@@ -20,5 +20,11 @@
             </key>
             <one-to-many class="sv.ues.dominio.Cacerio" />
         </set>
+        <set name="lotes" table="lote" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_colcan" />
+            </key>
+            <one-to-many class="sv.ues.dominio.Lote" />
+        </set>
     </class>
 </hibernate-mapping>

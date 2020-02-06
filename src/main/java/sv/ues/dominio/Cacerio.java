@@ -15,7 +15,6 @@ public class Cacerio  implements java.io.Serializable {
      private ColoniaCanton coloniaCanton;
      private String nomCacerio;
      private Set ubicacions = new HashSet(0);
-     private Set muestras = new HashSet(0);
 
     public Cacerio() {
     }
@@ -27,22 +26,13 @@ public class Cacerio  implements java.io.Serializable {
      
      
     }
-    public Cacerio(int idCacerio, ColoniaCanton coloniaCanton, String nomCacerio, Set ubicacions,Set muestras) {
+    public Cacerio(int idCacerio, ColoniaCanton coloniaCanton, String nomCacerio, Set ubicacions) {
        this.idCacerio = idCacerio;
        this.coloniaCanton = coloniaCanton;
        this.nomCacerio = nomCacerio;
        this.ubicacions = ubicacions;
-       this.muestras = muestras;
     }
 
-    public Set getMuestras() {
-        return muestras;
-    }
-
-    public void setMuestras(Set muestras) {
-        this.muestras = muestras;
-    }
-   
     public int getIdCacerio() {
         return this.idCacerio;
     }

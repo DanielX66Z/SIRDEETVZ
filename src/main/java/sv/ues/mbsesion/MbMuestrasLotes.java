@@ -159,7 +159,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
     public void setModMuestra(Muestra modMuestra) {
         this.modMuestra = modMuestra;
         this.modTipomuestra=modMuestra.getTipoMuestra().getIdTipoMues();
-        asignarUbicacionMuestra_desde_caserio(modMuestra.getCacerio().getIdCacerio());
+        //asignarUbicacionMuestra_desde_caserio(modMuestra.getCacerio().getIdCacerio());
     }
     
 
@@ -202,7 +202,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
 
     public void setMuestraSeleccionada(Muestra muestraSeleccionada) {
         this.muestraSeleccionada = muestraSeleccionada;
-        asignarUbicacionMuestra_desde_caserio(muestraSeleccionada.getCacerio().getIdCacerio());
+        //asignarUbicacionMuestra_desde_caserio(muestraSeleccionada.getCacerio().getIdCacerio());
     }
 
     public Integer getCod_lote2() {
@@ -343,7 +343,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
                 return true;
             } else {
                 if (getCod_estadio() == null) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione estadío de la muestra"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione estadï¿½o de la muestra"));
                     return true;
                 } else {
                     if (getMuestraLote().getGeneroMuestra() == "") {
@@ -404,7 +404,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
                         } else {
 
                             if (ubicacionCaserio.getNomCacerio().compareTo("") == 0) {
-                                //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Especifique el caserío o dirección"));
+                                //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Especifique el caserï¿½o o direcciï¿½n"));
                                 return true;
                             } else {
                                 return false;
@@ -527,7 +527,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
          * Guardando nuevo cacerio para esta muestra
          */
         cDao.nuevo_caserio(caserio);//Se ingresa nuevo caserio
-        muestraLote.setCacerio(caserio);//Se pone el objeto/id del caserio ingresado(hibernate devuelve el ID)
+        //muestraLote.setCacerio(caserio);//Se pone el objeto/id del caserio ingresado(hibernate devuelve el ID)
 
         /**
          * Guardando nuevo registro
@@ -540,7 +540,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Muestra registrada con Exito"));
 
         if ((getnMuestrasLote() - 1) == lDao.lote_por_id(cod_lote).getNumMuestras()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Número máximo de muestras alcanzado"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informaciï¿½n", "Nï¿½mero mï¿½ximo de muestras alcanzado"));
         }
         limpiar_variables();
     }
@@ -686,7 +686,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
         current.executeScript("PF('dialogoModificar').hide();");
         PrimeFaces.current().ajax().update("muestrasRegistradas");
         
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Muestra actualizada con éxito"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Muestra actualizada con ï¿½xito"));
         
     }
     public Departamento depto_por_id(String cod) {

@@ -15,6 +15,7 @@ public class ColoniaCanton  implements java.io.Serializable {
      private Municipio municipio;
      private String nomUbicacion;
      private Set cacerios = new HashSet(0);
+     private Set lotes = new HashSet(0);
 
     public ColoniaCanton() {
     }
@@ -30,6 +31,21 @@ public class ColoniaCanton  implements java.io.Serializable {
        this.municipio = municipio;
        this.nomUbicacion = nomUbicacion;
        this.cacerios = cacerios;
+    }
+    public ColoniaCanton(int idColCan, Municipio municipio, String nomUbicacion, Set lotes, Set cacerios) {
+       this.idColCan = idColCan;
+       this.municipio = municipio;
+       this.nomUbicacion = nomUbicacion;
+       this.lotes = lotes;
+       this.cacerios = cacerios;
+    }
+
+    public Set getLotes() {
+        return lotes;
+    }
+
+    public void setLotes(Set lotes) {
+        this.lotes = lotes;
     }
    
     public int getIdColCan() {
