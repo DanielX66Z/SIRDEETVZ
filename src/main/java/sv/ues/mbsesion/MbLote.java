@@ -178,6 +178,9 @@ public String flujoModificar(FlowEvent event) throws Exception {
         MantoLoteDao mDao = new MantoLoteDao();
         
         Preservante prs = new Preservante();
+        ColoniaCanton cc = new ColoniaCanton();
+        cc.setIdColCan(cod_colon);
+        modLote.setColoniaCanton(cc);
 
         prs.setIdPreservante(modCodPreservante);
         modMantoLote.setPreservante(prs);
