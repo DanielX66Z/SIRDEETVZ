@@ -20,6 +20,7 @@ import sv.ues.dao.ColoniasDao;
 import sv.ues.dao.DepartamentoDao;
 import sv.ues.dao.LotesDao;
 import sv.ues.dao.MantoLoteDao;
+import sv.ues.dao.MuestrasDao;
 import sv.ues.dao.MunicipioDao;
 import sv.ues.dominio.BitacoraLab;
 import sv.ues.dominio.ColoniaCanton;
@@ -145,6 +146,7 @@ public String flujoModificar(FlowEvent event) throws Exception {
         return event.getNewStep();
     }
     private boolean falla_validar_Modificar_lote() {
+        MuestrasDao md = new MuestrasDao();
         modLote.setFechaModificacion(new Date());
             if (existe_otro_lote_asi(modLote)) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Lote ya existe"));
@@ -166,7 +168,12 @@ public String flujoModificar(FlowEvent event) throws Exception {
                                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione la fecha"));
                                 return true;
                             } else {
-                                return false;
+                               if(md.numero_muestras_lote(modLote.getIdLote())>modLote.getNumMuestras()){
+                                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Numero de muestras no puede ser menor a las muestras ya registradas"));
+                                    return true;
+                                }else{
+                                    return false;
+                                }
                             }
                         }
                     }
