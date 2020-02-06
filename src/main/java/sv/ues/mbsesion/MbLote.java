@@ -13,14 +13,21 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FlowEvent;
+import sv.ues.dao.ColoniasDao;
+import sv.ues.dao.DepartamentoDao;
 import sv.ues.dao.LotesDao;
 import sv.ues.dao.MantoLoteDao;
+import sv.ues.dao.MunicipioDao;
 import sv.ues.dominio.BitacoraLab;
+import sv.ues.dominio.ColoniaCanton;
+import sv.ues.dominio.Departamento;
 import sv.ues.dominio.Lote;
 import sv.ues.dominio.Mantenimiento;
 import sv.ues.dominio.Muestra;
+import sv.ues.dominio.Municipio;
 import sv.ues.dominio.Preservante;
 
 /**
@@ -42,6 +49,10 @@ public class MbLote implements Serializable {
     private Lote modLote;
     private Mantenimiento modMantoLote;
     private Integer modCodPreservante;
+    
+    private String cod_depto;
+    private String cod_munic;
+    private Integer cod_colon; 
 
    
 
@@ -53,7 +64,34 @@ public class MbLote implements Serializable {
         correlativo_muestra=0;
         modLote = new Lote();
         modMantoLote = new Mantenimiento();
+        
+        cod_depto = null;
+        cod_munic = null;
+        cod_colon = null;
+    }
 
+    public String getCod_depto() {
+        return cod_depto;
+    }
+
+    public void setCod_depto(String cod_depto) {
+        this.cod_depto = cod_depto;
+    }
+
+    public String getCod_munic() {
+        return cod_munic;
+    }
+
+    public void setCod_munic(String cod_munic) {
+        this.cod_munic = cod_munic;
+    }
+
+    public Integer getCod_colon() {
+        return cod_colon;
+    }
+
+    public void setCod_colon(Integer cod_colon) {
+        this.cod_colon = cod_colon;
     }
 
     //Este metodo controla el flujo del wizard de registro
@@ -241,9 +279,14 @@ public String flujoModificar(FlowEvent event) throws Exception {
         lote.setIdVector(cod_vector);
         lote.setNombreLote(lote.getNombreLote().toUpperCase());
         Preservante prs = new Preservante();
+        ColoniaCanton clc = new ColoniaCanton();
 
         prs.setIdPreservante(cod_preservante);
         manto.setPreservante(prs);
+        System.out.println("ACA:"+cod_colon);
+        clc.setIdColCan(cod_colon);
+        lote.setColoniaCanton(clc);
+        
         manto.setCompletadoManto(true);
         manto.setFechaManto(lote.getFechaCreacion());
         manto.setFechaProxManto(lote.getFechaModificacion());
@@ -334,6 +377,9 @@ public String flujoModificar(FlowEvent event) throws Exception {
         manto = new Mantenimiento();
         setCod_preservante(null);
         setCod_vector(null);
+        setCod_colon(null);
+        setCod_munic(null);
+        setCod_depto(null);
     }
     public List<Lote> lista_lote_activos_falta_muestras(Integer estado) {
         LotesDao lotesDao = new LotesDao();
@@ -348,4 +394,100 @@ public String flujoModificar(FlowEvent event) throws Exception {
     LotesDao lDao = new LotesDao();
     return lDao.existe_otro_lote_asi(l);
 }
+    
+    public void reset_cod_munic_colon() {
+        cod_munic = null;
+        cod_colon = null;
+    }
+    public void reset_cod_colon(){
+        cod_colon = null;
+    }
+    public List<SelectItem> lista_departamentos(){
+        List<SelectItem> items_departamento = new ArrayList();
+        try {
+            items_departamento = new ArrayList();
+            DepartamentoDao departamentos = new DepartamentoDao();
+            List<Departamento> lista_departamentos = departamentos.obtener_todos_los_departamentos();
+            items_departamento.clear();
+            for(Departamento dep:lista_departamentos)
+            {
+                SelectItem item = new SelectItem(dep.getCodDepto(),dep.getNomDepto());
+                items_departamento.add(item);
+            }
+            return items_departamento;
+        } catch (Exception ex) {
+            //Logger.getLogger(MbMuestrasLotes.class.getName()).log(Level.SEVERE, null, ex);
+            return items_departamento;
+        }
+    }
+    
+    public List<SelectItem> lista_municipios(String idDepto){
+        List<SelectItem> items_municipio = new ArrayList();
+        if (idDepto == null) {
+            items_municipio.clear();
+            return items_municipio;
+        } else {
+            items_municipio = new ArrayList();
+            MunicipioDao municipios = new MunicipioDao();
+            Departamento departamento_seleccionado = new Departamento();
+            departamento_seleccionado.setCodDepto(idDepto);
+            List<Municipio> lista_municipios_por_dpto = municipios.obtener_municipios_por_id_del_departamento(departamento_seleccionado);
+            items_municipio.clear();
+            for (Municipio muni : lista_municipios_por_dpto) {
+                SelectItem item = new SelectItem(muni.getCodMunicipio(), muni.getNomMunicipio());
+                items_municipio.add(item);
+            }
+            return items_municipio;
+        }
+    }
+    
+    public List<SelectItem> lista_colonias(String idMunic){
+        List<SelectItem> items_colonias = new ArrayList();
+        if(idMunic==null){
+            items_colonias.clear();
+            return items_colonias;
+        }else{
+            items_colonias = new ArrayList();
+            ColoniasDao colonias = new ColoniasDao();
+
+            Municipio muni_seleccionado = new Municipio();
+            muni_seleccionado.setCodMunicipio(idMunic);
+
+            List<ColoniaCanton> lista_colonias_por_muni = colonias.obtenerCantonesByMunicipio(muni_seleccionado);//lista_cantones_por_muni(muni_seleccionado);
+            items_colonias.clear();
+            for (ColoniaCanton col : lista_colonias_por_muni) {
+                SelectItem item = new SelectItem(col.getIdColCan(), col.getNomUbicacion());
+                items_colonias.add(item);
+            }
+            return items_colonias;
+        }
+        
+    }
+    
+    public ColoniaCanton colonia_por_id(Integer cod) {
+        ColoniasDao cDao = new ColoniasDao();
+        try {
+            return cDao.obtenerColoniaCanton_por_id(cod);
+        } catch (Exception x) {
+            return new ColoniaCanton();
+        }
+    }
+    
+    public Departamento depto_por_id(String cod) {
+        DepartamentoDao dDao = new DepartamentoDao();
+        try {
+            return dDao.departamento_por_id(cod);
+        } catch (Exception x) {
+            return new Departamento();
+        }
+    }
+    
+    public Municipio municipio_por_id(String cod) {
+        MunicipioDao mDao = new MunicipioDao();
+        try {
+            return mDao.obtener_municipio(cod);
+        } catch (Exception x) {
+            return new Municipio();
+        }
+    }
 }
