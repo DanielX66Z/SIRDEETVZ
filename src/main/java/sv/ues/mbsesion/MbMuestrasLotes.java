@@ -382,24 +382,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione si tiene o  no parasitos"));
                     return true;
                 } else {
-                    if (ubicacionDepto.getCodDepto() == null) {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione departamento"));
-                        return true;
-                    } else {
-                        if (ubicacionMunicipio.getCodMunicipio() == null) {
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione municipio"));
-                            return true;
-                        } else {
-
-                            if (ubicacionCaserio.getNomCacerio().compareTo("") == 0) {
-                                //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Especifique el caser�o o direcci�n"));
-                                return true;
-                            } else {
-                                return false;
-                            }
-
-                        }
-                    }
+                    return false;
                 }
             }
         }
@@ -541,8 +524,6 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
         setCod_tipomuestra(null);
         setCod_estadio(0);
         setMuestraLote(new Muestra());
-        caserio.setNomCacerio("");
-        caserio.setColoniaCanton(new ColoniaCanton());
     }
 
     public void obtener_cod_fam_vector(Integer idLote) {
@@ -616,15 +597,13 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
             return null;
         }
     }
-    private void asignarUbicacionMuestra_desde_caserio(Integer idCaserio) {
+    public void asignarUbicacionMuestra_desde_colca(Integer idColcan) {
         try {
-            CaserioDao cDao = new CaserioDao();
             ColoniasDao coDao = new ColoniasDao();
             MunicipioDao mDao = new MunicipioDao();
             DepartamentoDao dDao = new DepartamentoDao();
             
-            setUbicacionCaserio(cDao.caserio_por_id(idCaserio));
-            setUbicacionColonia(coDao.obtenerColoniaCanton_por_id(getUbicacionCaserio().getColoniaCanton().getIdColCan()));
+            setUbicacionColonia(coDao.obtenerColoniaCanton_por_id(idColcan));
             setUbicacionMunicipio(mDao.obtener_municipio(getUbicacionColonia().getMunicipio().getCodMunicipio()));
             setUbicacionDepto(dDao.departamento_por_id(getUbicacionMunicipio().getDepartamento().getCodDepto()));
         } catch (Exception ex) {
@@ -640,9 +619,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
     }
     public void modificar_muestra(){
         MuestrasDao mDao = new MuestrasDao();
-        CaserioDao cDao = new CaserioDao();
-        
-        
+               
         TipoMuestra tm = new TipoMuestra();
         //BitacoraCampo bc = new BitacoraCampo();
         muestraLote.setSecuencia(getnMuestrasLote());
@@ -650,20 +627,16 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
                 
         tm.setIdTipoMues(modTipomuestra);
         //bc.setIdBitCampo(3);/*La tabla bitacora_campo, solo tiene un registro con ID 3; Debe modificarse para soportar nulos o buscar otra alternativa, por el momento es obligatorio*/
-
-        
-        
+       
         modMuestra.setTipoMuestra(tm);
        // modMuestra.setBitacoraCampo(bc);
-
        
         modMuestra.setNomJefeFam("JefeFamilia");
         modMuestra.setFechaTrabajo(new Date());
         modMuestra.setFechaMuestra(new Date());
         modMuestra.setNumeroMuestra("0");/*Este campo seria "innecesario" porque el numero de muestras esta indicado en Lote, a menos que este sea como un correlativo */
-
-        ubicacionCaserio.setColoniaCanton(ubicacionColonia);
-        cDao.modificar_caserio(ubicacionCaserio);//Se ingresa nuevo caserio
+   
+        
         //muestraLote.setCacerio(ubicacionCaserio);//Se pone el objeto/id del caserio ingresado(hibernate devuelve el ID)
 
         

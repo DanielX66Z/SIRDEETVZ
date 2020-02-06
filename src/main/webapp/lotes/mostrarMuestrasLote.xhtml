@@ -54,7 +54,7 @@
                 </p:column>
                 <p:column headerText="Acciones">
                     <div align="center">
-                        <p:commandButton value="Consultar" class="blue-grey-btn" actionListener="#{mbMuestrasLotes.setMuestraSeleccionada(mu)}"  action="#{mbMuestrasLotes.obtener_cod_fam_vector(mu.lote.idLote)}" oncomplete="PF('dialogoConsultar').show();" update="formulario_consultar:dlg_consultar" />
+                        <p:commandButton value="Consultar" class="blue-grey-btn" onclick="#{mbMuestrasLotes.asignarUbicacionMuestra_desde_colca(MbLote.loteSeleccionado.coloniaCanton.idColCan)}" actionListener="#{mbMuestrasLotes.setMuestraSeleccionada(mu)}"  action="#{mbMuestrasLotes.obtener_cod_fam_vector(mu.lote.idLote)}" oncomplete="PF('dialogoConsultar').show();" update="formulario_consultar:dlg_consultar" />
                         <p:spacer height="10" width="10" />
                         <p:commandButton value="Modificar" class="orange-btn" actionListener="#{mbMuestrasLotes.setModMuestra(mu)}" oncomplete="PF('dialogoModificar').show();" update="formulario_modificar:dlgMod" />
                     </div>
