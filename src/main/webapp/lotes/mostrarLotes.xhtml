@@ -38,7 +38,7 @@
                         <f:convertDateTime pattern="dd/MM/yyyy" />
                     </h:outputText>
                 </p:column> 
-                <p:column headerText="Ubicación" filterBy="#{MbLote.mostrar_codigo_nombre_depto_desde_idColon(lote.coloniaCanton.idColCan)}" filterMatchMode="contains">
+                <p:column headerText="Ubicacion" filterBy="#{MbLote.mostrar_codigo_nombre_depto_desde_idColon(lote.coloniaCanton.idColCan)}" filterMatchMode="contains">
                     <f:facet name="filter">
                         <p:selectOneMenu onchange="PF('tabla_lotes').filter()">
                             <f:selectItem itemLabel="Seleccionar" itemValue="#{null}" noSelectionOption="true" />
@@ -260,13 +260,13 @@
                                     </h:panelGrid> 
 
                                     <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                        <h:outputLabel id="lb_colonia" value="Colonia o Canton:" class="label" style="margin-bottom: 0px;"/>
+                                        <h:outputLabel id="lb_colonia" value="Colonia/Canton:" class="label" style="margin-bottom: 0px;"/>
                                         <p:selectOneMenu id="som_colonia" value="#{MbLote.cod_colon}"  required="true" requiredMessage="Seleccione la colonia o canton">
                                             <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
                                             <f:selectItems value="#{MbLote.lista_colonias(MbLote.cod_munic)}"/>
                                             <p:ajax update="txt_colonia" event="change"/>
                                         </p:selectOneMenu>
-                                        <p:outputLabel value="Codigo Colonia o Canton :" />
+                                        <p:outputLabel value="Codigo Colonia/Canton :" />
                                         <p:inputText id="txt_colonia" style="width: 33%" value="#{MbLote.cod_colon}">
                                         </p:inputText>
                                     </h:panelGrid>

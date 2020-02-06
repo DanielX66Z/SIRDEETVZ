@@ -351,7 +351,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
                 return true;
             } else {
                 if (getCod_estadio() == null) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione estad�o de la muestra"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione estadio de la muestra"));
                     return true;
                 } else {
                     if (getMuestraLote().getGeneroMuestra() == "") {
@@ -511,7 +511,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Muestra registrada con Exito"));
 
         if ((getnMuestrasLote() - 1) == lDao.lote_por_id(cod_lote).getNumMuestras()) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informaci�n", "N�mero m�ximo de muestras alcanzado"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Numero maximo de muestras alcanzado"));
         }
         limpiar_variables();
     }
@@ -647,7 +647,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
         current.executeScript("PF('dialogoModificar').hide();");
         PrimeFaces.current().ajax().update("muestrasRegistradas");
         
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Muestra actualizada con �xito"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Muestra actualizada con Exito"));
         
     }
     public Departamento depto_por_id(String cod) {
