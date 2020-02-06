@@ -19,7 +19,7 @@
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Correlativo" />
-                                <p:inputNumber id="nmuestras" minValue="0" decimalPlaces="0" disabled="true" value="#{mbMuestrasLotes.nMuestrasLote}"/>
+                                <p:inputNumber id="nmuestras" minValue="0" decimalPlaces="0" disabled="true" value="#{mbMuestrasLotes.codigo_muestra}"/>
                             </h:panelGrid>
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
@@ -28,7 +28,7 @@
                                     <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
                                     <f:selectItems value="#{MbLote.lista_lote_activos_falta_muestras(1)}" var="ve" itemValue="#{ve.idLote}" itemLabel="#{ve.nombreLote}" />
                                     <p:ajax update="txtFam txtnomcie" event="change" listener="#{mbMuestrasLotes.obtener_cod_fam_vector(mbMuestrasLotes.cod_lote)}" />
-                                    <p:ajax update="txtOrden" event="change"/>
+                                    <p:ajax update="txtOrden" event="change" listener="#{mbMuestrasLotes.hacer_codigo_muestra()}"/>
                                     <p:ajax update="nmuestras" event="change"/>
                                 </p:selectOneMenu><br/>  
                             </h:panelGrid>   

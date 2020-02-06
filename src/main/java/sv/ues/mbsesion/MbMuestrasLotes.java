@@ -65,6 +65,7 @@ public class MbMuestrasLotes implements Serializable {
     private List<SelectItem> items_municipio = new ArrayList();
     private List<SelectItem> items_departamento;
     private List<SelectItem> items_colonias = new ArrayList();
+    private String codigo_muestra="";
 
     /**
      * Creates a new instance of MbMuestrasLotes
@@ -98,6 +99,15 @@ public class MbMuestrasLotes implements Serializable {
         return items_municipio;
         }
     }
+
+    public String getCodigo_muestra() {
+        return codigo_muestra;
+    }
+
+    public void setCodigo_muestra(String codigo_muestra) {
+        this.codigo_muestra = codigo_muestra;
+    }
+    
 
     public void setItems_municipio(List<SelectItem> items_municipio) {
         this.items_municipio = items_municipio;
@@ -672,6 +682,27 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
             return cDao.obtenerColoniaCanton_por_id(cod);
         } catch (Exception x) {
             return new ColoniaCanton();
+        }
+    }
+    public void hacer_codigo_muestra(){
+        Lote l = lote_por_id(cod_lote);
+        Orden o = obtener_orden();
+        asignarUbicacionMuestra_desde_colca(l.getColoniaCanton().getIdColCan());
+        String orden="";
+        if(o.getId()<10){
+            orden = "0"+o.getId();
+        }else{
+            orden += o.getId();
+        }        
+        codigo_muestra=""+orden+"-"+ubicacionDepto.getCodDepto()+"-"+ubicacionMunicipio.getCodMunicipio()+"-"+ubicacionColonia.getIdColCan()+"-"+getnMuestrasLote();
+    }
+    public Lote lote_por_id(Integer idLote){
+         LotesDao lotesDao = new LotesDao();
+        try {
+            return lotesDao.lote_por_id(idLote);
+        } catch (Exception x) {
+            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, x.toString(), x.toString()));
+            return new Lote();
         }
     }
 }
