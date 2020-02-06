@@ -15,7 +15,7 @@
                     <p:growl id="mensaje_general_registro" showDetail="true" showSummary="false" sticky="false" life="3000"/>
                     <p:panel>
                         <!--aca va Datos Generales-->
-                        <h:panelGrid columns="6" cellpadding="2" width="100% !important">
+                        <h:panelGrid columns="3" cellpadding="2" width="100% !important">
 
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Correlativo" />
@@ -86,51 +86,6 @@
                                     <f:selectItem itemLabel="No" itemValue="false" />
                                 </p:selectOneRadio>
                             </h:panelGrid>
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <h:outputLabel id="lbl_departamento_domicilio" value="Departamento:" class="label" style="margin-bottom: 0px;"/>
-                                <p:selectOneMenu id="coddepartamentodd1" value="#{MbPersona.codigodepartamento}"  required="true" requiredMessage="Seleccione el departamento">
-                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
-                                    <f:selectItems value="#{MbPersona.items_departamento}" />
-                                    <p:ajax update="coddepartamentotxt2" event="change" listener="#{mbMuestrasLotes.asignarDepto(MbPersona.codigodepartamento)}"/>
-                                    <p:ajax update="som_municipio2" event="change"/>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Codigo departamento:" />
-                                <p:inputText id="coddepartamentotxt2" style="width: 33%" value="#{MbPersona.codigodepartamento}">
-                                </p:inputText>
-                            </h:panelGrid>
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <h:outputLabel id="lbl_municipio_domicilio" value="Municipio" class="label" style="margin-bottom: 0px;"/>
-                                <p:selectOneMenu  id="som_municipio2" value="#{MbPersona.codigomunicipio}"  required="true" requiredMessage="Seleccione el municipio">
-                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
-                                    <f:selectItems value="#{MbPersona.items_municipio}"/>
-                                    <p:ajax update="codmunicipiotxt2" event="change" listener="#{MbPersona.asignarMunicipio()}"/> 
-                                    <p:ajax update="som_colonia" event="change" listener="#{mbColonia.setCodMuniSele(MbPersona.codigomunicipio)}"/>
-                                    <p:ajax event="change" listener="#{mbMuestrasLotes.asiganarMuni(MbPersona.codigomunicipio)}"/>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Codigo municipio:" />
-                                <p:inputText id="codmunicipiotxt2" style="width: 33%" value="#{MbPersona.codigomunicipio}">
-                                </p:inputText>
-                            </h:panelGrid> 
-                          
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <h:outputLabel id="lbl_colonia_registro" value="Colonia o Canton:" class="label" style="margin-bottom: 0px;"/>
-                                <p:selectOneMenu id="som_colonia" value="#{mbColonia.codColoniaSele}"  required="true" requiredMessage="Seleccione la colonia o canton">
-                                    <f:selectItem itemLabel="Seleccionar..." noSelectionOption="true" itemValue=""/>
-                                    <f:selectItems value="#{mbColonia.items_colonias}"/>
-                                    <p:ajax update="codcolonia" event="change" listener="#{mbMuestrasLotes.asignarColoniaCanton(mbColonia.coloniaSele)}"/> 
-                                    <p:ajax event="change" listener="#{mbMuestrasLotes.asignarcCanton(mbColonia.codColoniaSele)}"/> 
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Codigo Colonia o Canton :" />
-                                <p:inputText id="codcolonia" style="width: 33%" value="#{mbColonia.codColoniaSele}">
-                                </p:inputText>
-                            </h:panelGrid>
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Caserio:" />
-                                <p:inputText id="txtColonia" value="#{mbMuestrasLotes.caserio.nomCacerio}"  required="true" requiredMessage="Digite el nombre del caserio"/>
-                            </h:panelGrid>
-                          
                         </h:panelGrid>
                         <!--aca termina Datos generales-->
                     </p:panel>
@@ -183,39 +138,7 @@
                             <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                 <p:outputLabel value="Posee parasito:" />
                                 <h:outputText value="#{mbMuestrasLotes.muestraLote.parasito == true ? 'Si': 'No'}" style="font-weight: bold;"/>
-                            </h:panelGrid>
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Departamento:"/>
-                                <h:outputText value="#{MbPersona.municipio.departamento.nomDepto}" style="font-weight: bold;"/>
-                            </h:panelGrid>
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Codigo departamento:"/>
-                                <h:outputText value="#{MbPersona.codigodepartamento}" style="font-weight: bold;"/>
-                            </h:panelGrid>
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Municipio:"/>
-                                <h:outputText value="#{MbPersona.municipio.nomMunicipio}" style="font-weight: bold;"/>
-                            </h:panelGrid>
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Codigo municipio:"/>
-                                <h:outputText value="#{MbPersona.municipio.codMunicipio}" style="font-weight: bold;"/>
-                            </h:panelGrid>
-
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Colonia/Cantón:"/>
-                                <h:outputText value="#{mbColonia.coloniaSele.nomUbicacion}" style="font-weight: bold;"/>
-                            </h:panelGrid>
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Codigo colonia/canton:"/>
-                                <h:outputText value="#{mbColonia.codColoniaSele}" style="font-weight: bold;"/>
-                            </h:panelGrid>
-                            <h:panelGrid columns="1" cellpadding="2" width="100% !important">
-                                <p:outputLabel value="Caserio:"/>
-                                <h:outputText value="#{mbMuestrasLotes.caserio.nomCacerio}" style="font-weight: bold;"/>
-                            </h:panelGrid> 
+                            </h:panelGrid>        
                         </h:panelGrid>
                         <!--aca termina confirmar-->
                         <br/>
