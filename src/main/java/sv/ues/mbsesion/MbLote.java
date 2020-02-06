@@ -52,9 +52,11 @@ public class MbLote implements Serializable {
     
     private String cod_depto;
     private String cod_munic;
-    private Integer cod_colon; 
-
-   
+    private Integer cod_colon;
+    
+    private Departamento con_depto;
+    private Municipio con_munic;
+    private ColoniaCanton con_colca;   
 
     public MbLote() {
         lote = new Lote();
@@ -68,6 +70,30 @@ public class MbLote implements Serializable {
         cod_depto = null;
         cod_munic = null;
         cod_colon = null;
+    }
+
+    public Departamento getCon_depto() {
+        return con_depto;
+    }
+
+    public void setCon_depto(Departamento con_depto) {
+        this.con_depto = con_depto;
+    }
+
+    public Municipio getCon_munic() {
+        return con_munic;
+    }
+
+    public void setCon_munic(Municipio con_munic) {
+        this.con_munic = con_munic;
+    }
+
+    public ColoniaCanton getCon_colca() {
+        return con_colca;
+    }
+
+    public void setCon_colca(ColoniaCanton con_colca) {
+        this.con_colca = con_colca;
     }
 
     public String getCod_depto() {
@@ -160,7 +186,7 @@ public String flujoModificar(FlowEvent event) throws Exception {
         manto.setLote(modLote);//Crea fk en Mantenimiento
         mDao.modificar_manto(modMantoLote);
         
-        setModLote(new Lote());
+        setModLote(null);
         setModMantoLote(new Mantenimiento());
         setModCodPreservante(0); 
         setCorrelativo_muestra(0);
@@ -179,13 +205,21 @@ public String flujoModificar(FlowEvent event) throws Exception {
 
     public void setModLote(Lote modLote) {
         this.modLote = modLote;
-        /* se recupera el manto ultimo dado al lote*/
-        MantoLoteDao mlDao = new MantoLoteDao();
-        Mantenimiento m = new Mantenimiento();
-        m = mlDao.ultimo_manto_de_lote(modLote.getIdLote());
-        if(m!=null){
-            setModMantoLote(m);
-            setModCodPreservante(getModMantoLote().getPreservante().getIdPreservante());
+        
+        if(modLote!=null){
+            /* se recupera el manto ultimo dado al lote*/
+            MantoLoteDao mlDao = new MantoLoteDao();
+            Mantenimiento m = new Mantenimiento();
+            m = mlDao.ultimo_manto_de_lote(modLote.getIdLote());
+            if (m != null) {
+                setModMantoLote(m);
+                setModCodPreservante(getModMantoLote().getPreservante().getIdPreservante());
+            }
+            try {
+                asignar_ubicacion_lote_mod_desde_colcan(modLote.getColoniaCanton().getIdColCan());
+            } catch (Exception e) {
+            }
+            
         }
     }
 
@@ -270,7 +304,8 @@ public String flujoModificar(FlowEvent event) throws Exception {
     public void setLoteSeleccionado(Lote loteSeleccionado) {
         this.loteSeleccionado = loteSeleccionado;
         //correlativo_muestra=0;
-        setCorrelativo_muestra(0);//pone correlativo a 0, 
+        setCorrelativo_muestra(0);//pone correlativo a 0,
+        asignar_ubicacion_lote_mod_desde_colcan(loteSeleccionado.getColoniaCanton().getIdColCan());
     }
 
     public void registrar_lote() {
@@ -488,6 +523,35 @@ public String flujoModificar(FlowEvent event) throws Exception {
             return mDao.obtener_municipio(cod);
         } catch (Exception x) {
             return new Municipio();
+        }
+    }
+    
+    public String mostrar_codigo_nombre_depto_desde_idColon(Integer idColon){
+        try {
+            ColoniaCanton cc = colonia_por_id(idColon);
+            Municipio mm = municipio_por_id(cc.getMunicipio().getCodMunicipio());
+            Departamento dd = depto_por_id(mm.getDepartamento().getCodDepto());
+            return dd.getCodDepto()+" - "+dd.getNomDepto();
+        } catch (Exception x) {
+            return "Sin especificar";
+        }
+    }
+
+    private void asignar_ubicacion_lote_mod_desde_colcan(int idColCan) {
+        try {
+            ColoniaCanton cc = colonia_por_id(idColCan);
+            setCon_colca(cc);//para consultar
+            setCod_colon(idColCan);//para modificar
+            setCod_munic(cc.getMunicipio().getCodMunicipio());//para modifcar
+            
+            Municipio mm = municipio_por_id(cc.getMunicipio().getCodMunicipio());
+            setCon_munic(mm);//para consultar
+            setCod_depto(mm.getDepartamento().getCodDepto());
+            
+            Departamento dd = depto_por_id(mm.getDepartamento().getCodDepto());
+            setCon_depto(dd);
+        } catch (Exception x) {
+        
         }
     }
 }

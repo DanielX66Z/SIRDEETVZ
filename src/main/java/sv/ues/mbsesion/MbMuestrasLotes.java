@@ -62,9 +62,9 @@ public class MbMuestrasLotes implements Serializable {
     private Departamento ubicacionDepto;
     private Muestra modMuestra;
     private Integer modTipomuestra;
-    private List<SelectItem> items_municipio;
+    private List<SelectItem> items_municipio = new ArrayList();
     private List<SelectItem> items_departamento;
-    private List<SelectItem> items_colonias;
+    private List<SelectItem> items_colonias = new ArrayList();
 
     /**
      * Creates a new instance of MbMuestrasLotes
@@ -73,10 +73,17 @@ public class MbMuestrasLotes implements Serializable {
         muestraLote = new Muestra();
         vector = new Vector();
         caserio = new Cacerio();
-
+        ubicacionCaserio = new Cacerio();
+        ubicacionColonia = new ColoniaCanton();
+        ubicacionMunicipio = new Municipio();
+        ubicacionDepto = new Departamento();
     }
 
     public List<SelectItem> getItems_municipio() {
+        if(ubicacionDepto.getCodDepto()==null){
+            items_municipio.clear();
+            return items_municipio;
+        }else{
        this.items_municipio = new ArrayList();
         MunicipioDao municipios = new MunicipioDao();
         Departamento departamento_seleccionado = new Departamento();
@@ -89,6 +96,7 @@ public class MbMuestrasLotes implements Serializable {
             this.items_municipio.add(item);
         }
         return items_municipio;
+        }
     }
 
     public void setItems_municipio(List<SelectItem> items_municipio) {
