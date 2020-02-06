@@ -534,6 +534,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
         setCod_tipomuestra(null);
         setCod_estadio(0);
         setMuestraLote(new Muestra());
+        setCodigo_muestra("");
     }
 
     public void obtener_cod_fam_vector(Integer idLote) {
