@@ -347,42 +347,22 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
             return true;
         } else {
             if (getCod_tipomuestra() == null) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione el tipo de muestra"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione el tipo de muestra"));
                 return true;
             } else {
                 if (getCod_estadio() == null) {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione estad�o de la muestra"));
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione estad�o de la muestra"));
                     return true;
                 } else {
                     if (getMuestraLote().getGeneroMuestra() == "") {
-                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione el genero"));
+                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione el genero"));
                         return true;
                     } else {
                         if (getMuestraLote().getParasito() == null) {
-                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione si tiene o  no parasitos"));
+                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia", "Seleccione si tiene o  no parasitos"));
                             return true;
                         } else {
-                            if (getCoddepto() == null) {
-                                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione el departamento"));
-                                return true;
-                            } else {
-                                if (getCodmuni() == null) {
-                                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione el municipio"));
-                                    return true;
-                                } else {
-                                    if (getcCanton() == null) {
-                                        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Seleccione la colonia o canton"));
-                                        return true;
-                                    } else {
-                                        if (getCaserio().getNomCacerio() == "") {
-                                            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Especifique el caserio o direccion"));
-                                            return true;
-                                        } else {
-                                            return false;//Pasa todas las validaciones.
-                                        }
-                                    }
-                                }
-                            }
+                            return false;//Pasa todas las validaciones.
                         }
                     }
                 }
@@ -497,7 +477,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
 
     public void registrar_nueva_muestra_lote() {
         MuestrasDao mDao = new MuestrasDao();
-        CaserioDao cDao = new CaserioDao();
+        
         LotesDao lDao = new LotesDao();
         /**
          * Creando instancias de objetos para FK en Muestras
@@ -534,7 +514,7 @@ if(ubicacionMunicipio.getCodMunicipio()==null){
         /**
          * Guardando nuevo cacerio para esta muestra
          */
-        cDao.nuevo_caserio(caserio);//Se ingresa nuevo caserio
+        
         //muestraLote.setCacerio(caserio);//Se pone el objeto/id del caserio ingresado(hibernate devuelve el ID)
 
         /**

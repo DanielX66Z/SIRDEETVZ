@@ -142,7 +142,7 @@
                         </h:panelGrid>
                         <!--aca termina confirmar-->
                         <br/>
-                        <p:commandButton onclick="PF('bui').show()" oncomplete="PF('wiz').loadStep('general',false)" action="#{mbColonia.resetCodColonia()}" onsuccess="#{MbPersona.resetCodigos()}" style="float: right;" class="secondary-btn" update="mensaje" value="Registrar Muestras" actionListener="#{mbMuestrasLotes.registrar_nueva_muestra_lote()}" ajax="true" icon="ui-icon-plus" />
+                        <p:commandButton onclick="PF('bui').show()" oncomplete="PF('wiz').loadStep('general',false)" style="float: right;" class="secondary-btn" update="mensaje" value="Registrar Muestras" actionListener="#{mbMuestrasLotes.registrar_nueva_muestra_lote()}" ajax="true" icon="ui-icon-plus" />
                         <br/><br/>
                     </p:panel>
                 </p:tab>
