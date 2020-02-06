@@ -24,17 +24,17 @@
                 <p:panelGrid >
                     <p:outputLabel value="Vector:" />
                     <p:spacer height="10" width="10" />
-                    <p:outputLabel id="nomVector" value="#{mbVector.muestra_vector_por_ID(MbLote.loteSeleccionado.idVector).nomVector}" />
+                    <p:outputLabel id="nomVector" value="#{mbVector.muestra_vector_por_ID(MbLote.loteSeleccionado.idVector).nomVector}" style="font-weight: bold;" />
                 </p:panelGrid>
                 <p:panelGrid >
                     <p:outputLabel value="Nombre Cientifico:" />
                     <p:spacer height="10" width="10" />
-                    <p:outputLabel id="nomCientifico" value="#{mbVector.muestra_vector_por_ID(MbLote.loteSeleccionado.idVector).nomCientifico}"  style=" font-style: italic;" />
+                    <p:outputLabel id="nomCientifico" value="#{mbVector.muestra_vector_por_ID(MbLote.loteSeleccionado.idVector).nomCientifico}" style=" font-style: italic; font-weight: bold;"/>
                 </p:panelGrid>
                 <p:panelGrid >
                     <p:outputLabel value="Familia:" />
                     <p:spacer height="10" width="10" />
-                    <p:outputLabel id="nombreFamilia" value="#{mbMuestrasLotes.obtener_familia().nombreFamilia}"/>
+                    <p:outputLabel id="nombreFamilia" value="#{mbMuestrasLotes.obtener_familia().nombreFamilia}" style="font-weight: bold;"/>
                 </p:panelGrid>
             </p:panelGrid>
 

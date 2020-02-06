@@ -277,7 +277,7 @@
                         <p:tab id="confirmar" title="Confirmar">
                             <p:panel>
                                 <!--aca va confirmar-->
-                                <h:panelGrid columns="2" cellpadding="2" width="100% !important">
+                                <h:panelGrid columns="3" cellpadding="2" width="100% !important">
                                     <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                         <p:outputLabel value="Nombre del lote:" />
                                         <h:outputText value="#{MbLote.modLote.nombreLote}" style="font-weight: bold;text-transform: uppercase;"/>
@@ -304,8 +304,6 @@
                                         <p:outputLabel value="Estado:" />
                                         <h:outputText value="#{MbLote.modLote.estatus == 1? 'Activo' : 'Inactivo'}" style="font-weight: bold;"/>
                                     </h:panelGrid>
-
-                                    <!--campos departamento, municipio, colonia canton  agregados en confirmar-->
                                     <h:panelGrid columns="1" cellpadding="2" width="100% !important">
                                         <p:outputLabel value="Departamento:"/>
                                         <h:outputText value="#{MbLote.depto_por_id(MbLote.cod_depto).nomDepto}" style="font-weight: bold;"/>
